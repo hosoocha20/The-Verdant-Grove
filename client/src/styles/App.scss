@@ -1,0 +1,14 @@
+@import "./nav";
+@import "./home";
+@import "./footoer";
+@import "./counterButton";
+@import "./shopAll";
+@import "./product";
+@import "./about";
+@import "./variables";
+
+.App{
+    overflow-x: clip;
+    width: 100%;
+    background-color: #ffffff;
+}

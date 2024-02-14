@@ -1,0 +1,36 @@
+@import "./variables";
+
+.counter-button-wrapper{
+    
+    padding: 5px 9px;
+
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none; 
+    }
+
+    button, input{
+        border: none;
+        color: $silver-800;
+        background-color: #ffffff;
+    }
+    input{
+        width: 30px;
+        padding-bottom: 0.25rem;
+        border-bottom: 1px solid $silver-300;
+        text-align: center;
+        &:focus{
+            outline: none;
+        }
+    }
+}
+
+@media screen and (max-width: $media-mobile){
+    .counter-button-wrapper{
+        input{
+            width: 20px;
+        }
+    }
+}

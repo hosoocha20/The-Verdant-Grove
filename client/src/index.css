@@ -1,0 +1,26 @@
+:root{
+  --nav-height: 4.7rem;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  scroll-behavior: smooth;
+  
+}
+
+button{
+  cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  :root {
+    --nav-height: 4.7rem;
+  }
+}
+
+

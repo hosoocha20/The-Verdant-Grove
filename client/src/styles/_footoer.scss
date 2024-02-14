@@ -1,0 +1,28 @@
+@import "./variables";
+
+.footer-container{
+    border-top: 1px solid $silver-200;
+    padding: 2rem 3rem;
+    text-align: center;
+
+    p{
+        font-size: 13px;
+
+    }
+}
+.footer-info{
+    font-size: 12px;
+    color: $silver-600;
+}
+.footer-links{
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+
+    button{
+        cursor: pointer;
+        border: none;
+    }
+}

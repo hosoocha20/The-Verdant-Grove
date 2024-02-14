@@ -1,0 +1,52 @@
+
+
+$silver-50: #f7f7f7;
+$silver-100: #f0f0f0;
+$silver-200: #e3e3e3;
+$silver-300: #d1d1d1;
+$silver-400: #bcbcbc;
+$silver-500: #aaaaaa;
+$silver-600: #969696;
+$silver-700: #818181;
+$silver-800: #6a6a6a;
+$silver-900: #585858;
+$silver-950: #333333;
+
+$off-white: #f7f9f8;
+
+$punch-50: #fef2f2;
+$punch-100: #ffe2e1;
+$punch-200: #ffcac8;
+$punch-300: #ffa5a2;
+$punch-400: #fd716c;
+$punch-500: #f5443e;
+$punch-600: #e42e28;
+$punch-650: #e2201a;
+$punch-700: #bf1b16;
+$punch-800: #9e1a16;
+$punch-900: #831c19;
+$punch-950: #470a08;
+
+$media-xl: 1200px;
+$media-lg: 1024px;
+$media-tablet: 768px;
+$media-mobile: 500px;
+
+@mixin flex-column(){
+    display: flex;
+    flex-direction: column;
+}
+@mixin flex-row-center-center(){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+  
+
+
+
+.display-none{
+    display: none;
+}
+
