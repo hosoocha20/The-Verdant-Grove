@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import {Outlet, RouterProvider, createBrowserRouter} from 'react-router-dom'
 import App from './App.tsx'
 import './index.css'
+import './styles/App.scss';
 import Navbar from './components/Navbar.tsx'
 import Footer from './components/Footer.tsx'
 import About from './pages/About.tsx'
@@ -10,7 +11,7 @@ import Home from './pages/Home.tsx'
 
 const Layout = () => {
   return(
-    <div>
+    <div className='App'>
       <Navbar />
       <Outlet />
       <Footer />
@@ -24,7 +25,7 @@ const router = createBrowserRouter([{
   children : [
     {
       path: '/',
-      element: <App />
+      element: <Home />
     },
     {
       path: '/about',
