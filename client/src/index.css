@@ -1,3 +1,4 @@
+
 :root{
   --nav-height: 4.7rem;
 }
@@ -10,6 +11,8 @@
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
   scroll-behavior: smooth;
+
+  
   
 }
 

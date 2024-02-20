@@ -1,6 +1,6 @@
 import React,  {useState} from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import CounterButton from "./CounterButton";
+import CounterButton from "../components/CounterButton";
 
 const Product = () => {
   const productItem = [

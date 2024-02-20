@@ -9,6 +9,7 @@ import kiwifruit from "../assets/kiwifruit.png";
 import honeydew from "../assets/honeydew.png";
 import CounterButton from "./CounterButton";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
@@ -58,8 +59,8 @@ const Navbar = () => {
           <div></div>
         </div>
         <div className="nav-l-links">
-          <p>SHOP</p>
-          <p>ABOUT</p>
+          <Link to="/">SHOP</Link>
+          <Link to="/about">ABOUT</Link>
         </div>
       </div>
 
