@@ -71,12 +71,15 @@
     flex: 1 1 0;
     text-align: center;
 
-    h1{
+    a{
+        text-decoration: none;
         cursor: pointer;
         font-weight: 400;
         font-style: normal;
-        font-size: 1.8rem;
+        font-size: clamp(1.4rem, 5vw,1.6rem);
         color: $punch-600;
+        width: fit-content;
+        white-space: nowrap;
     }
 }
 .nav-l-container{
@@ -84,20 +87,25 @@
     display: flex;
     gap: 2.5rem;
 
-    p{
+
+}
+.nav-l-links{
+    display: flex;
+    gap: 2rem;
+
+    a{
+        text-decoration: none;
         cursor: pointer;
         font-size: 15px;
         font-weight: 500;
         letter-spacing: 1px;
+        color: $silver-950;
 
         &:hover{
             color: $punch-600;
         }
     }
-}
-.nav-l-links{
-    display: flex;
-    gap: 2rem;
+
 }
 .nav-r-icons-container{
     flex: 1 1 0;
@@ -251,6 +259,7 @@ padding: 2rem 4rem 2rem 4rem;
             outline: none;
         }
     }
+
     p{
         font-size: 13px;
     }
@@ -455,6 +464,11 @@ padding: 2rem 4rem 2rem 4rem;
     .nav-container{
         padding: 0 1.4rem;
     }
+    .nav-name-container{
+        a{
+            font-size: 1.4rem;
+        }
+    }
     .nav-l-links{
         display: none;
     }   
@@ -473,6 +487,11 @@ padding: 2rem 4rem 2rem 4rem;
     }
 }
 @media screen and (max-width: $media-mobile) {
+    .nav-name-container{
+        a{
+            font-size: 1.3rem;
+        }
+    }
     .nav-search-container{
         display: none;
     }

@@ -10,7 +10,7 @@ const About = () => {
             </div>
             <div className="about-description-r-container">
                 <div className='about-description-text-container'>
-                    <p>The Verdant Grove: Where Nature's Bounty Yields Exquisite Delights</p>
+                    <p><span>The Verdant Grove:</span> Where Nature's Bounty Yields Exquisite Delights</p>
                     <p>More than just a fruit purveyor, we are storytellers. Each piece we offer whispers tales of sun-kissed orchards, passionate growers, and the meticulous care that yields exceptional quality. We believe in showcasing the inherent beauty and flavor of nature, offering an experience that transcends the mundane.</p>
                 </div>
                 <div className='about-description-contact-container'>

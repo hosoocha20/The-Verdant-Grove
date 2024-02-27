@@ -1,0 +1,8 @@
+@import "./variables";
+
+.signup-container{
+    width: 100%;
+    padding: var(--nav-height) 0 0 0;
+    @include flex-column();
+    align-items: center;
+}

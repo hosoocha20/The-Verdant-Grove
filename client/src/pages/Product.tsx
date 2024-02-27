@@ -2,7 +2,7 @@ import React,  {useState} from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import CounterButton from "../components/CounterButton";
 
-const Product = () => {
+const Product = (props : any) => {
   const productItem = [
     {
       name: "RASPBERRY",

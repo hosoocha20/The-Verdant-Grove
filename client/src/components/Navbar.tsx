@@ -59,13 +59,13 @@ const Navbar = () => {
           <div></div>
         </div>
         <div className="nav-l-links">
-          <Link to="/">SHOP</Link>
+          <Link to="/shop">SHOP</Link>
           <Link to="/about">ABOUT</Link>
         </div>
       </div>
 
       <div className="nav-name-container">
-        <h1>The Verdant Grove</h1>
+        <Link to='/'>The Verdant Grove</Link>
       </div>
       <div className="nav-r-icons-container">
         <form className="nav-search-container">
@@ -162,8 +162,10 @@ const Navbar = () => {
         </div>
         <h1>Log in</h1>
         <form className="login-drawer-form">
-            <input type="email" placeholder="EMAIL"/>
-            <input type="password" placeholder="PASSWORD"/>
+            <input type="email" id="email-login" placeholder="EMAIL"/>
+            <label htmlFor="email-login">EMAIL</label>
+            <input type="password" id="pw-login" placeholder="PASSWORD"/>
+            <label htmlFor="pw-login">PASSWORD</label>
             <button className="login-drawer-login-button">LOG IN</button>
             <div>
                 <p>Are you not a member yet?</p>

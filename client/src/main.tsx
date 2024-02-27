@@ -8,6 +8,10 @@ import Navbar from './components/Navbar.tsx'
 import Footer from './components/Footer.tsx'
 import About from './pages/About.tsx'
 import Home from './pages/Home.tsx'
+import Shop from './pages/Shop.tsx'
+import Product from './pages/Product.tsx'
+import ErrorPage from './pages/ErrorPage.tsx'
+import Signup from './pages/Signup.tsx'
 
 const Layout = () => {
   return(
@@ -22,15 +26,38 @@ const Layout = () => {
 const router = createBrowserRouter([{
   path: '/',
   element: <Layout />,
+  errorElement: <ErrorPage />,
   children : [
     {
-      path: '/',
-      element: <Home />
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: '/',
+          element: <Home />
+        },
+        {
+          path: '/about',
+          element: <About />
+        },
+        {
+          path: '/shop',
+          element: <Shop />
+        },
+        {
+          path: '/product/:productId',
+          element: <Product />
+        },
+        {
+          path: '/account/register',
+          element: <Signup />
+        },
+        {
+          path: '*',
+          element: <ErrorPage />
+        }
+      ],
     },
-    {
-      path: '/about',
-      element: <About />
-    }
+
   ]
 }])
 ReactDOM.createRoot(document.getElementById('root')!).render(

@@ -51,6 +51,10 @@
         &:first-child{
         padding-bottom: 1rem;
         }
+
+        span{
+            color: $punch-600;
+        }
     }
 }
 .about-description-contact-container{
