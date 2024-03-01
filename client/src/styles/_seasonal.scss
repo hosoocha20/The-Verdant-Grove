@@ -1,0 +1,85 @@
+@import "./variables";
+
+.seasonal-container{
+    width: 100%;
+    padding: var(--nav-height) 0 0 0;
+    @include flex-column();
+    align-items: center;
+    row-gap: 4rem;
+
+}
+.seasonal-header-text{
+    margin: 5rem 1.4rem 0 1.4rem;
+    color: $silver-950;
+    text-align: center;
+    @include flex-column();
+    align-items: center;
+    row-gap: 2rem;
+    h1{
+        font-weight: 400;
+        font-size: 1.6rem;
+        font-family: "Montserrat", sans-serif;
+        letter-spacing: -1px;
+    }
+    h2{
+        font-weight: 400;
+        font-size: clamp(3rem, 3.4vw, 3.5rem);
+        width: fit-content;
+        white-space: nowrap;
+        font-family: "Montserrat", sans-serif;
+        color: #000000;
+    }
+    p{
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 20vw;
+        font-weight: 500;
+        font-size: 14px;
+    }
+}
+
+#summerbg{
+    width: 70vw;
+    margin-top: 2rem;
+}
+.seasonal-img-grid-container{
+    padding: 0 var(--nav-lg-padding)
+}
+.seasonal-gallery-img{
+    width: 100%;
+}
+
+
+
+@media screen and (max-width: $media-xl){
+    .seasonal-header-text{
+        p{
+            padding: 0 10vw;
+        }
+    }
+}
+
+@media screen and (max-width: $media-tablet){
+
+    #summerbg{
+        width: 100%;
+    }
+    .seasonal-header-text{
+        margin-top: 3rem;
+        padding: 0;
+        h1{
+            font-size: 1.2rem;
+        }
+        h2{
+            font-size: 1.8rem;
+        }
+        p{
+            font-size: 13px;
+            padding: 0;
+        }
+    }
+    .seasonal-img-grid-container{
+        padding: 0 var(--nav-tablet-padding)
+    }
+}
+

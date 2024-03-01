@@ -1,6 +1,8 @@
 
 :root{
   --nav-height: 4.7rem;
+  --nav-tablet-padding: 1.4rem;
+  --nav-lg-padding: 3rem;
 }
 
 

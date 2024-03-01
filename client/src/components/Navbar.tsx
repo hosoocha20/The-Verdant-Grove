@@ -16,7 +16,7 @@ const Navbar = () => {
   const [openShopOptions, setOpenShopOptions] = useState(false);
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
-  const navMenuLinks_t = ["Home", "Seaonal", "Shop", "Search"];
+  const navMenuLinks_t = ["Home", "Seasonal", "Shop", "Search"];
   const navMenuLinks_b = ["About", "Login"];
   const shopMenuLinks = ["New in", "Binary x Modify", "All"];
 
@@ -95,7 +95,7 @@ const Navbar = () => {
                   className="nav-l-menu-links-t-span-text"
                   onClick={() => openShopMenu_Link(link)}
                 >
-                  <p className="nav-l-menu-drawer-link-t">{link}</p>
+                  <Link to={`/${link[0].toLowerCase() + link.slice(1)}`} className="nav-l-menu-drawer-link-t">{link}</Link>
                   <HiPlus
                     color={"#969696"}
                     className={`${

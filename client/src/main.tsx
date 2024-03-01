@@ -12,6 +12,7 @@ import Shop from './pages/Shop.tsx'
 import Product from './pages/Product.tsx'
 import ErrorPage from './pages/ErrorPage.tsx'
 import Signup from './pages/Signup.tsx'
+import Seasonal from './pages/Seasonal.tsx'
 
 const Layout = () => {
   return(
@@ -42,6 +43,10 @@ const router = createBrowserRouter([{
         {
           path: '/shop',
           element: <Shop />
+        },
+        {
+          path: '/seasonal',
+          element: <Seasonal />
         },
         {
           path: '/product/:productId',
