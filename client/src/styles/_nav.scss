@@ -284,11 +284,37 @@ padding: 2rem 4rem 2rem 4rem;
     }
 }
 .login-drawer-signup-button{
-    background-color: #ffffff;
+    background-color: transparent;
     border: 1px solid $silver-700;
     color: $silver-950;
     width: 100%;
-    margin-top: 0.8rem;
+    
+    position: relative;
+    transition: color .5s;
+
+    &::before{
+        position: absolute;
+        content: "";
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        transform-origin: 0 100%;
+        z-index: -1;
+        transition: transform .5s;
+        transform: scaleY(0);
+        background-color: $silver-950;
+        
+        
+
+    }
+    &:hover::before{
+        transform: scaleY(1);     
+    }
+    &:hover{
+        color: #ffffff;
+        
+    }
 }
 
 /*SHOPPING DRAWER*/

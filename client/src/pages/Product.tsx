@@ -22,7 +22,7 @@ const Product = (props : any) => {
     <div className="product-container">
       <div className="product-l-container">
         {productItem[0].imagesSrc.map((src: string) => (
-          <img src={`${"src/assets/" + src}`} />
+          <img src={`${"/src/assets/" + src}`} alt={src}/>
         ))}
       </div>
       <div className="product-r-container">

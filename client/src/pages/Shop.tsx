@@ -6,6 +6,7 @@ import all from "../assets/all2.jpg";
 import newIn from "../assets/new.jpg";
 import collab from "../assets/collab1.png";
 import al from "../assets/silver.jpeg";
+import { Link } from "react-router-dom";
 
 const Shop = () => {
   const [top, setTop] = useState(true);
@@ -109,16 +110,20 @@ const Shop = () => {
 
         <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
           {shopItemArray.slice((page - 1) * itemsPerPage, page * itemsPerPage ).map((item: ShopItem) => (
-            <Grid item xs={6} sm={4} md={3}>
-              <div className="shop-product-item-container">
-                <div className="shop-product-item-img-wrapper">
-                  <img className= "shop-product-img-hover" loading="lazy" src={`${"src/assets/" + item.imgMainSrc[1]}`}  alt={item.name} width="auto" height="auto"/>
-                  <img className= "shop-product-img-main" loading="lazy" src={`${"src/assets/" + item.imgMainSrc[0]}`}  alt={item.name + " hover"} width="auto" height="auto"/>
+            
+              <Grid item xs={6} sm={4} md={3}>
+                <Link to={"product"}>
+                <div className="shop-product-item-container">
+                  <div className="shop-product-item-img-wrapper">
+                    <img className= "shop-product-img-hover" loading="lazy" src={`${"src/assets/" + item.imgMainSrc[1]}`}  alt={item.name} width="auto" height="auto"/>
+                    <img className= "shop-product-img-main" loading="lazy" src={`${"src/assets/" + item.imgMainSrc[0]}`}  alt={item.name + " hover"} width="auto" height="auto"/>
+                  </div>
+                  <p className="shop-product-item-name">{item.name}</p>
+                  <p>${item.price}</p>
                 </div>
-                <p className="shop-product-item-name">{item.name}</p>
-                <p>${item.price}</p>
-              </div>
-            </Grid>
+                </Link>
+              </Grid>
+            
           ))}
         </Grid>
         <Pagination
