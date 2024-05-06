@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
 import Paper from "@mui/material/Paper";
@@ -110,9 +111,14 @@ const Shop = () => {
 
         <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
           {shopItemArray.slice((page - 1) * itemsPerPage, page * itemsPerPage ).map((item: ShopItem) => (
+<<<<<<< HEAD
             
               <Grid item xs={6} sm={4} md={3}>
                 <Link to={"product"}>
+=======
+              <Grid item xs={6} sm={4} md={3}>
+                <Link to={`/product`}>
+>>>>>>> 0f7bc2f21d9f50f36b51402945248dd27d4473de
                 <div className="shop-product-item-container">
                   <div className="shop-product-item-img-wrapper">
                     <img className= "shop-product-img-hover" loading="lazy" src={`${"src/assets/" + item.imgMainSrc[1]}`}  alt={item.name} width="auto" height="auto"/>
@@ -123,7 +129,10 @@ const Shop = () => {
                 </div>
                 </Link>
               </Grid>
+<<<<<<< HEAD
             
+=======
+>>>>>>> 0f7bc2f21d9f50f36b51402945248dd27d4473de
           ))}
         </Grid>
         <Pagination

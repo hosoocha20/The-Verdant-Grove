@@ -95,7 +95,12 @@ const Navbar = () => {
                   className="nav-l-menu-links-t-span-text"
                   onClick={() => openShopMenu_Link(link)}
                 >
-                  <Link to={`/${link[0].toLowerCase() + link.slice(1)}`} className="nav-l-menu-drawer-link-t">{link}</Link>
+                  {link === "Home" ? (
+                    <Link to={`/`} className="nav-l-menu-drawer-link-t">{link}</Link>
+                  ): (
+                    <Link to={`/${link[0].toLowerCase() + link.slice(1)}`} className="nav-l-menu-drawer-link-t">{link}</Link>
+                  )}
+      
                   <HiPlus
                     color={"#969696"}
                     className={`${

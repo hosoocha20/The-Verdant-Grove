@@ -2,7 +2,7 @@ import React,  {useState} from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import CounterButton from "../components/CounterButton";
 
-const Product = (props : any) => {
+const Product = () => {
   const productItem = [
     {
       name: "RASPBERRY",
@@ -22,7 +22,14 @@ const Product = (props : any) => {
     <div className="product-container">
       <div className="product-l-container">
         {productItem[0].imagesSrc.map((src: string) => (
+<<<<<<< HEAD
           <img src={`${"/src/assets/" + src}`} alt={src}/>
+=======
+          <>
+          <img src={`src/assets/${src}`} />
+          {console.log(src)}
+          </>
+>>>>>>> 0f7bc2f21d9f50f36b51402945248dd27d4473de
         ))}
       </div>
       <div className="product-r-container">
