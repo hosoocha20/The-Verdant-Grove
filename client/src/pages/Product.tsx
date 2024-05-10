@@ -22,14 +22,7 @@ const Product = () => {
     <div className="product-container">
       <div className="product-l-container">
         {productItem[0].imagesSrc.map((src: string) => (
-<<<<<<< HEAD
           <img src={`${"/src/assets/" + src}`} alt={src}/>
-=======
-          <>
-          <img src={`src/assets/${src}`} />
-          {console.log(src)}
-          </>
->>>>>>> 0f7bc2f21d9f50f36b51402945248dd27d4473de
         ))}
       </div>
       <div className="product-r-container">

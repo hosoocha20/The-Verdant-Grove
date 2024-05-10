@@ -49,15 +49,11 @@ const router = createBrowserRouter([{
           element: <Seasonal />
         },
         {
-<<<<<<< HEAD
-          path: '/shop/product',
-=======
           path: '/product',
->>>>>>> 0f7bc2f21d9f50f36b51402945248dd27d4473de
           element: <Product />
         },
         {
-          path: '/account/register',
+          path: '/register',
           element: <Signup />
         },
         {

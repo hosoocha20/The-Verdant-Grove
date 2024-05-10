@@ -17,7 +17,7 @@ const Navbar = () => {
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
   const navMenuLinks_t = ["Home", "Seasonal", "Shop", "Search"];
-  const navMenuLinks_b = ["About", "Login"];
+  const navMenuLinks_b = ["About", "Account"];
   const shopMenuLinks = ["New in", "Binary x Modify", "All"];
 
   useDisableBodyScroll(openShoppingBagDrawer);
@@ -65,7 +65,7 @@ const Navbar = () => {
       </div>
 
       <div className="nav-name-container">
-        <Link to='/'>The Verdant Grove</Link>
+        <Link to="/">The Verdant Grove</Link>
       </div>
       <div className="nav-r-icons-container">
         <form className="nav-search-container">
@@ -96,11 +96,18 @@ const Navbar = () => {
                   onClick={() => openShopMenu_Link(link)}
                 >
                   {link === "Home" ? (
-                    <Link to={`/`} className="nav-l-menu-drawer-link-t">{link}</Link>
-                  ): (
-                    <Link to={`/${link[0].toLowerCase() + link.slice(1)}`} className="nav-l-menu-drawer-link-t">{link}</Link>
+                    <Link to={`/`} className="nav-l-menu-drawer-link-t">
+                      {link}
+                    </Link>
+                  ) : (
+                    <Link
+                      to={`/${link[0].toLowerCase() + link.slice(1)}`}
+                      className="nav-l-menu-drawer-link-t"
+                    >
+                      {link}
+                    </Link>
                   )}
-      
+
                   <HiPlus
                     color={"#969696"}
                     className={`${
@@ -130,12 +137,13 @@ const Navbar = () => {
         <div className="nav-l-menu-links-b-container">
           {navMenuLinks_b.map((link: string) => {
             return (
-              <p
+              <Link
+                to={`/register`}
                 className="nav-l-menu-drawer-link-b"
                 onClick={() => openShopMenu_Link(link)}
               >
                 {link}
-              </p>
+              </Link>
             );
           })}
         </div>
@@ -143,7 +151,9 @@ const Navbar = () => {
 
       <div
         className={`nav-r-shopping-drawer-bg-overlay ${
-          openShoppingBagDrawer || openLoginDrawer ? "" : "nav-r-shopping-drawer-bg-close"
+          openShoppingBagDrawer || openLoginDrawer
+            ? ""
+            : "nav-r-shopping-drawer-bg-close"
         }`}
       ></div>
 
@@ -167,15 +177,23 @@ const Navbar = () => {
         </div>
         <h1>Log in</h1>
         <form className="login-drawer-form">
-            <input type="email" id="email-login" placeholder="EMAIL"/>
-            <label htmlFor="email-login">EMAIL</label>
+          <div className="login-drawer-email-wrapper">
+            <input
+              type="email"
+              id="email-login"
+              placeholder="EMAIL"
+            />
+            <p>EMAIL</p>
+          </div>
+          <div className="login-drawer-pw-wrapper">
             <input type="password" id="pw-login" placeholder="PASSWORD"/>
-            <label htmlFor="pw-login">PASSWORD</label>
-            <button className="login-drawer-login-button">LOG IN</button>
-            <div>
-                <p>Are you not a member yet?</p>
-                <button className="login-drawer-signup-button">SIGN UP</button>
-            </div>
+            <p>PASSWORD</p>
+          </div>
+          <button className="login-drawer-login-button">LOG IN</button>
+          <div className="login-drawer-signup-wrapper">
+            <p>Are you not a member yet?</p>
+            <button className="login-drawer-signup-button">SIGN UP</button>
+          </div>
         </form>
       </div>
 

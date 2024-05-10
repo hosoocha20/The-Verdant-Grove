@@ -245,7 +245,7 @@ padding: 2rem 4rem 2rem 4rem;
 }
 .login-drawer-form{
     @include flex-column();
-    gap: 2.5rem;
+    gap: 4rem;
     padding-right: 2rem;
     width: 100%;
     margin-top: 2rem;
@@ -255,10 +255,19 @@ padding: 2rem 4rem 2rem 4rem;
         padding: 0.2rem 0 0.5rem 0;
         border: none;
         border-bottom: 1px solid $silver-300;
+        position: relative;
+        background-color: transparent;
 
+
+        &:not(:placeholder-shown) + p{
+            color: $silver-900;
+            top: -1.7rem;
+        }
         &:focus{
             outline: none;
         }
+
+        
     }
 
     p{
@@ -274,6 +283,22 @@ padding: 2rem 4rem 2rem 4rem;
         border-radius: 0.15rem;
     }
 }
+.login-drawer-email-wrapper, .login-drawer-pw-wrapper{
+    position: relative;
+    width: 100%;
+
+    p{
+        transition: color 0.3s, top 0.2s ease-out;
+        position: absolute;
+        top: -2rem;
+        left: 0;
+        width: 100%;
+        font-size: 13px;
+        color: transparent;
+    }
+}
+
+
 .login-drawer-login-button{
     background-color: $punch-650;
     border: 1px solid $punch-650;
@@ -283,14 +308,19 @@ padding: 2rem 4rem 2rem 4rem;
         background-color: $punch-600;
     }
 }
+.login-drawer-signup-wrapper{
+    p{
+        margin-bottom: 0.7rem;
+    }
+}
 .login-drawer-signup-button{
     background-color: transparent;
-    border: 1px solid $silver-700;
+    border: 1px solid $silver-950;
     color: $silver-950;
     width: 100%;
     
     position: relative;
-    transition: color .5s;
+    transition: color .4s;
 
     &::before{
         position: absolute;
@@ -301,7 +331,7 @@ padding: 2rem 4rem 2rem 4rem;
         height: 100%;
         transform-origin: 0 100%;
         z-index: -1;
-        transition: transform .5s;
+        transition: transform .4s;
         transform: scaleY(0);
         background-color: $silver-950;
         
