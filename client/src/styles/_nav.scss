@@ -114,24 +114,14 @@
     justify-content: flex-end;
     column-gap: 1.6rem;
 }
-.nav-search-container{
-    padding-top: 5px;
-    border-bottom: 1px solid $silver-300;
-    position: relative;
-    input{
-        border: none;
 
-        &:focus{
-            outline: none;
-        }
-    }
-}
 .nav-r-search-icon{
-    position: absolute;
-    top: 3px;
-    right: 0;
-    font-size: 1.2rem;
-    color: $silver-950;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: $silver-900;
+    &:hover{
+        color: $punch-600;
+    }
 }
 .nav-r-icon{
     font-size: 1.5rem;
@@ -225,6 +215,61 @@
     transition: background-color 0.3s ease-in, visibility 0.3s ease-in;
 }
 
+.nav-r-searchbar-bg-overlay{
+    position: absolute;
+    top: calc(var(--nav-height) + 100px - 1px);
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4); 
+    visibility: visible;
+    
+}
+.nav-r-shopping-drawer-bg-close{
+    background-color: transparent;
+    visibility: hidden; 
+}
+
+
+/*SEARCHBAR*/
+.nav-searchbar-container{
+    position: absolute;
+    top: calc(var(--nav-height) - 1px);
+    padding: 1.7rem 3rem;
+    left: 0;
+    height: 100px;
+    width: 100%;
+    z-index: 1;
+    background-color: #ffffff;
+    border-bottom: $silver-300;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.nav-searchbar-close{
+    display: none;
+}
+.nav-searchbar-form{
+    width: 100%;
+    display: flex;
+    input{
+        width: 100%;
+        padding: 0.5rem 0.5rem;
+        border: none;
+        font-size: 14px;
+        &:focus{
+            outline: none;
+        }
+    }
+    button{
+        padding: 0 0.5rem;
+        border: none;
+        font-size: 14px;
+        font-weight: 500;
+        background-color: #ffffff;
+    }
+}
+
 /*LOGIN DRAWER*/
 .nav-r-login-drawer{
 @include right-drawer();
@@ -238,11 +283,7 @@ padding: 2rem 4rem 2rem 4rem;
     right: -600px;
     transition: right .3s ease-in-out;
 }
-.nav-r-shopping-drawer-bg-close{
-    background-color: transparent;
-    visibility: hidden;
-    
-}
+
 .login-drawer-form{
     @include flex-column();
     gap: 4rem;
@@ -351,7 +392,7 @@ padding: 2rem 4rem 2rem 4rem;
 .nav-r-shopping-drawer{
     @include right-drawer();
     width: 500px;
-    padding: 2rem 0 2rem 2rem;
+    padding: 2rem 0 6rem 2rem;
     @include flex-column();
     h1{
         padding: 1.5rem 0;
@@ -488,28 +529,49 @@ padding: 2rem 4rem 2rem 4rem;
     }
     
 }
-.shopping-drawer-checkout-button, .shopping-drawer-bag-button, .shopping-drawer-empty-button{
+.shopping-drawer-checkout-button, .shopping-drawer-empty-button{
     width: 100%;
-    padding: 0.5rem 0;
+    padding: 0.7rem 0;
     border-radius: 0.2rem;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
 }
 .shopping-drawer-checkout-button{
-    border: 1px solid $punch-650;
-    background-color: $punch-650;
-    color: #ffffff;
+    border: 1px solid #000000;
+    background-color: transparent;
+    color: #000000;
+    position: relative;
+    transition: color .4s, border .4s;
+
+    &::before{
+        position: absolute;
+        content: "";
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        transform-origin: 0 100%;
+        z-index: -1;
+        transition: transform .4s;
+        transform: scaleY(0);
+        background-color: $punch-650;
+        
+    }
+    &:hover::before{
+        transform: scaleY(1);     
+    }
     &:hover{
-        background-color: $punch-600;
+        color: #ffffff;
+        border: 1px solid $punch-650;
+        
     }
 }
-.shopping-drawer-bag-button, .shopping-drawer-empty-button{
+
+.shopping-drawer-empty-button{
     margin-top: 1rem;
     border: 1px solid $silver-800;
     color: $silver-800;
-}
-.shopping-drawer-empty-button{
     &:hover{
         background-color: $punch-650;
         border: 1px solid $punch-650;
@@ -536,10 +598,10 @@ padding: 2rem 4rem 2rem 4rem;
         transition: left .2s ease-in;
         left: -100%;
     }
-    .nav-r-shopping-drawer{
+    .nav-r-shopping-drawer, .nav-r-login-drawer{
         width: 100%;
     }
-    .nav-r-shopping-drawer-close{
+    .nav-r-shopping-drawer-close, .nav-r-login-drawer-close{
         right: -100%;
     }
 }

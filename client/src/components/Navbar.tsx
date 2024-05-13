@@ -15,6 +15,7 @@ const Navbar = () => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
   const [openShopOptions, setOpenShopOptions] = useState(false);
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
+  const [openSearchBar, setOpenSearchBar] = useState(false);
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
   const navMenuLinks_t = ["Home", "Seasonal", "Shop", "Search"];
   const navMenuLinks_b = ["About", "Account"];
@@ -68,10 +69,9 @@ const Navbar = () => {
         <Link to="/">The Verdant Grove</Link>
       </div>
       <div className="nav-r-icons-container">
-        <form className="nav-search-container">
-          <input type="text" autoComplete="off" />
-          <TfiSearch className="nav-r-search-icon" />
-        </form>
+
+        <TfiSearch className="nav-r-search-icon" onClick={()=>setOpenSearchBar(true)}/>
+
         <PiUserLight
           className="nav-r-icon"
           onClick={() => setOpenLoginDrawer(true)}
@@ -151,11 +151,26 @@ const Navbar = () => {
 
       <div
         className={`nav-r-shopping-drawer-bg-overlay ${
-          openShoppingBagDrawer || openLoginDrawer
+          openShoppingBagDrawer || openLoginDrawer 
             ? ""
             : "nav-r-shopping-drawer-bg-close"
         }`}
       ></div>
+            <div
+        className={`nav-r-searchbar-bg-overlay ${
+           openSearchBar
+            ? ""
+            : "nav-r-shopping-drawer-bg-close"
+        }`}
+        onClick={()=>setOpenSearchBar(false)}
+      ></div>
+      <div className={` ${openSearchBar ? "nav-searchbar-container" : "nav-searchbar-close"}`}>
+        <TfiSearch />
+        <form className="nav-searchbar-form">
+          <input type="text" placeholder="SEARCH FOR SOMETHING..."/>
+          <button>SEARCH</button>
+        </form>
+      </div>
 
       <div
         className={`nav-r-login-drawer ${
@@ -269,7 +284,6 @@ const Navbar = () => {
               <button className="shopping-drawer-checkout-button">
                 CHECK OUT
               </button>
-              <button className="shopping-drawer-bag-button">VIEW CART</button>
             </>
           ) : (
             <button
