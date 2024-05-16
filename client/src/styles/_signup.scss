@@ -8,6 +8,10 @@
 
     h1{
         padding: 1.5rem 0;
+        text-align: center;
+        font-weight: 500;
+        font-size: 1.7rem;
+        color: $silver-950;
     }
 }
 
@@ -18,6 +22,9 @@
     label{
         @include flex-column();
         row-gap: 0.7rem;
+        font-size: 15px;
+        font-weight: 500;
+        color: $silver-950;
         &:nth-child(4){
             margin-bottom: 3rem;
         }
@@ -25,7 +32,7 @@
     input{
         font-size: 1rem;
         padding: 0.5rem;
-        border-radius: 0.1rem;
+        border-radius: 0.5rem;
         border: 1px solid $silver-300;
         transition: border 0.2s ease-in-out;
 

@@ -9,6 +9,7 @@ import kiwifruit from "../assets/kiwifruit.png";
 import honeydew from "../assets/honeydew.png";
 import CounterButton from "./CounterButton";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -45,6 +46,22 @@ const Navbar = () => {
     }
     setOpenNavMenu(false);
   };
+
+  const clickedOutsideSearchRef = useOutsideClick(() => {
+    if (openSearchBar) {
+      setOpenSearchBar(false);
+    }
+  });
+  const clickedOutsideUserRef = useOutsideClick(() => {
+    if (openLoginDrawer) {
+      setOpenLoginDrawer(false);
+    }
+  });
+  const clickedOutsideShoppingRef = useOutsideClick(() => {
+    if (openShoppingBagDrawer) {
+      setOpenShoppingBagDrawer(false);
+    }
+  });
 
   return (
     <nav className="nav-container">
@@ -162,9 +179,9 @@ const Navbar = () => {
             ? ""
             : "nav-r-shopping-drawer-bg-close"
         }`}
-        onClick={()=>setOpenSearchBar(false)}
+        
       ></div>
-      <div className={` ${openSearchBar ? "nav-searchbar-container" : "nav-searchbar-close"}`}>
+      <div ref={clickedOutsideSearchRef} className={` ${openSearchBar ? "nav-searchbar-container" : "nav-searchbar-close"}`}>
         <TfiSearch />
         <form className="nav-searchbar-form">
           <input type="text" placeholder="SEARCH FOR SOMETHING..."/>
@@ -173,6 +190,7 @@ const Navbar = () => {
       </div>
 
       <div
+        ref={clickedOutsideUserRef}
         className={`nav-r-login-drawer ${
           openLoginDrawer ? "" : "nav-r-login-drawer-close"
         }`}
@@ -213,6 +231,7 @@ const Navbar = () => {
       </div>
 
       <div
+        ref={clickedOutsideShoppingRef}
         className={`nav-r-shopping-drawer ${
           openShoppingBagDrawer ? "" : "nav-r-shopping-drawer-close"
         }`}
