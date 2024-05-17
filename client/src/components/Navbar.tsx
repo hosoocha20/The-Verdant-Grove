@@ -10,7 +10,7 @@ import honeydew from "../assets/honeydew.png";
 import CounterButton from "./CounterButton";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
@@ -22,6 +22,7 @@ const Navbar = () => {
   const navMenuLinks_b = ["About", "Account"];
   const shopMenuLinks = ["New in", "Binary x Modify", "All"];
 
+  const navigate = useNavigate();
   useDisableBodyScroll(openShoppingBagDrawer);
 
   interface ShoppingCartItem {
@@ -183,7 +184,7 @@ const Navbar = () => {
       ></div>
       <div ref={clickedOutsideSearchRef} className={` ${openSearchBar ? "nav-searchbar-container" : "nav-searchbar-close"}`}>
         <TfiSearch />
-        <form className="nav-searchbar-form">
+        <form className="nav-searchbar-form" onSubmit={() => navigate("/product/search")}>
           <input type="text" placeholder="SEARCH FOR SOMETHING..."/>
           <button>SEARCH</button>
         </form>
@@ -267,7 +268,7 @@ const Navbar = () => {
                   <div className="shopping-drawer-item-wrapper">
                     <input type="checkbox" id="itemBagCheckbox" checked />
                     <img
-                      src={`${"src/assets/" + item.imgSrc}`}
+                      src={`${"/src/assets/" + item.imgSrc}`}
                       id="shopping-item-img"
                     />
                     <div className="shopping-drawer-item-info">

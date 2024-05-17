@@ -13,6 +13,7 @@ import Product from './pages/Product.tsx'
 import ErrorPage from './pages/ErrorPage.tsx'
 import Signup from './pages/Signup.tsx'
 import Seasonal from './pages/Seasonal.tsx'
+import SearchResults from './pages/SearchResults.tsx'
 
 const Layout = () => {
   return(
@@ -51,6 +52,10 @@ const router = createBrowserRouter([{
         {
           path: '/product',
           element: <Product />
+        },
+        {
+        path: '/product/search',
+        element: <SearchResults />
         },
         {
           path: '/register',

@@ -217,7 +217,7 @@
 
 .nav-r-searchbar-bg-overlay{
     position: absolute;
-    top: calc(var(--nav-height) + 100px - 1px);
+    top: calc(var(--nav-height) + 4.8rem - 1px);
     right: 0;
     width: 100%;
     height: 100vh;
@@ -235,13 +235,13 @@
 .nav-searchbar-container{
     position: absolute;
     top: calc(var(--nav-height) - 1px);
-    padding: 1.7rem 3rem;
+    padding: 0 5rem;
     left: 0;
-    height: 100px;
+    height: 4.8rem;
     width: 100%;
     z-index: 1;
     background-color: #ffffff;
-    border-bottom: $silver-300;
+    border-bottom: 1px solid $silver-300;
     display: flex;
     gap: 1rem;
     align-items: center;
