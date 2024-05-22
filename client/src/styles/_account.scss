@@ -87,4 +87,21 @@
         font-size: 13px;
     }
 }
+.account-order-history-exists{
+    width: 100%;
+}
+
+/*MUI themes*/
+
+.MuiTableCell-root{
+    display: flex;
+}
+.MuiTablePagination-root{
+    padding-top: 1rem;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+
 
