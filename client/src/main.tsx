@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import {Outlet, RouterProvider, createBrowserRouter} from 'react-router-dom'
 import App from './App.tsx'
@@ -14,11 +14,13 @@ import ErrorPage from './pages/ErrorPage.tsx'
 import Signup from './pages/Signup.tsx'
 import Seasonal from './pages/Seasonal.tsx'
 import SearchResults from './pages/SearchResults.tsx'
+import Account from './pages/Account.tsx'
 
 const Layout = () => {
+  const [isSignedOn, setIsSignedOn] = useState(true);
   return(
     <div className='App'>
-      <Navbar />
+      <Navbar isSignedOn={isSignedOn}/>
       <Outlet />
       <Footer />
     </div>
@@ -60,6 +62,10 @@ const router = createBrowserRouter([{
         {
           path: '/register',
           element: <Signup />
+        },
+        {
+          path: '/account',
+          element: <Account />
         },
         {
           path: '*',

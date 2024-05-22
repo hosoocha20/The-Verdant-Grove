@@ -12,7 +12,7 @@ import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
   const [openShopOptions, setOpenShopOptions] = useState(false);
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
@@ -87,8 +87,10 @@ const Navbar = () => {
         <Link to="/">The Verdant Grove</Link>
       </div>
       <div className="nav-r-icons-container">
-
-        <TfiSearch className="nav-r-search-icon" onClick={()=>setOpenSearchBar(true)}/>
+        <TfiSearch
+          className="nav-r-search-icon"
+          onClick={() => setOpenSearchBar(true)}
+        />
 
         <PiUserLight
           className="nav-r-icon"
@@ -153,39 +155,57 @@ const Navbar = () => {
           })}
         </div>
         <div className="nav-l-menu-links-b-container">
-          {navMenuLinks_b.map((link: string) => {
-            return (
-              <Link
-                to={`/register`}
-                className="nav-l-menu-drawer-link-b"
-                onClick={() => openShopMenu_Link(link)}
-              >
-                {link}
-              </Link>
-            );
-          })}
+          <Link
+            to={`/about`}
+            className="nav-l-menu-drawer-link-b"
+            onClick={() => openShopMenu_Link("About")}
+          >
+            About
+          </Link>
+          {isSignedOn ? (
+            <Link
+              to={`/account`}
+              className="nav-l-menu-drawer-link-b"
+              onClick={() => openShopMenu_Link("Account")}
+            >
+              Account
+            </Link>
+          ) : (
+            <Link
+              to={`/register`}
+              className="nav-l-menu-drawer-link-b"
+              onClick={() => openShopMenu_Link("Register")}
+            >
+              Register
+            </Link>
+          )}
         </div>
       </div>
 
       <div
         className={`nav-r-shopping-drawer-bg-overlay ${
-          openShoppingBagDrawer || openLoginDrawer 
+          openShoppingBagDrawer || openLoginDrawer
             ? ""
             : "nav-r-shopping-drawer-bg-close"
         }`}
       ></div>
-            <div
+      <div
         className={`nav-r-searchbar-bg-overlay ${
-           openSearchBar
-            ? ""
-            : "nav-r-shopping-drawer-bg-close"
+          openSearchBar ? "" : "nav-r-shopping-drawer-bg-close"
         }`}
-        
       ></div>
-      <div ref={clickedOutsideSearchRef} className={` ${openSearchBar ? "nav-searchbar-container" : "nav-searchbar-close"}`}>
+      <div
+        ref={clickedOutsideSearchRef}
+        className={` ${
+          openSearchBar ? "nav-searchbar-container" : "nav-searchbar-close"
+        }`}
+      >
         <TfiSearch />
-        <form className="nav-searchbar-form" onSubmit={() => navigate("/product/search")}>
-          <input type="text" placeholder="SEARCH FOR SOMETHING..."/>
+        <form
+          className="nav-searchbar-form"
+          onSubmit={() => navigate("/product/search")}
+        >
+          <input type="text" placeholder="SEARCH FOR SOMETHING..." />
           <button>SEARCH</button>
         </form>
       </div>
@@ -212,15 +232,11 @@ const Navbar = () => {
         <h1>Log in</h1>
         <form className="login-drawer-form">
           <div className="login-drawer-email-wrapper">
-            <input
-              type="email"
-              id="email-login"
-              placeholder="EMAIL"
-            />
+            <input type="email" id="email-login" placeholder="EMAIL" />
             <p>EMAIL</p>
           </div>
           <div className="login-drawer-pw-wrapper">
-            <input type="password" id="pw-login" placeholder="PASSWORD"/>
+            <input type="password" id="pw-login" placeholder="PASSWORD" />
             <p>PASSWORD</p>
           </div>
           <button className="login-drawer-login-button">LOG IN</button>
