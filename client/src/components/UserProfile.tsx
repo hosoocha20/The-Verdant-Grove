@@ -7,6 +7,7 @@ const UserProfile = () => {
         e.preventDefault();
         if (e.currentTarget.value === 'Edit'){
             setButtonValue('Save')
+            window.scrollTo(0, 0);
         }
             
         else

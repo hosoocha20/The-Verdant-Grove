@@ -70,7 +70,7 @@ const router = createBrowserRouter([{
           element: <Account />,
           children : [
             {
-              path:'/account/orders',
+              index: true,
               element: <Orders />
             },
             {

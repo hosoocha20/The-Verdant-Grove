@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, NavLink } from "react-router-dom";
 
 const Account = () => {
   return (
@@ -8,9 +8,9 @@ const Account = () => {
       <hr></hr>
       <div className="account-flex-wrap">
         <div className="account-flex-wrap-l">
-          <Link to={"orders"}>Orders</Link>
-          <Link to={"profile"}>My Profile</Link>
-          <p>Logout</p>
+          <NavLink to={"."} className={({ isActive }) => (isActive ? 'account-navLink-active' : 'account-navLink-inactive')} end>Orders</NavLink>
+          <NavLink to={"profile"} className={({ isActive }) => (isActive ? 'account-navLink-active' : 'account-navLink-inactive')} end>My Profile</NavLink>
+          <Link to={"../"} className="account-link">Logout</Link>
         </div>
         <div className="account-flex-wrap-r">
           <Outlet />
