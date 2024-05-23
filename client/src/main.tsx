@@ -15,6 +15,8 @@ import Signup from './pages/Signup.tsx'
 import Seasonal from './pages/Seasonal.tsx'
 import SearchResults from './pages/SearchResults.tsx'
 import Account from './pages/Account.tsx'
+import UserProfile from './components/userProfile.tsx'
+import Orders from './components/Orders.tsx'
 
 const Layout = () => {
   const [isSignedOn, setIsSignedOn] = useState(true);
@@ -65,7 +67,17 @@ const router = createBrowserRouter([{
         },
         {
           path: '/account',
-          element: <Account />
+          element: <Account />,
+          children : [
+            {
+              path:'/account/orders',
+              element: <Orders />
+            },
+            {
+              path:'/account/profile',
+              element: <UserProfile />
+            }
+          ]
         },
         {
           path: '*',

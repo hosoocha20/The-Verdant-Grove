@@ -298,6 +298,7 @@ padding: 2rem 4rem 2rem 4rem;
         border-bottom: 1px solid $silver-300;
         position: relative;
         background-color: transparent;
+        transition: border 0.25s;
 
 
         &:not(:placeholder-shown) + p{
@@ -306,6 +307,7 @@ padding: 2rem 4rem 2rem 4rem;
         }
         &:focus{
             outline: none;
+            border-bottom: 1px solid $silver-800;
         }
 
         
