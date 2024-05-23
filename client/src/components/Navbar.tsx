@@ -18,7 +18,7 @@ const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
-  const navMenuLinks_t = ["Home", "Seasonal", "Shop", "Search"];
+  const navMenuLinks_t = ["Home", "Seasonal", "Shop"];
   const navMenuLinks_b = ["About", "Account"];
   const shopMenuLinks = ["New in", "Binary x Modify", "All"];
 
@@ -108,51 +108,53 @@ const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
         }`}
       >
         <div className="nav-l-menu-links-t-container">
-          {navMenuLinks_t.map((link: string) => {
-            return (
-              <>
-                <div
-                  className="nav-l-menu-links-t-span-text"
-                  onClick={() => openShopMenu_Link(link)}
-                >
-                  {link === "Home" ? (
-                    <Link to={`/`} className="nav-l-menu-drawer-link-t">
-                      {link}
-                    </Link>
-                  ) : (
-                    <Link
-                      to={`/${link[0].toLowerCase() + link.slice(1)}`}
-                      className="nav-l-menu-drawer-link-t"
-                    >
-                      {link}
-                    </Link>
-                  )}
+          <div
+            className="nav-l-menu-links-t-span-text"
+            onClick={() => openShopMenu_Link("Home")}
+          >
+            <Link to={`/`} className="nav-l-menu-drawer-link-t">
+              Home
+            </Link>
+          </div>
+          <div
+            className="nav-l-menu-links-t-span-text"
+            onClick={() => openShopMenu_Link("Seasonal")}
+          >
+            <Link to={`/Seasonal`} className="nav-l-menu-drawer-link-t">
+              Seasonal
+            </Link>
+          </div>
 
-                  <HiPlus
-                    color={"#969696"}
-                    className={`${
-                      !openShopOptions && link === "Shop" ? "" : "display-none"
-                    }`}
-                  />
-                  <HiMinus
-                    color={"#969696"}
-                    className={`${
-                      openShopOptions && link === "Shop" ? "" : "display-none"
-                    }`}
-                  />
-                </div>
-                <div
-                  className={`nav-l-menu-links-shop-span ${
-                    openShopOptions && link === "Shop" ? "" : "display-none"
-                  }`}
-                >
-                  {shopMenuLinks.map((shopLink: string) => {
-                    return <p>{shopLink}</p>;
-                  })}
-                </div>
-              </>
-            );
-          })}
+          <div
+            className="nav-l-menu-links-t-span-text"
+            onClick={() => openShopMenu_Link("Shop")}
+          >
+              <p className="nav-l-menu-drawer-text-t">
+                Shop
+              </p>
+            <HiPlus
+              color={"#969696"}
+              className={`${
+                !openShopOptions  ? "" : "display-none"
+              }`}
+            />
+            <HiMinus
+              color={"#969696"}
+              className={`${
+                openShopOptions  ? "" : "display-none"
+              }`}
+            />
+          </div>
+          <div
+            className={`nav-l-menu-links-shop-span ${
+              openShopOptions  ? "" : "display-none"
+            }`}
+            onClick={() => openShopMenu_Link("Shop-links")}
+          >
+            {shopMenuLinks.map((shopLink: string) => {
+              return <Link to={"/shop"}>{shopLink}</Link>;
+            })}
+          </div>
         </div>
         <div className="nav-l-menu-links-b-container">
           <Link

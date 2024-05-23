@@ -1,6 +1,6 @@
 import React from 'react'
+import {Link} from "react-router-dom";
 import { useTheme } from '@mui/material/styles';
-import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import Box from '@mui/material/Box';
 
@@ -73,7 +73,7 @@ const HomeCollection = () => {
       <div className='home-collection-text-container'>
         <h1>24. SUMMER SEASON</h1>
         <div>
-            <p>NEW IN</p>
+            <Link to={'/seasonal'}>VIEW SEASONAL</Link>
             <HiArrowNarrowRight className='home-text-container-arrow-icon'/>
         </div>
       </div>

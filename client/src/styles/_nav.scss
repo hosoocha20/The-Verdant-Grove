@@ -154,14 +154,16 @@
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-
     a{
+        width: 100%;
+    }
+    a, .nav-l-menu-drawer-text-t{
         font-size: 15px;
         color: $silver-700;
         text-decoration: none;
     }
     &:hover{
-        a{
+        a, .nav-l-menu-drawer-text-t{
             color: #000000;
         }
     }
@@ -169,7 +171,7 @@
 .nav-l-menu-links-shop-span{
     @include flex-column();
     gap: 0.8rem;
-    p{
+    a{
         cursor: pointer;
         font-size: 14px;
         color: #000000;
@@ -193,6 +195,7 @@
     &:hover{
         color: #000000;
     }
+    text-decoration: none;
 }
 
 // .nav-r-shopping-drawer-container{

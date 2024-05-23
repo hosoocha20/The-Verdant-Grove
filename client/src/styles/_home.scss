@@ -35,6 +35,10 @@
         align-items: center;
         column-gap: 0.3rem;
         cursor: pointer;
+        a, a:visited{
+            color: inherit;
+            text-decoration: none;
+        }
 
         &:hover{
             color: $punch-700;
