@@ -63,9 +63,9 @@ const Shop = () => {
     link: string;
   }
   const shopOptionsLinks: shopOption[] = [
+    { title: "ALL", imgSrc: "all2.jpg", link: 'all'},
     { title: "NEW IN", imgSrc: "new.jpg", link: 'new'},
     { title: "GMO", imgSrc: "collab1.png", link: 'gmo' },
-    { title: "ALL", imgSrc: "all2.jpg", link: 'all'},
   ];
 
   interface ShopItem {
@@ -83,8 +83,8 @@ const Shop = () => {
     { productId: '1', name: "RED CHERRY", quantity: 1, price: 40, imgMainSrc: ["cherry-main.png", "cherry-hover.png"], category: "new" },
     { productId: '2', name: "HONEYDEW MELON", quantity: 1, price: 45, imgMainSrc: ["honeydew-main.png", "honeydew-hover.png"], category: "new"  },
     { productId: '3', name: "KIWIFRUIT", quantity: 1, price: 50, imgMainSrc: ["kiwifruit-main.png", "kiwifruit-hover.png"], category: "new"  },
-    { productId: '4', name: "LEMON", quantity: 1, price: 50, imgMainSrc: ["lemon-main.png", "lemon-hover.png"], category: "new"  },
-    { productId: '5', name: "PEAR", quantity: 1, price: 50, imgMainSrc: ["pear-main.png", "pear-hover.png"] , category: "new" },
+    { productId: '4', name: "LEMON", quantity: 1, price: 50, imgMainSrc: ["lemon-main.png", "lemon-hover.png"], category: "all-rounder"  },
+    { productId: '5', name: "PEAR", quantity: 1, price: 50, imgMainSrc: ["pear-main.png", "pear-hover.png"] , category: "all-rounder" },
     { productId: '6', name: "RASPBERRY", quantity: 1, price: 50, imgMainSrc: ["raspberry-main.png", "raspberry-hover.png"] , category: "new" },
     { productId: '7', name: "STRAWBERRY", quantity: 1, price: 50, imgMainSrc: ["strawberry-main.png", "strawberry-hover.png"] , category: "new" },
     { productId: '8', name: "WATERMELON", quantity: 1, price: 50, imgMainSrc: ["watermelon-main.png", "watermelon-hover.png"] , category: "new" },
@@ -120,32 +120,54 @@ const Shop = () => {
   ];
   const [shopItemArray, setShopItemArray] = useState<IShopItem[]>(shopItemArrayAll)
   //const  shopItemArray   = useLoaderData() as IShopItem[];
+  const [activeShopOption, setActiveShopOption] = useState('all');
 
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [page, setPage] = useState(1);
-  const [noOfPages] = useState(Math.ceil(shopItemArray.length / itemsPerPage));
+  const [noOfPages, setNoOfPages] = useState(Math.ceil(shopItemArray.length / itemsPerPage));
+
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
+    scrollToTop();
   };
 
-  const handleShopOptionChange = (list : string) =>{
-    if (list !== 'all'){
-      setShopItemArray(shopItemArrayAll.filter((item) => item.category === list))
+  const handleShopOptionChange = () =>{
+    scrollToTop();
+    if (activeShopOption !== 'all'){
+      setShopItemArray(shopItemArrayAll.filter((item) => item.category === activeShopOption))
     } else{
       setShopItemArray(shopItemArrayAll)
     }
   }
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+  });
+  }
 
 
-  // useEffect(() => {
-  //   const scrollHandler = () => {
-  //     window.scrollY > 10 ? setTop(false) : setTop(true)
-  //   };
-  //   window.addEventListener('scroll', scrollHandler);
-  //   return () => window.removeEventListener('scroll', scrollHandler);
-  // }, [top]);
+
+  useEffect(() => {
+    const scrollHandler = () => {
+      window.scrollY > 10 ? setTop(false) : setTop(true)
+    };
+    window.addEventListener('scroll', scrollHandler);
+    return () => window.removeEventListener('scroll', scrollHandler);
+  }, [top]);
+
+  useEffect(()=>{
+    handleShopOptionChange();
+    setNoOfPages(Math.ceil(shopItemArray.length / itemsPerPage));
+    setPage(1);
+
+  }, [activeShopOption])
+  useEffect(()=>{
+    setNoOfPages(Math.ceil(shopItemArray.length / itemsPerPage));
+  }, shopItemArray)
 
 
 
@@ -155,22 +177,22 @@ const Shop = () => {
       <div className={`shop-options-btn-container ${!top && "shop-options-btn-container-shadow"}`}>
         {shopOptionsLinks.map((link: shopOption) => {
           return (
-            <Link to={`${link.link}`} onClick={()=>handleShopOptionChange(link.link)}>
-            <div className="shop-options-btn-wrapper">
-              <div className="shop-optiobs-btn-img-container">
+
+            <div className="shop-options-btn-wrapper" onClick={()=>setActiveShopOption(link.link)}>
+              <div className={`shop-options-btn-img-container ${activeShopOption === link.link ? "shop-options-btn-img-active": ''}`}>
                 <div className="shop-options-btn-img-wrapper">
                   <img src={`${"/src/assets/" + link.imgSrc}`}  />
                 </div>
               </div>
               <p>{link.title}</p>
             </div>
-            </Link>
+
           );
         })}
       </div>
-      <Outlet context={{shopItemArray} satisfies ShopType}/>
-      {/* <div className="shop-product-container">
-        <h1><span>SHOP /</span> ALL</h1>
+      {/* <Outlet context={{shopItemArray} satisfies ShopType}/> */}
+      <div className="shop-product-container">
+        <h1><span>SHOP /</span> {activeShopOption.toUpperCase()}</h1>
 
         <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
           {shopItemArray.slice((page - 1) * itemsPerPage, page * itemsPerPage ).map((item: ShopItem) => (
@@ -197,7 +219,7 @@ const Shop = () => {
           defaultPage={1}
         ></Pagination>
 
-      </div> */}
+      </div>
 
     </div>
   );

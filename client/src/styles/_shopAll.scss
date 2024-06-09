@@ -43,7 +43,7 @@
 
 
 }
-.shop-optiobs-btn-img-container{
+.shop-options-btn-img-container{
     width: 85px;
     height: 85px;
     border-radius: 100%;
@@ -53,6 +53,9 @@
     &:hover{
         border: 1px solid $punch-400;
     }
+}
+.shop-options-btn-img-active{
+    border: 1px solid $punch-400;
 }
 .shop-options-btn-img-wrapper{
     width: 93%;

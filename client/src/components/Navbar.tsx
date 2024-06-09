@@ -78,7 +78,7 @@ const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
           <div></div>
         </div>
         <div className="nav-l-links">
-          <Link to="/shop/all">SHOP</Link>
+          <Link to="/shop">SHOP</Link>
           <Link to="/about">ABOUT</Link>
         </div>
       </div>
