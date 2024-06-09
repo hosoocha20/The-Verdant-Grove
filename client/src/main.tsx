@@ -8,15 +8,19 @@ import Navbar from './components/Navbar.tsx'
 import Footer from './components/Footer.tsx'
 import About from './pages/About.tsx'
 import Home from './pages/Home.tsx'
-import Shop from './pages/Shop.tsx'
+import Shop, { productLoader } from './pages/Shop.tsx'
 import Product from './pages/Product.tsx'
 import ErrorPage from './pages/ErrorPage.tsx'
 import Signup from './pages/Signup.tsx'
 import Seasonal from './pages/Seasonal.tsx'
 import SearchResults from './pages/SearchResults.tsx'
 import Account from './pages/Account.tsx'
-import UserProfile from './components/userProfile.tsx'
+import UserProfile from './components/UserProfile.tsx'
 import Orders from './components/Orders.tsx'
+import ShopAll from './components/ShopAll.tsx'
+//import { shopItemArray } from './data/ShopData.ts'
+
+
 
 const Layout = () => {
   const [isSignedOn, setIsSignedOn] = useState(true);
@@ -47,7 +51,19 @@ const router = createBrowserRouter([{
         },
         {
           path: '/shop',
-          element: <Shop />
+          /*loader: productLoader,*/
+          element: <Shop />,
+          children: [
+            {
+              index: true,
+              element: <ShopAll />,
+            },
+            {
+              path: '/shop/:list',
+              element: <ShopAll />
+            }
+          ]
+
         },
         {
           path: '/seasonal',

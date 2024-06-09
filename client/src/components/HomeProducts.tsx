@@ -17,7 +17,7 @@ const HomeProducts = () => {
             </div>
             <div className='home-product-grid-item'>
                  <div className='home-product-grid-item__text'>
-                    <p>NAME x MODIFY</p>
+                    <p>GMO</p>
                     <p></p>
                 </div>
                 <div className='home-product-grid-img-wrapper'>

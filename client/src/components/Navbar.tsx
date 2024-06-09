@@ -20,7 +20,7 @@ const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
   const navMenuLinks_t = ["Home", "Seasonal", "Shop"];
   const navMenuLinks_b = ["About", "Account"];
-  const shopMenuLinks = ["New in", "Binary x Modify", "All"];
+  const shopMenuLinks = ["New in", "GMO", "All"];
 
   const navigate = useNavigate();
   useDisableBodyScroll(openShoppingBagDrawer);
@@ -78,7 +78,7 @@ const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
           <div></div>
         </div>
         <div className="nav-l-links">
-          <Link to="/shop">SHOP</Link>
+          <Link to="/shop/all">SHOP</Link>
           <Link to="/about">ABOUT</Link>
         </div>
       </div>
