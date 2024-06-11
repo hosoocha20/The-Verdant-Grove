@@ -1,3 +1,9 @@
+export interface IProductDetail{
+  size: string;
+  countrySrc: string;
+
+}
+
 export interface IShopItem {
     productId: string;
     name: string;
@@ -5,6 +11,9 @@ export interface IShopItem {
     price: number;
     category: string;
     imgMainSrc: string[];
+    imgsSrc: string[];
+    description: string;
+    productDetail: IProductDetail[];
   }
 
 export interface ShopType {

@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import {Outlet, RouterProvider, createBrowserRouter} from 'react-router-dom'
+import {Outlet, RouterProvider, createBrowserRouter, ScrollRestoration} from 'react-router-dom'
 import App from './App.tsx'
 import './index.css'
 import './styles/App.scss';
@@ -17,7 +17,7 @@ import SearchResults from './pages/SearchResults.tsx'
 import Account from './pages/Account.tsx'
 import UserProfile from './components/UserProfile.tsx'
 import Orders from './components/Orders.tsx'
-import ShopAll from './components/ShopAll.tsx'
+
 //import { shopItemArray } from './data/ShopData.ts'
 
 
@@ -25,11 +25,13 @@ import ShopAll from './components/ShopAll.tsx'
 const Layout = () => {
   const [isSignedOn, setIsSignedOn] = useState(true);
   const [openShopOption, setOpenShopOption] = useState<string>('all');
+
   return(
     <div className='App'>
       <Navbar isSignedOn={isSignedOn} setOpenShopOption={setOpenShopOption}/>
       <Outlet context={openShopOption}/>
       <Footer />
+      <ScrollRestoration />
     </div>
   )
 }
@@ -71,7 +73,7 @@ const router = createBrowserRouter([{
           element: <Seasonal />
         },
         {
-          path: 'shop/product',
+          path: '/shop/product/detail/:productName',
           element: <Product />
         },
         {
