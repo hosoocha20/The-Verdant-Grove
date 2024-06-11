@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <div className='footer-container'>
@@ -12,8 +12,8 @@ const Footer = () => {
         </div>
 
         <div className='footer-links'>
-            <button>About</button>
-            <button>Help</button>
+            <Link to={'/about'}>About</Link>
+            <button>Privacy Policy</button>
             <button>Contact Us</button>
         </div>
     </div>
