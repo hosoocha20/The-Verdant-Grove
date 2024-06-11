@@ -12,7 +12,11 @@ import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
+interface NavbarProps {
+  isSignedOn : boolean;
+  setOpenShopOption:  React.Dispatch<React.SetStateAction<string>>;
+}
+const Navbar = (props: NavbarProps) => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
   const [openShopOptions, setOpenShopOptions] = useState(false);
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
@@ -20,7 +24,6 @@ const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
   const navMenuLinks_t = ["Home", "Seasonal", "Shop"];
   const navMenuLinks_b = ["About", "Account"];
-  const shopMenuLinks = ["New in", "GMO", "All"];
 
   const navigate = useNavigate();
   useDisableBodyScroll(openShoppingBagDrawer);
@@ -31,7 +34,11 @@ const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
     price: number;
     imgSrc: string;
   }
-
+  interface ShopMenuLinks {
+    name: string;
+    link: string;
+  }
+  const shopMenuLinks: ShopMenuLinks[] = [{name: "New in", link:"new"}, {name:"GMO", link:'gmo'}, {name:"All", link:"all"}];
   const shoppingCartArray: ShoppingCartItem[] = [
     { name: "LEMON", quantity: 1, price: 40, imgSrc: "lemon-main.png" },
     { name: "KIWIFRUIT", quantity: 1, price: 45, imgSrc: "kiwifruit-main.png" },
@@ -78,7 +85,7 @@ const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
           <div></div>
         </div>
         <div className="nav-l-links">
-          <Link to="/shop">SHOP</Link>
+          <Link to="/shop/all" onClick={()=>props.setOpenShopOption("all")}>SHOP</Link>
           <Link to="/about">ABOUT</Link>
         </div>
       </div>
@@ -151,8 +158,8 @@ const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
             }`}
             onClick={() => openShopMenu_Link("Shop-links")}
           >
-            {shopMenuLinks.map((shopLink: string) => {
-              return <Link to={"/shop"}>{shopLink}</Link>;
+            {shopMenuLinks.map((shopLink: ShopMenuLinks) => {
+              return <Link to={`/shop/${shopLink.link}`} onClick={()=>props.setOpenShopOption(shopLink.link)}>{shopLink.name}</Link>;
             })}
           </div>
         </div>
@@ -164,7 +171,7 @@ const Navbar = ({ isSignedOn }: { isSignedOn: boolean }) => {
           >
             About
           </Link>
-          {isSignedOn ? (
+          {props.isSignedOn ? (
             <Link
               to={`/account`}
               className="nav-l-menu-drawer-link-b"

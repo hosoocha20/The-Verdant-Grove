@@ -8,7 +8,7 @@ import Navbar from './components/Navbar.tsx'
 import Footer from './components/Footer.tsx'
 import About from './pages/About.tsx'
 import Home from './pages/Home.tsx'
-import Shop, { productLoader } from './pages/Shop.tsx'
+import Shop from './pages/Shop.tsx'
 import Product from './pages/Product.tsx'
 import ErrorPage from './pages/ErrorPage.tsx'
 import Signup from './pages/Signup.tsx'
@@ -24,10 +24,11 @@ import ShopAll from './components/ShopAll.tsx'
 
 const Layout = () => {
   const [isSignedOn, setIsSignedOn] = useState(true);
+  const [openShopOption, setOpenShopOption] = useState<string>('all');
   return(
     <div className='App'>
-      <Navbar isSignedOn={isSignedOn}/>
-      <Outlet />
+      <Navbar isSignedOn={isSignedOn} setOpenShopOption={setOpenShopOption}/>
+      <Outlet context={openShopOption}/>
       <Footer />
     </div>
   )
@@ -50,9 +51,9 @@ const router = createBrowserRouter([{
           element: <About />
         },
         {
-          path: '/shop',
+          path: '/shop/:shopOption',
           /*loader: productLoader,*/
-          element: <Shop />,
+          element: <Shop  />,
           // children: [
           //   {
           //     index: true,
@@ -70,7 +71,7 @@ const router = createBrowserRouter([{
           element: <Seasonal />
         },
         {
-          path: '/product',
+          path: 'shop/product',
           element: <Product />
         },
         {
@@ -97,6 +98,10 @@ const router = createBrowserRouter([{
         },
         {
           path: '*',
+          element: <ErrorPage />
+        },
+        {
+          path: 'errorPage',
           element: <ErrorPage />
         }
       ],
