@@ -83,6 +83,14 @@
     grid-template-columns: 1fr 1fr 1fr;
     gap: 2.8rem;
 
+    a{
+        height: 100%;
+        font-size: 0;
+
+    }
+
+
+
 }
 .home-product-grid-item{
     position: relative;
@@ -134,16 +142,17 @@
         
     }
 
+}
+.home-product-grid-img-wrapper{
+    height: 100%;
+    overflow: hidden;
+
     img{
         transition: transform .3s ease-out;
         background-size: cover;
         width: 100%;
         height: 100%;
     }
-}
-.home-product-grid-img-wrapper{
-    height: 100%;
-    overflow: hidden;
 }
 
 
