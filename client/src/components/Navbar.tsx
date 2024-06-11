@@ -11,10 +11,10 @@ import CounterButton from "./CounterButton";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { Link, useNavigate } from "react-router-dom";
+import { IUser } from "../interfaces/IUser";
 
 interface NavbarProps {
   isSignedOn : boolean;
-  setOpenShopOption:  React.Dispatch<React.SetStateAction<string>>;
 }
 const Navbar = (props: NavbarProps) => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
@@ -85,7 +85,7 @@ const Navbar = (props: NavbarProps) => {
           <div></div>
         </div>
         <div className="nav-l-links">
-          <Link to="/shop/all" onClick={()=>props.setOpenShopOption("all")}>SHOP</Link>
+          <Link to="/shop/all" >SHOP</Link>
           <Link to="/about">ABOUT</Link>
         </div>
       </div>
@@ -159,7 +159,7 @@ const Navbar = (props: NavbarProps) => {
             onClick={() => openShopMenu_Link("Shop-links")}
           >
             {shopMenuLinks.map((shopLink: ShopMenuLinks) => {
-              return <Link to={`/shop/${shopLink.link}`} onClick={()=>props.setOpenShopOption(shopLink.link)}>{shopLink.name}</Link>;
+              return <Link to={`/shop/${shopLink.link}`} >{shopLink.name}</Link>;
             })}
           </div>
         </div>

@@ -19,7 +19,7 @@ const Product = () => {
       </div>
       <div className="product-r-container">
         <h1>{productItem.name}</h1>
-        <p>${productItem.price}</p>
+        <p>${Number(productItem.price).toFixed(2)}</p>
         <p className="product-r-description">
           {productItem.description}
         </p>

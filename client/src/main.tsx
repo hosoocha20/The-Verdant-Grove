@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import {Outlet, RouterProvider, createBrowserRouter, ScrollRestoration} from 'react-router-dom'
+import {Outlet, RouterProvider, createBrowserRouter, ScrollRestoration, useNavigate} from 'react-router-dom'
 import App from './App.tsx'
 import './index.css'
 import './styles/App.scss';
@@ -17,19 +17,39 @@ import SearchResults from './pages/SearchResults.tsx'
 import Account from './pages/Account.tsx'
 import UserProfile from './components/UserProfile.tsx'
 import Orders from './components/Orders.tsx'
-
+import { IUser } from './interfaces/IUser.ts'
 //import { shopItemArray } from './data/ShopData.ts'
 
 
 
 const Layout = () => {
-  const [isSignedOn, setIsSignedOn] = useState(true);
-  const [openShopOption, setOpenShopOption] = useState<string>('all');
+  const navigate = useNavigate();
+  const [isSignedOn, setIsSignedOn] = useState(false);
+  const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: ''})
+  
+  
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [authErrorMsg, setAuthErrorMsg] = useState('')
+
+
+
+  const signUp = (e: React.FormEvent) =>{
+    e.preventDefault();
+    if (users.some(u=> u.email === authedUser.email)){
+      setAuthErrorMsg("An account with this email already exists.")
+      return
+    }
+    setUsers((prev) => [...prev, authedUser])
+    setIsSignedOn(true);
+    //setAuthedUser((user) => ({ ...user, firstName: e.target.value }))
+    navigate("/")
+  }
+
 
   return(
     <div className='App'>
-      <Navbar isSignedOn={isSignedOn} setOpenShopOption={setOpenShopOption}/>
-      <Outlet context={openShopOption}/>
+      <Navbar isSignedOn={isSignedOn} />
+      <Outlet context={{ authedUser, setAuthedUser, signUp}}/>
       <Footer />
       <ScrollRestoration />
     </div>
