@@ -19,6 +19,7 @@ import UserProfile from './components/UserProfile.tsx'
 import Orders from './components/Orders.tsx'
 import { IUser } from './interfaces/IUser.ts'
 import { shopItemArrayAll } from './data/ShopData.ts'
+import { IShoppingCartItem } from './interfaces/IShop.ts'
 
 
 
@@ -34,6 +35,7 @@ const Layout = () => {
   
   const [users, setUsers] = useState<IUser[]>([]);
   const [authErrorMsg, setAuthErrorMsg] = useState('')
+  const [shoppingCart, setShoppingCart] = useState<IShoppingCartItem[]>([]);
 
 
 
@@ -49,10 +51,14 @@ const Layout = () => {
     navigate("/")
   }
 
+  const updateShoppingCartQuantity = () =>{
+
+  }
+
 
   return(
     <div className='App'>
-      <Navbar isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult}/>
+      <Navbar shoppingCart={shoppingCart} isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult} updateShoppingCartQuantity={updateShoppingCartQuantity}/>
       <Outlet context={{ setIsSignedOn, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams}}/>
       <Footer />
       <ScrollRestoration />

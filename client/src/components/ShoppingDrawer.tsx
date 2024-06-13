@@ -9,7 +9,8 @@ interface ShoppingDrawerProps {
     clickedOutsideShoppingRef: React.RefObject<HTMLDivElement>;
     openShoppingBagDrawer: boolean;
     setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
-    shoppingCartArray: IShoppingCartItem[];
+    shoppingCart: IShoppingCartItem[];
+    updateShoppingCartQuantity: () => void;
 
 
 }
@@ -35,7 +36,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
       />
     </div>
     <h1>Shopping Bag</h1>
-    {props.shoppingCartArray?.length > 0 ? (
+    {props.shoppingCart?.length > 0 ? (
       <>
         <div className="shopping-drawer-select-container">
           <div className="shopping-drawer-select-checkbox-wrapper">
@@ -47,7 +48,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
           </p>
         </div>
         <div className="shopping-drawer-items-container">
-          {props.shoppingCartArray.map((item: IShoppingCartItem) => {
+          {props.shoppingCart.map((item: IShoppingCartItem) => {
             return (
               <div className="shopping-drawer-item-wrapper">
                 <input type="checkbox" id="itemBagCheckbox" checked />
@@ -57,7 +58,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
                 />
                 <div className="shopping-drawer-item-info">
                   <p>{item.name}</p>
-                  <CounterButton quantity={item.quantity} />
+                  <CounterButton quantity={item.quantity} updateShoppingCartQuantity={props.updateShoppingCartQuantity}/>
                   <p>${item.price}</p>
                   <button>Remove</button>
                 </div>
@@ -67,11 +68,11 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
         </div>
       </>
     ) : (
-      <div className="nav-r-shopping-drawer-empty">Your cart is empty</div>
+      <div className="nav-r-shopping-drawer-empty">Your cart is empty.</div>
     )}
 
     <div className="shopping-drawer-checkout-container">
-      {props.shoppingCartArray?.length > 0 ? (
+      {props.shoppingCart?.length > 0 ? (
         <>
           <div className="shopping-drawer-subtotal-wrapper">
             <p>Subtotal (3 items)</p>

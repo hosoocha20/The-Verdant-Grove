@@ -18,6 +18,8 @@ interface NavbarProps {
   isSignedOn: boolean;
   searchResult: string;
   setSearchResult: React.Dispatch<React.SetStateAction<string>>;
+  shoppingCart: IShoppingCartItem[];
+  updateShoppingCartQuantity: () => void;
 }
 const Navbar = (props: NavbarProps) => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
@@ -32,13 +34,13 @@ const Navbar = (props: NavbarProps) => {
 
 
 
-  const shoppingCartArray: IShoppingCartItem[] = [
-    { name: "LEMON", quantity: 1, price: 40, imgSrc: "lemon-main.png" },
-    { name: "KIWIFRUIT", quantity: 1, price: 45, imgSrc: "kiwifruit-main.png" },
-    { name: "HONEYDEW", quantity: 1, price: 50, imgSrc: "honeydew-main.png" },
-    { name: "HONEYDEW", quantity: 1, price: 50, imgSrc: "honeydew-main.png" },
-    { name: "HONEYDEW", quantity: 1, price: 50, imgSrc: "honeydew-main.png" },
-  ];
+  // const shoppingCartArray: IShoppingCartItem[] = [
+  //   { name: "LEMON", quantity: 1, price: 40, imgSrc: "lemon-main.png" },
+  //   { name: "KIWIFRUIT", quantity: 1, price: 45, imgSrc: "kiwifruit-main.png" },
+  //   { name: "HONEYDEW", quantity: 1, price: 50, imgSrc: "honeydew-main.png" },
+  //   { name: "HONEYDEW", quantity: 1, price: 50, imgSrc: "honeydew-main.png" },
+  //   { name: "HONEYDEW", quantity: 1, price: 50, imgSrc: "honeydew-main.png" },
+  // ];
 
   const openShopMenu_Link = (link: string) => {
     if (link === "Shop") {
@@ -164,7 +166,7 @@ const Navbar = (props: NavbarProps) => {
 
       <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
 
-      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCartArray={shoppingCartArray}/>
+      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} updateShoppingCartQuantity={props.updateShoppingCartQuantity}/>
 
     </nav>
   );

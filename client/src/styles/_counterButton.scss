@@ -1,7 +1,8 @@
 @import "./variables";
 
 .counter-button-wrapper{
-    
+    display: flex;
+    gap: 5px;
     padding: 5px 9px;
 
     input[type=number]::-webkit-inner-spin-button, 
@@ -13,8 +14,15 @@
 
     button, input{
         border: none;
-        color: $silver-800;
+        color: $silver-950;
         background-color: #ffffff;
+    }
+    button{
+        z-index: 1;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
     }
     input{
         width: 30px;

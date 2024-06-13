@@ -399,16 +399,18 @@ padding: 2rem 4rem 2rem 4rem;
 /*SHOPPING DRAWER*/
 .nav-r-shopping-drawer{
     @include right-drawer();
-    width: 500px;
+    width: 600px;
     padding: 2rem 0 6rem 2rem;
     @include flex-column();
     h1{
         padding: 1.5rem 0;
+        font-size: 20px;
+        font-weight: 600;
     }
     
 }
 .nav-r-shopping-drawer-close{
-    right: -500px;
+    right: -600px;
     transition: right .3s ease-in-out;
 }
 .shopping-drawer-top{
@@ -501,6 +503,7 @@ padding: 2rem 4rem 2rem 4rem;
 }
 .nav-r-shopping-drawer-empty{
     height: calc(100vh - 165px);
+    font-size: 13px;
 }
 
 .shopping-drawer-checkout-container{
@@ -578,8 +581,9 @@ padding: 2rem 4rem 2rem 4rem;
 
 .shopping-drawer-empty-button{
     margin-top: 1rem;
-    border: 1px solid $silver-800;
-    color: $silver-800;
+    border: 1px solid $silver-950;
+    color: $silver-950;
+    background-color: #ffffff;
     &:hover{
         background-color: $punch-650;
         border: 1px solid $punch-650;
