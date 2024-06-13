@@ -102,7 +102,7 @@ const SearchResults = () => {
             {shopItemArray.slice((page - 1) * itemsPerPage, page * itemsPerPage ).map((item: ShopItem) => (
             
                 <Grid item xs={6} sm={4} md={3}>
-                <Link to={`/product`}>
+                <Link to={`/shop/product/detail/${item.name.toLowerCase()}`} state={{productItem:item}}>
                 <div className="searchResults-product-item-container">
                     <div className="searchResults-product-item-img-wrapper">
                     <img className= "searchResults-product-img-hover" loading="lazy" src={`${"/src/assets/" + item.imgMainSrc[1]}`}  alt={item.name} width="auto" height="auto"/>
