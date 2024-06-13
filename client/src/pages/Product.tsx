@@ -12,7 +12,7 @@ const Product = () => {
   const min = 1;
   const max = 99;
   const [quantity, setQuantity] = useState(min);
-  const [thisItem, setThisItem] = useState<IShoppingCartItem>({email: "", name: productItem.name, quantity: quantity, price: productItem.price, imgSrc: productItem.imgMainSrc, checked: true})
+  const [thisItem, setThisItem] = useState<IShoppingCartItem>({email: "", name: productItem.name, quantity: 1, price: productItem.price, imgSrc: productItem.imgMainSrc, checked: true})
 
 
   //console.log(productItem)
@@ -20,25 +20,27 @@ const Product = () => {
   const [openDetails, setOpenDetails] = useState(false);
 
   const decrement = () =>{
-    if (quantity > min){
-      setQuantity(quantity - 1)
+    if (thisItem.quantity > min){
+      setThisItem(prev => ({...prev, quantity: prev.quantity-1 }))
+      
     }
   }
   const increment = () =>{
-    if (quantity < max){
-      setQuantity(quantity + 1)
+    if (thisItem.quantity < max){
+      setThisItem(prev => ({...prev, quantity: prev.quantity+1 }))
+      
     }
   }
 
   const handleQuantityOnBlur = () =>{
     if (quantity < min || isNaN(quantity))
-      setQuantity(min)
+      setThisItem(prev => ({...prev, quantity: min}))
     if (quantity > max)
-      setQuantity(max)
+      setThisItem(prev => ({...prev, quantity: max}))
   }
 
   const addToBag = () =>{
-    setThisItem({email: "", name: productItem.name, quantity: quantity, price: productItem.price, imgSrc: productItem.imgMainSrc, checked: true})
+
     addToShoppingCart(thisItem)
   }
 
@@ -84,7 +86,7 @@ const Product = () => {
             <button onClick={decrement}>
               <HiMinus />
             </button>
-            <input type="number" value={quantity} max={max} onChange={(e)=> setQuantity(e.target.valueAsNumber)} onBlur={handleQuantityOnBlur} />
+            <input type="number" value={thisItem.quantity} max={max} onChange={(e)=> setThisItem(prev => ({...prev, quantity: e.target.valueAsNumber }))} onBlur={handleQuantityOnBlur} />
             <button onClick={increment}>
               <HiPlus />
             </button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IShoppingCartItem } from "../interfaces/IShop";
 import CounterButton from "./CounterButton";
 import { IoIosArrowBack } from "react-icons/io";
@@ -17,6 +17,7 @@ interface ShoppingDrawerProps {
 }
 const ShoppingDrawer = (props: ShoppingDrawerProps) => {
   const [checkedAll, setCheckedAll] = useState(true);
+  
   const min = 1;
   const max = 99;
 
@@ -27,12 +28,24 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
     );
     setCheckedAll(!checkedAll);
   };
+  const getSubtotal = () : number=>{
+    const checkedArray =  props.shoppingCart.map((i) => ({ ...i, checked: !i.checked }))
+    return(checkedArray.reduce(
+      (accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity),
+      0,
+    ))
+  }
+  const [subtotal, setSubtotal] = useState(getSubtotal())
   const handleCheckedItemOnChange = (item: IShoppingCartItem) => {
-    props.setShoppingCart((prev) =>
-      prev.map((i) =>
-        i.name === item.name ? { ...i, checked: !i.checked } : i
-      )
-    );
+    const checkedArray =  props.shoppingCart.map((i) => i.name === item.name ? { ...i, checked: !i.checked } : i)
+    props.setShoppingCart(checkedArray);
+    const checkedArrayTotal =  props.shoppingCart.map((i) => ({ ...i, checked: !i.checked }))
+    setSubtotal(checkedArrayTotal.reduce(
+      (accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity),
+      0,
+    ))
+
+
   };
 
   const decrement = (item: IShoppingCartItem) =>{
@@ -80,6 +93,21 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
       
   }
 
+  const selectedItemLength = () : number =>{
+    const checkedArray = props.shoppingCart.filter((i) => i.checked === true)
+    return checkedArray.length;
+  }
+
+  useEffect(()=>{
+    const checkedArrayTotal =  props.shoppingCart.map((i) => ({ ...i, checked: !i.checked }))
+    setSubtotal(checkedArrayTotal.reduce(
+      (accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity),
+      0,
+    ))
+  },[props.shoppingCart])
+
+  
+
   return (
     <div
       ref={props.clickedOutsideShoppingRef}
@@ -116,7 +144,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
             </div>
             <div className="shopping-drawer-remove-selected-wrapper">
               <button onClick={props.removeSelectedShoppingCartItem}>Remove Selected:</button>
-              <p>3 item(s)</p>
+              <p>{selectedItemLength()} item(s)</p>
             </div>
           </div>
           <div className="shopping-drawer-items-container">
@@ -151,7 +179,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
                         <HiPlus />
                       </button>
                     </div>
-                    <p>${item.price}</p>
+                    <p>${Number(item.price).toFixed(2)}</p>
                     <button onClick={()=> props.removeShoppingCartItem(item)}>Remove</button>
                   </div>
                 </div>
@@ -167,16 +195,14 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
         {props.shoppingCart?.length > 0 ? (
           <>
             <div className="shopping-drawer-subtotal-wrapper">
-              <p>Subtotal (3 items)</p>
-              <p>$100</p>
+              <p>Subtotal ({selectedItemLength()} items)</p>
+              <p>{subtotal}</p>
               <p>Shipping Fee</p>
-              <p>$5</p>
+              <p>$10</p>
             </div>
             <div className="shopping-drawer-total-wrapper">
               <p>Total</p>
-              <p>$105</p>
-              <p>Includes GST of</p>
-              <p>$5.42</p>
+              <p>{subtotal + 10}</p>
             </div>
             <button className="shopping-drawer-checkout-button">
               CHECK OUT

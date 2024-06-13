@@ -215,7 +215,7 @@ const Shop = () => {
                     <img className= "shop-product-img-main" loading="lazy" src={`${"/src/assets/" + item.imgMainSrc[0]}`}  alt={item.name + " hover"} width="auto" height="auto"/>
                   </div>
                   <p className="shop-product-item-name">{item.name}</p>
-                  <p>${item.price}</p>
+                  <p>${Number(item.price).toFixed(2)}</p>
                 </div>
                 </Link>
               </Grid>
