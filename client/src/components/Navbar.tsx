@@ -12,9 +12,10 @@ import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { Link, useNavigate } from "react-router-dom";
 import { IUser } from "../interfaces/IUser";
+import Sidebar from "./Sidebar";
 
 interface NavbarProps {
-  isSignedOn : boolean;
+  isSignedOn: boolean;
 }
 const Navbar = (props: NavbarProps) => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
@@ -34,11 +35,15 @@ const Navbar = (props: NavbarProps) => {
     price: number;
     imgSrc: string;
   }
-  interface ShopMenuLinks {
-    name: string;
-    link: string;
-  }
-  const shopMenuLinks: ShopMenuLinks[] = [{name: "New in", link:"new"}, {name:"GMO", link:'gmo'}, {name:"All", link:"all"}];
+  // interface ShopMenuLinks {
+  //   name: string;
+  //   link: string;
+  // }
+  // const shopMenuLinks: ShopMenuLinks[] = [
+  //   { name: "New in", link: "new" },
+  //   { name: "GMO", link: "gmo" },
+  //   { name: "All", link: "all" },
+  // ];
   const shoppingCartArray: ShoppingCartItem[] = [
     { name: "LEMON", quantity: 1, price: 40, imgSrc: "lemon-main.png" },
     { name: "KIWIFRUIT", quantity: 1, price: 45, imgSrc: "kiwifruit-main.png" },
@@ -72,12 +77,11 @@ const Navbar = (props: NavbarProps) => {
   });
 
   const clickedOutsideSidebarRef = useOutsideClick(() => {
-    if (openNavMenu)
-        setOpenNavMenu(false);
-  })
+    if (openNavMenu) setOpenNavMenu(false);
+  });
 
   return (
-    <nav className="nav-container">
+    <nav ref={clickedOutsideSidebarRef} className="nav-container">
       <div className="nav-l-container">
         <div
           className={`nav-hamburger ${
@@ -90,13 +94,13 @@ const Navbar = (props: NavbarProps) => {
           <div></div>
         </div>
         <div className="nav-l-links">
-          <Link to="/shop/all" >SHOP</Link>
-          <Link to="/about">ABOUT</Link>
+          <Link to="/shop/all" onClick={() => setOpenNavMenu(false)}>SHOP</Link>
+          <Link to="/about" onClick={() => setOpenNavMenu(false)}>ABOUT</Link>
         </div>
       </div>
 
       <div className="nav-name-container">
-        <Link to="/">The Verdant Grove</Link>
+        <Link to="/" onClick={() => setOpenNavMenu(false)}>The Verdant Grove</Link>
       </div>
       <div className="nav-r-icons-container">
         <TfiSearch
@@ -113,8 +117,10 @@ const Navbar = (props: NavbarProps) => {
           onClick={() => setOpenShoppingBagDrawer(true)}
         />
       </div>
+      <Sidebar openNavMenu={openNavMenu} isSignedOn={props.isSignedOn} openShopOptions={openShopOptions} openShopMenu_Link={openShopMenu_Link} />
 
-      <div ref={clickedOutsideSidebarRef}
+      {/* <div
+        ref={clickedOutsideSidebarRef}
         className={`nav-l-menu-drawer ${
           openNavMenu ? "" : "nav-l-menu-drawer-close"
         }`}
@@ -141,30 +147,24 @@ const Navbar = (props: NavbarProps) => {
             className="nav-l-menu-links-t-span-text"
             onClick={() => openShopMenu_Link("Shop")}
           >
-              <p className="nav-l-menu-drawer-text-t">
-                Shop
-              </p>
+            <p className="nav-l-menu-drawer-text-t">Shop</p>
             <HiPlus
               color={"#969696"}
-              className={`${
-                !openShopOptions  ? "" : "display-none"
-              }`}
+              className={`${!openShopOptions ? "" : "display-none"}`}
             />
             <HiMinus
               color={"#969696"}
-              className={`${
-                openShopOptions  ? "" : "display-none"
-              }`}
+              className={`${openShopOptions ? "" : "display-none"}`}
             />
           </div>
           <div
             className={`nav-l-menu-links-shop-span ${
-              openShopOptions  ? "" : "display-none"
+              openShopOptions ? "" : "display-none"
             }`}
             onClick={() => openShopMenu_Link("Shop-links")}
           >
             {shopMenuLinks.map((shopLink: ShopMenuLinks) => {
-              return <Link to={`/shop/${shopLink.link}`} >{shopLink.name}</Link>;
+              return <Link to={`/shop/${shopLink.link}`}>{shopLink.name}</Link>;
             })}
           </div>
         </div>
@@ -194,7 +194,7 @@ const Navbar = (props: NavbarProps) => {
             </Link>
           )}
         </div>
-      </div>
+      </div> */}
 
       <div
         className={`nav-r-shopping-drawer-bg-overlay ${
