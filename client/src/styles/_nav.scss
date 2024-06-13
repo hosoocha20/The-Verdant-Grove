@@ -462,6 +462,7 @@ padding: 2rem 4rem 2rem 4rem;
     display: flex;
     align-items: center;
     gap: 12px;
+
 }
 
 .shopping-drawer-items-container{
@@ -473,6 +474,7 @@ padding: 2rem 4rem 2rem 4rem;
     display: flex;
     align-items: center;
     gap: 15px;
+
 }
 .shopping-drawer-item-info{
     @include flex-column();

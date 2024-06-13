@@ -19,6 +19,7 @@ interface NavbarProps {
   searchResult: string;
   setSearchResult: React.Dispatch<React.SetStateAction<string>>;
   shoppingCart: IShoppingCartItem[];
+  setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>;
   updateShoppingCartQuantity: () => void;
   openShoppingBagDrawer: boolean;
   setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
@@ -168,7 +169,7 @@ const Navbar = (props: NavbarProps) => {
 
       <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
 
-      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} updateShoppingCartQuantity={props.updateShoppingCartQuantity}/>
+      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} setShoppingCart={props.setShoppingCart} updateShoppingCartQuantity={props.updateShoppingCartQuantity}/>
 
     </nav>
   );

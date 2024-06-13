@@ -58,18 +58,19 @@ const Layout = () => {
   const addToShoppingCart = (item: IShoppingCartItem) =>{
     const isItemInBag = shoppingCart.find((i) => i.name === item.name)
     if (isItemInBag){
-      console.log(isItemInBag)
-      isItemInBag.quantity = isItemInBag.quantity + item.quantity;
+      setShoppingCart((prev) => prev.map((i) => (i.name === item.name ? {...i, quantity: (i.quantity + item.quantity)} : i)))
     }else{
       setShoppingCart((prev) => [...prev, item])
     }
     setOpenShoppingBagDrawer(true);
   }
 
+  
+
 
   return(
     <div className='App'>
-      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult} updateShoppingCartQuantity={updateShoppingCartQuantity}/>
+      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult} updateShoppingCartQuantity={updateShoppingCartQuantity}/>
       <Outlet context={{ setIsSignedOn, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart}}/>
       <Footer />
       <ScrollRestoration />

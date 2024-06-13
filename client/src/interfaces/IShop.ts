@@ -26,4 +26,5 @@ export interface IShoppingCartItem {
   quantity: number;
   price: number;
   imgSrc: string;
+  checked: boolean;
 }

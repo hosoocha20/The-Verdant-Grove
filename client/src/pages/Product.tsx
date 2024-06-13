@@ -12,7 +12,7 @@ const Product = () => {
   const min = 1;
   const max = 99;
   const [quantity, setQuantity] = useState(min);
-  const [thisItem, setThisItem] = useState<IShoppingCartItem>({email: "", name: productItem.name, quantity: quantity, price: productItem.price, imgSrc: productItem.imgMainSrc})
+  const [thisItem, setThisItem] = useState<IShoppingCartItem>({email: "", name: productItem.name, quantity: quantity, price: productItem.price, imgSrc: productItem.imgMainSrc, checked: true})
 
 
   //console.log(productItem)
@@ -38,7 +38,7 @@ const Product = () => {
   }
 
   const addToBag = () =>{
-    setThisItem({email: "", name: productItem.name, quantity: quantity, price: productItem.price, imgSrc: productItem.imgMainSrc})
+    setThisItem({email: "", name: productItem.name, quantity: quantity, price: productItem.price, imgSrc: productItem.imgMainSrc, checked: true})
     addToShoppingCart(thisItem)
   }
 
