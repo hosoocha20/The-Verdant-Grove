@@ -20,17 +20,19 @@ interface NavbarProps {
   setSearchResult: React.Dispatch<React.SetStateAction<string>>;
   shoppingCart: IShoppingCartItem[];
   updateShoppingCartQuantity: () => void;
+  openShoppingBagDrawer: boolean;
+  setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Navbar = (props: NavbarProps) => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
   const [openShopOptions, setOpenShopOptions] = useState(false);
-  const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
+  //const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
 
 
   const navigate = useNavigate();
-  useDisableBodyScroll(openShoppingBagDrawer);
+  useDisableBodyScroll(props.openShoppingBagDrawer);
 
 
 
@@ -66,8 +68,8 @@ const Navbar = (props: NavbarProps) => {
     }
   });
   const clickedOutsideShoppingRef = useOutsideClick(() => {
-    if (openShoppingBagDrawer) {
-      setOpenShoppingBagDrawer(false);
+    if (props.openShoppingBagDrawer) {
+      props.setOpenShoppingBagDrawer(false);
     }
   });
 
@@ -126,7 +128,7 @@ const Navbar = (props: NavbarProps) => {
         />
         <LiaShoppingBagSolid
           className="nav-r-icon"
-          onClick={() => setOpenShoppingBagDrawer(true)}
+          onClick={() => props.setOpenShoppingBagDrawer(true)}
         />
       </div>
 
@@ -136,7 +138,7 @@ const Navbar = (props: NavbarProps) => {
       {/*Background overlays for drawers*/}
       <div
         className={`nav-r-shopping-drawer-bg-overlay ${
-          openShoppingBagDrawer || openLoginDrawer
+          props.openShoppingBagDrawer || openLoginDrawer
             ? ""
             : "nav-r-shopping-drawer-bg-close"
         }`}
@@ -166,7 +168,7 @@ const Navbar = (props: NavbarProps) => {
 
       <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
 
-      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} updateShoppingCartQuantity={props.updateShoppingCartQuantity}/>
+      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} updateShoppingCartQuantity={props.updateShoppingCartQuantity}/>
 
     </nav>
   );

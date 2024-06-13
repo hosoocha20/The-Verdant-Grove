@@ -36,6 +36,7 @@ const Layout = () => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [authErrorMsg, setAuthErrorMsg] = useState('')
   const [shoppingCart, setShoppingCart] = useState<IShoppingCartItem[]>([]);
+  const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
 
 
 
@@ -62,13 +63,13 @@ const Layout = () => {
     }else{
       setShoppingCart((prev) => [...prev, item])
     }
-
+    setOpenShoppingBagDrawer(true);
   }
 
 
   return(
     <div className='App'>
-      <Navbar shoppingCart={shoppingCart} isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult} updateShoppingCartQuantity={updateShoppingCartQuantity}/>
+      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult} updateShoppingCartQuantity={updateShoppingCartQuantity}/>
       <Outlet context={{ setIsSignedOn, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart}}/>
       <Footer />
       <ScrollRestoration />
