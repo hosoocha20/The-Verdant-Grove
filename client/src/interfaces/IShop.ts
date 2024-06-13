@@ -19,3 +19,10 @@ export interface IShopItem {
 export interface ShopType {
     shopItemArray: IShopItem[];
 }
+
+export interface IShoppingCartItem {
+  name: string;
+  quantity: number;
+  price: number;
+  imgSrc: string;
+}

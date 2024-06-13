@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { PiUserLight, PiHeart } from "react-icons/pi";
 import { TfiSearch, TfiClose } from "react-icons/tfi";
-import { HiPlus, HiMinus } from "react-icons/hi";
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { IoIosArrowBack } from "react-icons/io";
-import lemon from "../assets/lemon.png";
-import kiwifruit from "../assets/kiwifruit.png";
-import honeydew from "../assets/honeydew.png";
+
 import CounterButton from "./CounterButton";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { Link, useNavigate } from "react-router-dom";
 import { IUser } from "../interfaces/IUser";
 import Sidebar from "./Sidebar";
+import { IShoppingCartItem } from "../interfaces/IShop";
+import ShoppingDrawer from "./ShoppingDrawer";
 
 interface NavbarProps {
   isSignedOn: boolean;
@@ -29,22 +28,9 @@ const Navbar = (props: NavbarProps) => {
   const navigate = useNavigate();
   useDisableBodyScroll(openShoppingBagDrawer);
 
-  interface ShoppingCartItem {
-    name: string;
-    quantity: number;
-    price: number;
-    imgSrc: string;
-  }
-  // interface ShopMenuLinks {
-  //   name: string;
-  //   link: string;
-  // }
-  // const shopMenuLinks: ShopMenuLinks[] = [
-  //   { name: "New in", link: "new" },
-  //   { name: "GMO", link: "gmo" },
-  //   { name: "All", link: "all" },
-  // ];
-  const shoppingCartArray: ShoppingCartItem[] = [
+
+
+  const shoppingCartArray: IShoppingCartItem[] = [
     { name: "LEMON", quantity: 1, price: 40, imgSrc: "lemon-main.png" },
     { name: "KIWIFRUIT", quantity: 1, price: 45, imgSrc: "kiwifruit-main.png" },
     { name: "HONEYDEW", quantity: 1, price: 50, imgSrc: "honeydew-main.png" },
@@ -117,84 +103,10 @@ const Navbar = (props: NavbarProps) => {
           onClick={() => setOpenShoppingBagDrawer(true)}
         />
       </div>
+
       <Sidebar openNavMenu={openNavMenu} isSignedOn={props.isSignedOn} openShopOptions={openShopOptions} openShopMenu_Link={openShopMenu_Link} />
 
-      {/* <div
-        ref={clickedOutsideSidebarRef}
-        className={`nav-l-menu-drawer ${
-          openNavMenu ? "" : "nav-l-menu-drawer-close"
-        }`}
-      >
-        <div className="nav-l-menu-links-t-container">
-          <div
-            className="nav-l-menu-links-t-span-text"
-            onClick={() => openShopMenu_Link("Home")}
-          >
-            <Link to={`/`} className="nav-l-menu-drawer-link-t">
-              Home
-            </Link>
-          </div>
-          <div
-            className="nav-l-menu-links-t-span-text"
-            onClick={() => openShopMenu_Link("Seasonal")}
-          >
-            <Link to={`/Seasonal`} className="nav-l-menu-drawer-link-t">
-              Seasonal
-            </Link>
-          </div>
 
-          <div
-            className="nav-l-menu-links-t-span-text"
-            onClick={() => openShopMenu_Link("Shop")}
-          >
-            <p className="nav-l-menu-drawer-text-t">Shop</p>
-            <HiPlus
-              color={"#969696"}
-              className={`${!openShopOptions ? "" : "display-none"}`}
-            />
-            <HiMinus
-              color={"#969696"}
-              className={`${openShopOptions ? "" : "display-none"}`}
-            />
-          </div>
-          <div
-            className={`nav-l-menu-links-shop-span ${
-              openShopOptions ? "" : "display-none"
-            }`}
-            onClick={() => openShopMenu_Link("Shop-links")}
-          >
-            {shopMenuLinks.map((shopLink: ShopMenuLinks) => {
-              return <Link to={`/shop/${shopLink.link}`}>{shopLink.name}</Link>;
-            })}
-          </div>
-        </div>
-        <div className="nav-l-menu-links-b-container">
-          <Link
-            to={`/about`}
-            className="nav-l-menu-drawer-link-b"
-            onClick={() => openShopMenu_Link("About")}
-          >
-            About
-          </Link>
-          {props.isSignedOn ? (
-            <Link
-              to={`/account`}
-              className="nav-l-menu-drawer-link-b"
-              onClick={() => openShopMenu_Link("Account")}
-            >
-              Account
-            </Link>
-          ) : (
-            <Link
-              to={`/register`}
-              className="nav-l-menu-drawer-link-b"
-              onClick={() => openShopMenu_Link("Register")}
-            >
-              Register
-            </Link>
-          )}
-        </div>
-      </div> */}
 
       <div
         className={`nav-r-shopping-drawer-bg-overlay ${
@@ -208,6 +120,8 @@ const Navbar = (props: NavbarProps) => {
           openSearchBar ? "" : "nav-r-shopping-drawer-bg-close"
         }`}
       ></div>
+
+      {/*Search Bar*/}
       <div
         ref={clickedOutsideSearchRef}
         className={` ${
@@ -261,90 +175,8 @@ const Navbar = (props: NavbarProps) => {
         </form>
       </div>
 
-      <div
-        ref={clickedOutsideShoppingRef}
-        className={`nav-r-shopping-drawer ${
-          openShoppingBagDrawer ? "" : "nav-r-shopping-drawer-close"
-        }`}
-      >
-        <div className="shopping-drawer-top">
-          <div
-            className="shopping-drawer-top-back"
-            onClick={() => setOpenShoppingBagDrawer(false)}
-          >
-            <IoIosArrowBack className="shopping-drawer-back-icon" />
-            <p>BACK TO STORE</p>
-          </div>
-          <TfiClose
-            className="shopping-drawer-close-icon"
-            onClick={() => setOpenShoppingBagDrawer(false)}
-          />
-        </div>
-        <h1>Shopping Bag</h1>
-        {shoppingCartArray?.length > 0 ? (
-          <>
-            <div className="shopping-drawer-select-container">
-              <div className="shopping-drawer-select-checkbox-wrapper">
-                <input type="checkbox" id="selectBagCheckbox" checked />
-                <label htmlFor="selectBagCheckbox">Select All</label>
-              </div>
-              <p>
-                Remove Selected: <span>3 item(s)</span>
-              </p>
-            </div>
-            <div className="shopping-drawer-items-container">
-              {shoppingCartArray.map((item: ShoppingCartItem) => {
-                return (
-                  <div className="shopping-drawer-item-wrapper">
-                    <input type="checkbox" id="itemBagCheckbox" checked />
-                    <img
-                      src={`${"/src/assets/" + item.imgSrc}`}
-                      id="shopping-item-img"
-                    />
-                    <div className="shopping-drawer-item-info">
-                      <p>{item.name}</p>
-                      <CounterButton quantity={item.quantity} />
-                      <p>${item.price}</p>
-                      <button>Remove</button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </>
-        ) : (
-          <div className="nav-r-shopping-drawer-empty">Your cart is empty</div>
-        )}
+      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCartArray={shoppingCartArray}/>
 
-        <div className="shopping-drawer-checkout-container">
-          {shoppingCartArray?.length > 0 ? (
-            <>
-              <div className="shopping-drawer-subtotal-wrapper">
-                <p>Subtotal (3 items)</p>
-                <p>$100</p>
-                <p>Shipping Fee</p>
-                <p>$5</p>
-              </div>
-              <div className="shopping-drawer-total-wrapper">
-                <p>Total</p>
-                <p>$105</p>
-                <p>Includes GST of</p>
-                <p>$5.42</p>
-              </div>
-              <button className="shopping-drawer-checkout-button">
-                CHECK OUT
-              </button>
-            </>
-          ) : (
-            <button
-              className="shopping-drawer-empty-button"
-              onClick={() => setOpenShoppingBagDrawer(false)}
-            >
-              CONTIUE SHOPPING
-            </button>
-          )}
-        </div>
-      </div>
     </nav>
   );
 };
