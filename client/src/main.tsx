@@ -53,7 +53,7 @@ const Layout = () => {
   return(
     <div className='App'>
       <Navbar isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult}/>
-      <Outlet context={{ authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams}}/>
+      <Outlet context={{ setIsSignedOn, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams}}/>
       <Footer />
       <ScrollRestoration />
     </div>

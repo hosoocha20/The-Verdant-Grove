@@ -82,6 +82,14 @@ const Navbar = (props: NavbarProps) => {
 
   }
 
+  const userOnClick = () =>{
+    if (props.isSignedOn){
+      navigate('/account')
+    }else{
+      setOpenLoginDrawer(true)
+    }
+  }
+
   return (
     <nav ref={clickedOutsideSidebarRef} className="nav-container">
       <div className="nav-l-container">
@@ -112,7 +120,7 @@ const Navbar = (props: NavbarProps) => {
 
         <PiUserLight
           className="nav-r-icon"
-          onClick={() => setOpenLoginDrawer(true)}
+          onClick={userOnClick}
         />
         <LiaShoppingBagSolid
           className="nav-r-icon"
