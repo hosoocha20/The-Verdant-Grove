@@ -29,8 +29,8 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
     setCheckedAll(!checkedAll);
   };
   const getSubtotal = () : number=>{
-    const checkedArray =  props.shoppingCart.map((i) => ({ ...i, checked: !i.checked }))
-    return(checkedArray.reduce(
+    const checkedArrayTotal =  props.shoppingCart.filter((i) => i.checked === true)
+    return(checkedArrayTotal.reduce(
       (accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity),
       0,
     ))
@@ -39,7 +39,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
   const handleCheckedItemOnChange = (item: IShoppingCartItem) => {
     const checkedArray =  props.shoppingCart.map((i) => i.name === item.name ? { ...i, checked: !i.checked } : i)
     props.setShoppingCart(checkedArray);
-    const checkedArrayTotal =  props.shoppingCart.map((i) => ({ ...i, checked: !i.checked }))
+    const checkedArrayTotal =  props.shoppingCart.filter((i) => i.checked === true)
     setSubtotal(checkedArrayTotal.reduce(
       (accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity),
       0,
@@ -99,7 +99,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
   }
 
   useEffect(()=>{
-    const checkedArrayTotal =  props.shoppingCart.map((i) => ({ ...i, checked: !i.checked }))
+    const checkedArrayTotal =  props.shoppingCart.filter((i) => i.checked === true)
     setSubtotal(checkedArrayTotal.reduce(
       (accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity),
       0,
@@ -196,13 +196,13 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
           <>
             <div className="shopping-drawer-subtotal-wrapper">
               <p>Subtotal ({selectedItemLength()} items)</p>
-              <p>{subtotal}</p>
+              <p>${Number(subtotal).toFixed(2)}</p>
               <p>Shipping Fee</p>
-              <p>$10</p>
+              <p>$10.00</p>
             </div>
             <div className="shopping-drawer-total-wrapper">
               <p>Total</p>
-              <p>{subtotal + 10}</p>
+              <p>${subtotal ? Number(subtotal + 10).toFixed(2) : Number(0).toFixed(2)}</p>
             </div>
             <button className="shopping-drawer-checkout-button">
               CHECK OUT
