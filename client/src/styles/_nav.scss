@@ -405,7 +405,7 @@ padding: 2rem 4rem 2rem 4rem;
     h1{
         padding: 1.5rem 0;
         font-size: 20px;
-        font-weight: 600;
+        font-weight: 500;
     }
     
 }
@@ -454,7 +454,17 @@ padding: 2rem 4rem 2rem 4rem;
     font-weight: 500;
     margin-right: 2rem;
 
-    span{
+
+}
+.shopping-drawer-remove-selected-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    button{
+        background-color: transparent;
+        border: none;
+    }
+    p{
         font-weight: 700;
     }
 }

@@ -13,6 +13,7 @@ interface ShoppingDrawerProps {
   setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>;
   updateShoppingCartQuantity: () => void;
   removeShoppingCartItem: (item: IShoppingCartItem) => void;
+  removeSelectedShoppingCartItem: () => void;
 }
 const ShoppingDrawer = (props: ShoppingDrawerProps) => {
   const [checkedAll, setCheckedAll] = useState(true);
@@ -113,9 +114,10 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
               />
               <label htmlFor="selectBagCheckbox">Select All</label>
             </div>
-            <p>
-              Remove Selected: <span>3 item(s)</span>
-            </p>
+            <div className="shopping-drawer-remove-selected-wrapper">
+              <button onClick={props.removeSelectedShoppingCartItem}>Remove Selected:</button>
+              <p>3 item(s)</p>
+            </div>
           </div>
           <div className="shopping-drawer-items-container">
             {props.shoppingCart.map((item: IShoppingCartItem) => {

@@ -24,6 +24,7 @@ interface NavbarProps {
   openShoppingBagDrawer: boolean;
   setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   removeShoppingCartItem : (item: IShoppingCartItem) => void;
+  removeSelectedShoppingCartItem: () => void;
 }
 const Navbar = (props: NavbarProps) => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
@@ -170,7 +171,7 @@ const Navbar = (props: NavbarProps) => {
 
       <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
 
-      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} setShoppingCart={props.setShoppingCart} updateShoppingCartQuantity={props.updateShoppingCartQuantity} removeShoppingCartItem={props.removeShoppingCartItem}/>
+      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} setShoppingCart={props.setShoppingCart} updateShoppingCartQuantity={props.updateShoppingCartQuantity} removeShoppingCartItem={props.removeShoppingCartItem} removeSelectedShoppingCartItem={props.removeSelectedShoppingCartItem}/>
 
     </nav>
   );
