@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import CounterButton from "../components/CounterButton";
-import { IShopItem } from "../interfaces/IShop";
+import { IShopItem , IShoppingCartItem} from "../interfaces/IShop";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { HiPlus, HiMinus } from "react-icons/hi";
 
 const Product = () => {
   const location = useLocation();
   const { productItem } = location.state;
+  const { addToShoppingCart } : {addToShoppingCart: (item: IShoppingCartItem) => void} = useOutletContext();
   const min = 1;
   const max = 99;
   const [quantity, setQuantity] = useState(min);
+  const [thisItem, setThisItem] = useState<IShoppingCartItem>({email: "", name: productItem.name, quantity: quantity, price: productItem.price, imgSrc: productItem.imgMainSrc})
 
 
   //console.log(productItem)
@@ -33,6 +35,11 @@ const Product = () => {
       setQuantity(min)
     if (quantity > max)
       setQuantity(max)
+  }
+
+  const addToBag = () =>{
+    setThisItem({email: "", name: productItem.name, quantity: quantity, price: productItem.price, imgSrc: productItem.imgMainSrc})
+    addToShoppingCart(thisItem)
   }
 
   
@@ -83,7 +90,7 @@ const Product = () => {
             </button>
           </div>
         </div>
-        <button className="product-r-bag-button">ADD TO BAG</button>
+        <button className="product-r-bag-button" onClick={addToBag}>ADD TO BAG</button>
       </div>
     </div>
   );

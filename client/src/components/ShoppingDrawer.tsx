@@ -53,7 +53,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
               <div className="shopping-drawer-item-wrapper">
                 <input type="checkbox" id="itemBagCheckbox" checked />
                 <img
-                  src={`${"/src/assets/" + item.imgSrc}`}
+                  src={`${"/src/assets/" + item.imgSrc[0]}`}
                   id="shopping-item-img"
                 />
                 <div className="shopping-drawer-item-info">
