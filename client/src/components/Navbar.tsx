@@ -12,6 +12,7 @@ import { IUser } from "../interfaces/IUser";
 import Sidebar from "./Sidebar";
 import { IShoppingCartItem } from "../interfaces/IShop";
 import ShoppingDrawer from "./ShoppingDrawer";
+import LoginDrawer from "./LoginDrawer";
 
 interface NavbarProps {
   isSignedOn: boolean;
@@ -138,42 +139,7 @@ const Navbar = (props: NavbarProps) => {
         </form>
       </div>
 
-      <div
-        ref={clickedOutsideUserRef}
-        className={`nav-r-login-drawer ${
-          openLoginDrawer ? "" : "nav-r-login-drawer-close"
-        }`}
-      >
-        <div className="shopping-drawer-top">
-          <div
-            className="shopping-drawer-top-back"
-            onClick={() => setOpenLoginDrawer(false)}
-          >
-            <IoIosArrowBack className="shopping-drawer-back-icon" />
-            <p>BACK TO STORE</p>
-          </div>
-          <TfiClose
-            className="shopping-drawer-close-icon"
-            onClick={() => setOpenLoginDrawer(false)}
-          />
-        </div>
-        <h1>Log in</h1>
-        <form className="login-drawer-form">
-          <div className="login-drawer-email-wrapper">
-            <input type="email" id="email-login" placeholder="EMAIL" />
-            <p>EMAIL</p>
-          </div>
-          <div className="login-drawer-pw-wrapper">
-            <input type="password" id="pw-login" placeholder="PASSWORD" />
-            <p>PASSWORD</p>
-          </div>
-          <button className="login-drawer-login-button">LOG IN</button>
-          <div className="login-drawer-signup-wrapper">
-            <p>Are you not a member yet?</p>
-            <button className="login-drawer-signup-button">SIGN UP</button>
-          </div>
-        </form>
-      </div>
+      <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
 
       <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCartArray={shoppingCartArray}/>
 
