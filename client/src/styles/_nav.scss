@@ -259,7 +259,10 @@
         width: 100%;
         padding: 0.5rem 0.5rem;
         border: none;
-        font-size: 14px;
+        font-size: 15px;
+        color: $silver-950;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         &:focus{
             outline: none;
         }

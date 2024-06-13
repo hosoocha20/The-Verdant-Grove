@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
-import {Outlet, RouterProvider, createBrowserRouter, ScrollRestoration, useNavigate} from 'react-router-dom'
+import {Outlet, RouterProvider, createBrowserRouter, ScrollRestoration, useNavigate, useSearchParams} from 'react-router-dom'
 import App from './App.tsx'
 import './index.css'
 import './styles/App.scss';
@@ -18,7 +18,7 @@ import Account from './pages/Account.tsx'
 import UserProfile from './components/UserProfile.tsx'
 import Orders from './components/Orders.tsx'
 import { IUser } from './interfaces/IUser.ts'
-//import { shopItemArray } from './data/ShopData.ts'
+import { shopItemArrayAll } from './data/ShopData.ts'
 
 
 
@@ -26,6 +26,10 @@ const Layout = () => {
   const navigate = useNavigate();
   const [isSignedOn, setIsSignedOn] = useState(false);
   const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: ''})
+
+  const [searchResult, setSearchResult] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  //const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword')?.trim() || '')
   
   
   const [users, setUsers] = useState<IUser[]>([]);
@@ -48,8 +52,8 @@ const Layout = () => {
 
   return(
     <div className='App'>
-      <Navbar isSignedOn={isSignedOn} />
-      <Outlet context={{ authedUser, setAuthedUser, signUp}}/>
+      <Navbar isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult}/>
+      <Outlet context={{ authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams}}/>
       <Footer />
       <ScrollRestoration />
     </div>

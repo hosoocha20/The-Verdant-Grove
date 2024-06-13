@@ -1,12 +1,19 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, SetURLSearchParams, useOutletContext, useSearchParams } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
 import { TfiSearch } from "react-icons/tfi";
+import { shopItemArrayAll } from "../data/ShopData";
+import { IShopItem } from "../interfaces/IShop";
 
 const SearchResults = () => {
+    //const [searchParams, setSearchParams] = useSearchParams();
     const [top, setTop] = useState(true)
-    const [searchResultItems, setSearchResultItems] = useState(false);
+    const {searchResult,  searchParams, setSearchParams}: {searchResult: string, searchParams: URLSearchParams, setSearchParams: SetURLSearchParams} = useOutletContext();
+    //const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword')?.trim() || '')
+    const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword')?.trim() || '')
+    const [thisSearchResult, setThisSearchResult] = useState(searchResult);
+    const [shopItemArray, setShopItemArray] = useState<IShopItem[]>([])
 
 
   
@@ -19,43 +26,50 @@ const SearchResults = () => {
       imgMainSrc: string[];
     }
 
-    const shopItemArray: ShopItem[] = [
-        { productId: '1', name: "RED CHERRY", quantity: 1, price: 40, imgMainSrc: ["cherry-main.png", "cherry-hover.png"], category: "new" },
-        { productId: '2', name: "HONEYDEW MELON", quantity: 1, price: 45, imgMainSrc: ["honeydew-main.png", "honeydew-hover.png"], category: "new"  },
-        { productId: '3', name: "KIWIFRUIT", quantity: 1, price: 50, imgMainSrc: ["kiwifruit-main.png", "kiwifruit-hover.png"], category: "new"  },
-        { productId: '4', name: "LEMON", quantity: 1, price: 50, imgMainSrc: ["lemon-main.png", "lemon-hover.png"], category: "new"  },
-        { productId: '5', name: "PEAR", quantity: 1, price: 50, imgMainSrc: ["pear-main.png", "pear-hover.png"] , category: "new" },
-        { productId: '6', name: "RASPBERRY", quantity: 1, price: 50, imgMainSrc: ["raspberry-main.png", "raspberry-hover.png"] , category: "new" },
-        { productId: '7', name: "STRAWBERRY", quantity: 1, price: 50, imgMainSrc: ["strawberry-main.png", "strawberry-hover.png"] , category: "new" },
-        { productId: '8', name: "WATERMELON", quantity: 1, price: 50, imgMainSrc: ["watermelon-main.png", "watermelon-hover.png"] , category: "new" },
-        { productId: '9', name: "DRAGONFRUIT", quantity: 1, price: 50, imgMainSrc: ["dragonfruit-main.png", "dragonfruit-hover.png"] , category: "new" },
-        { productId: '10', name: "APRICOT", quantity: 1, price: 50, imgMainSrc: ["apricot-main.png", "apricot-hover.png"] , category: "new" },
-        { productId: '11', name: "BLUEBERRY", quantity: 1, price: 50, imgMainSrc: ["blueberry-main.png", "blueberry-hover.png"] , category: "new" },
-        { productId: '12', name: "PASSIONFRUIT", quantity: 1, price: 50, imgMainSrc: ["passionfruit-main.png", "passionfruit-hover.png"] , category: "new" },
-        { productId: '13', name: "FIG", quantity: 1, price: 50, imgMainSrc: ["fig-main.png", "fig-hover.png"] , category: "new" },
-        { productId: '14', name: "PEACH", quantity: 1, price: 50, imgMainSrc: ["peach-main.png", "peach-hover.png"] , category: "new" },
-        { productId: '15' ,name: "MANGO", quantity: 1, price: 50, imgMainSrc: ["mango-main.png", "mango-hover.png"], category: "new"  },
-        { productId: '16', name: "COCONUT", quantity: 1, price: 50, imgMainSrc: ["coconut-main.png", "coconut-hover.png"], category: "new" },
-        { productId: '17', name: "AVOCADO", quantity: 1, price: 50, imgMainSrc: ["avocado-main.png", "avocado-hover.png"], category: "all-rounder" },
-        { productId: '18', name: "BANANNA", quantity: 1, price: 50, imgMainSrc: ["bananna-main.png", "bananna-hover.png"], category: "all-rounder" },
-        { productId: '19', name: "FEIJOA", quantity: 1, price: 50, imgMainSrc: ["feijoa-main.png", "feijoa-hover.png"], category: "nz-grown" },
-        { productId: '20', name: "GRAPEFRUIT", quantity: 1, price: 50, imgMainSrc: ["grapefruit-main.png", "grapefruit-hover.png"], category: "all-rounder" },
-        { productId: '21', name: "GRANNY SMITH", quantity: 1, price: 50, imgMainSrc: ["greenapple-main.png", "greenapple-hover.png"], category: "nz-grown" },
-        { productId: '22', name: "GUAVA", quantity: 1, price: 50, imgMainSrc: ["guava-main.png", "guava-hover.png"], category: "summer" },
-        { productId: '23', name: "LYCHEE", quantity: 1, price: 50, imgMainSrc: ["lychee-main.png", "lychee-hover.png"], category: "exotic" },
-        { productId: '24', name: "HALLABONG", quantity: 1, price: 50, imgMainSrc: ["hallabong-main.png", "hallabong-hover.png"], category: "luxury" },
-        { productId: '25', name: "PINEAPPLE", quantity: 1, price: 50, imgMainSrc: ["pineapple-main.png", "pineapple-hover.png"], category: "exotic" },
-        { productId: '26', name: "RED APPLE", quantity: 1, price: 50, imgMainSrc: ["apple-main.png", "apple-hover.png"], category: "nz-grown" },
-        { productId: '27', name: "YUZU", quantity: 1, price: 50, imgMainSrc: ["yuzu-main.png", "yuzu-hover.png"], category: "luxury" }
-      ];
+
     
       const [itemsPerPage, setItemsPerPage] = useState(12);
       const [page, setPage] = useState(1);
-      const [noOfPages] = useState(Math.ceil(shopItemArray.length / itemsPerPage));
+      const [noOfPages, setNoOfPages] = useState(Math.ceil(shopItemArray.length / itemsPerPage));
     
       const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
+        scrollToTop();
       };
+
+      const scrollToTop = () => {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+      });
+      }
+
+      const searchFormSubmit = (e: React.FormEvent) =>{
+        e.preventDefault();
+        setSearchParams({keyword: thisSearchResult.trim()})
+      }
+
+      useEffect(() =>{
+        const searchedArray = shopItemArrayAll.filter((item) => item.name.includes(thisSearchResult.toUpperCase())) || []
+        setNoOfPages(Math.ceil(shopItemArray.length / itemsPerPage))
+        setPage(1);
+        setShopItemArray(searchedArray);
+        setSearchQuery(searchParams.get('keyword')?.trim() || '')
+        setThisSearchResult(searchParams.get('keyword')?.trim() || '')
+      },[searchParams])
+      useEffect(() =>{
+        const searchedArray = shopItemArrayAll.filter((item) => item.name.includes(thisSearchResult.toUpperCase())) || []
+        setShopItemArray(searchedArray);
+        setNoOfPages(Math.ceil(shopItemArray.length / itemsPerPage))
+        setPage(1);
+      },[searchQuery])
+
+
+
+
+
+
   return (
     <div className="searchResults-container">
       <div
@@ -64,14 +78,15 @@ const SearchResults = () => {
         <TfiSearch />
         <form
           className="searchResults-searchbar-form"
+          onSubmit={(e)=>searchFormSubmit(e)}
         >
-          <input type="text" placeholder="SEARCH FOR SOMETHING..." />
+          <input type="text" placeholder="SEARCH FOR SOMETHING..." value={thisSearchResult} onChange={(e) => setThisSearchResult(e.target.value)}/>
           <button>Search</button>
         </form>
       </div>
       <div className="searchResults-results-container">
-        {searchResultItems ? (
-            <p>10 results</p>
+        {shopItemArray.length ? (
+            <p>{shopItemArray.length} Results</p>
         )
     :
     (
@@ -79,7 +94,7 @@ const SearchResults = () => {
     )}
         
       </div>
-      {searchResultItems && (
+      {shopItemArray.length !== 0 && (
         <div className={`searchResults-product-container`}>
 
 

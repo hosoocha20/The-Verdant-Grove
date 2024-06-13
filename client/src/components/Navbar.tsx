@@ -4,18 +4,20 @@ import { TfiSearch, TfiClose } from "react-icons/tfi";
 import { LiaShoppingBagSolid } from "react-icons/lia";
 import { IoIosArrowBack } from "react-icons/io";
 
-import CounterButton from "./CounterButton";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, createSearchParams } from "react-router-dom";
 import { IUser } from "../interfaces/IUser";
 import Sidebar from "./Sidebar";
 import { IShoppingCartItem } from "../interfaces/IShop";
 import ShoppingDrawer from "./ShoppingDrawer";
 import LoginDrawer from "./LoginDrawer";
+import SearchResults from "../pages/SearchResults";
 
 interface NavbarProps {
   isSignedOn: boolean;
+  searchResult: string;
+  setSearchResult: React.Dispatch<React.SetStateAction<string>>;
 }
 const Navbar = (props: NavbarProps) => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
@@ -23,8 +25,7 @@ const Navbar = (props: NavbarProps) => {
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
-  const navMenuLinks_t = ["Home", "Seasonal", "Shop"];
-  const navMenuLinks_b = ["About", "Account"];
+
 
   const navigate = useNavigate();
   useDisableBodyScroll(openShoppingBagDrawer);
@@ -47,6 +48,11 @@ const Navbar = (props: NavbarProps) => {
     setOpenNavMenu(false);
   };
 
+  const openSearchBarOnClick = () =>{
+    setOpenSearchBar(true);
+    props.setSearchResult('')
+  }
+
   const clickedOutsideSearchRef = useOutsideClick(() => {
     if (openSearchBar) {
       setOpenSearchBar(false);
@@ -66,6 +72,15 @@ const Navbar = (props: NavbarProps) => {
   const clickedOutsideSidebarRef = useOutsideClick(() => {
     if (openNavMenu) setOpenNavMenu(false);
   });
+
+  const searchFormOnSubmit = (e: React.FormEvent) => {
+    setOpenNavMenu(false);
+    setOpenSearchBar(false);
+    e.preventDefault();
+    const params = {keyword: props.searchResult.trim()}
+    navigate({pathname: `/product/search`, search: `?${createSearchParams(params)}`})
+
+  }
 
   return (
     <nav ref={clickedOutsideSidebarRef} className="nav-container">
@@ -92,7 +107,7 @@ const Navbar = (props: NavbarProps) => {
       <div className="nav-r-icons-container">
         <TfiSearch
           className="nav-r-search-icon"
-          onClick={() => setOpenSearchBar(true)}
+          onClick={openSearchBarOnClick}
         />
 
         <PiUserLight
@@ -108,7 +123,7 @@ const Navbar = (props: NavbarProps) => {
       <Sidebar openNavMenu={openNavMenu} isSignedOn={props.isSignedOn} openShopOptions={openShopOptions} openShopMenu_Link={openShopMenu_Link} />
 
 
-
+      {/*Background overlays for drawers*/}
       <div
         className={`nav-r-shopping-drawer-bg-overlay ${
           openShoppingBagDrawer || openLoginDrawer
@@ -132,9 +147,9 @@ const Navbar = (props: NavbarProps) => {
         <TfiSearch />
         <form
           className="nav-searchbar-form"
-          onSubmit={() => navigate("/product/search")}
+          onSubmit={(e) => searchFormOnSubmit(e)}
         >
-          <input type="text" placeholder="SEARCH FOR SOMETHING..." />
+          <input type="text" placeholder="SEARCH FOR SOMETHING..." value={props.searchResult} onChange={(e)=>props.setSearchResult(e.target.value)} />
           <button>SEARCH</button>
         </form>
       </div>
