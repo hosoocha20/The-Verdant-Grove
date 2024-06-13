@@ -65,12 +65,14 @@ const Layout = () => {
     setOpenShoppingBagDrawer(true);
   }
 
-  
+  const removeShoppingCartItem = (item: IShoppingCartItem) => {
+    setShoppingCart((prev) => prev.filter((i) => i.name !== item.name));
+  };
 
 
   return(
     <div className='App'>
-      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult} updateShoppingCartQuantity={updateShoppingCartQuantity}/>
+      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult} updateShoppingCartQuantity={updateShoppingCartQuantity} removeShoppingCartItem={removeShoppingCartItem }/>
       <Outlet context={{ setIsSignedOn, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart}}/>
       <Footer />
       <ScrollRestoration />

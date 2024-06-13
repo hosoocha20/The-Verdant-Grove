@@ -12,6 +12,7 @@ interface ShoppingDrawerProps {
   shoppingCart: IShoppingCartItem[];
   setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>;
   updateShoppingCartQuantity: () => void;
+  removeShoppingCartItem: (item: IShoppingCartItem) => void;
 }
 const ShoppingDrawer = (props: ShoppingDrawerProps) => {
   const [checkedAll, setCheckedAll] = useState(true);
@@ -149,7 +150,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
                       </button>
                     </div>
                     <p>${item.price}</p>
-                    <button>Remove</button>
+                    <button onClick={()=> props.removeShoppingCartItem(item)}>Remove</button>
                   </div>
                 </div>
               );
