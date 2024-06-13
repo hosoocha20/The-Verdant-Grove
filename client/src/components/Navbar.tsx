@@ -71,6 +71,11 @@ const Navbar = (props: NavbarProps) => {
     }
   });
 
+  const clickedOutsideSidebarRef = useOutsideClick(() => {
+    if (openNavMenu)
+        setOpenNavMenu(false);
+  })
+
   return (
     <nav className="nav-container">
       <div className="nav-l-container">
@@ -109,7 +114,7 @@ const Navbar = (props: NavbarProps) => {
         />
       </div>
 
-      <div
+      <div ref={clickedOutsideSidebarRef}
         className={`nav-l-menu-drawer ${
           openNavMenu ? "" : "nav-l-menu-drawer-close"
         }`}
