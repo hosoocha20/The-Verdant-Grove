@@ -4,9 +4,10 @@ import CounterButton from "./CounterButton";
 import { IoIosArrowBack } from "react-icons/io";
 import { TfiClose } from "react-icons/tfi";
 import { HiPlus, HiMinus } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 interface ShoppingDrawerProps {
+  isSignedOn: boolean;
   clickedOutsideShoppingRef: React.RefObject<HTMLDivElement>;
   openShoppingBagDrawer: boolean;
   setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,7 +18,8 @@ interface ShoppingDrawerProps {
 }
 const ShoppingDrawer = (props: ShoppingDrawerProps) => {
   const [checkedAll, setCheckedAll] = useState(true);
-  
+  const navigate = useNavigate();
+
   const min = 1;
   const max = 99;
 
@@ -28,85 +30,102 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
     );
     setCheckedAll(!checkedAll);
   };
-  const getSubtotal = () : number=>{
-    const checkedArrayTotal =  props.shoppingCart.filter((i) => i.checked === true)
-    return(checkedArrayTotal.reduce(
-      (accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity),
-      0,
-    ))
-  }
-  const [subtotal, setSubtotal] = useState(getSubtotal())
+  const getSubtotal = (): number => {
+    const checkedArrayTotal = props.shoppingCart.filter(
+      (i) => i.checked === true
+    );
+    return checkedArrayTotal.reduce(
+      (accumulator, currentValue) =>
+        accumulator + currentValue.price * currentValue.quantity,
+      0
+    );
+  };
+  const [subtotal, setSubtotal] = useState(getSubtotal());
   const handleCheckedItemOnChange = (item: IShoppingCartItem) => {
-    const checkedArray =  props.shoppingCart.map((i) => i.name === item.name ? { ...i, checked: !i.checked } : i)
+    const checkedArray = props.shoppingCart.map((i) =>
+      i.name === item.name ? { ...i, checked: !i.checked } : i
+    );
     props.setShoppingCart(checkedArray);
-    const checkedArrayTotal =  props.shoppingCart.filter((i) => i.checked === true)
-    setSubtotal(checkedArrayTotal.reduce(
-      (accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity),
-      0,
-    ))
-
-
+    const checkedArrayTotal = props.shoppingCart.filter(
+      (i) => i.checked === true
+    );
+    setSubtotal(
+      checkedArrayTotal.reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue.price * currentValue.quantity,
+        0
+      )
+    );
   };
 
-  const decrement = (item: IShoppingCartItem) =>{
-    if (item.quantity > min){
+  const decrement = (item: IShoppingCartItem) => {
+    if (item.quantity > min) {
       props.setShoppingCart((prev) =>
         prev.map((i) =>
           i.name === item.name ? { ...i, quantity: i.quantity - 1 } : i
         )
       );
     }
-  }
-  const increment = (item: IShoppingCartItem) =>{
-    if (item.quantity < max){
+  };
+  const increment = (item: IShoppingCartItem) => {
+    if (item.quantity < max) {
       props.setShoppingCart((prev) =>
         prev.map((i) =>
           i.name === item.name ? { ...i, quantity: i.quantity + 1 } : i
         )
       );
     }
-  }
+  };
 
-  const handleQuantityOnChange = (e:React.ChangeEvent<HTMLInputElement>, item: IShoppingCartItem) => {
+  const handleQuantityOnChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    item: IShoppingCartItem
+  ) => {
     props.setShoppingCart((prev) =>
       prev.map((i) =>
         i.name === item.name ? { ...i, quantity: e.target.valueAsNumber } : i
       )
     );
-  }
-  const handleQuantityOnBlur = (item: IShoppingCartItem) =>{
-    if (item.quantity < min || isNaN(item.quantity)){
+  };
+  const handleQuantityOnBlur = (item: IShoppingCartItem) => {
+    if (item.quantity < min || isNaN(item.quantity)) {
       props.setShoppingCart((prev) =>
-        prev.map((i) =>
-          i.name === item.name ? { ...i, quantity: min} : i
-        )
+        prev.map((i) => (i.name === item.name ? { ...i, quantity: min } : i))
       );
     }
-    
-    if (item.quantity > max){
-      props.setShoppingCart((prev) =>
-        prev.map((i) =>
-          i.name === item.name ? { ...i, quantity: max } : i
-        )
-      );
-    }
-      
-  }
 
-  const selectedItemLength = () : number =>{
-    const checkedArray = props.shoppingCart.filter((i) => i.checked === true)
+    if (item.quantity > max) {
+      props.setShoppingCart((prev) =>
+        prev.map((i) => (i.name === item.name ? { ...i, quantity: max } : i))
+      );
+    }
+  };
+
+  const selectedItemLength = (): number => {
+    const checkedArray = props.shoppingCart.filter((i) => i.checked === true);
     return checkedArray.length;
+  };
+
+  const checkoutOnClick = () =>{
+    props.setOpenShoppingBagDrawer(false)
+    if (props.isSignedOn)
+      navigate('/checkout')
+    else 
+      navigate('/login')
   }
 
-  useEffect(()=>{
-    const checkedArrayTotal =  props.shoppingCart.filter((i) => i.checked === true)
-    setSubtotal(checkedArrayTotal.reduce(
-      (accumulator, currentValue) => accumulator + (currentValue.price * currentValue.quantity),
-      0,
-    ))
-  },[props.shoppingCart])
-
-  
+  useEffect(() => {
+    const checkedArrayTotal = props.shoppingCart.filter(
+      (i) => i.checked === true
+    );
+    setSubtotal(
+      checkedArrayTotal.reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue.price * currentValue.quantity,
+        0
+      )
+    );
+  }, [props.shoppingCart]);
 
   return (
     <div
@@ -143,7 +162,9 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
               <label htmlFor="selectBagCheckbox">Select All</label>
             </div>
             <div className="shopping-drawer-remove-selected-wrapper">
-              <button onClick={props.removeSelectedShoppingCartItem}>Remove Selected:</button>
+              <button onClick={props.removeSelectedShoppingCartItem}>
+                Remove Selected:
+              </button>
               <p>{selectedItemLength()} item(s)</p>
             </div>
           </div>
@@ -165,7 +186,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
                   <div className="shopping-drawer-item-info">
                     <p>{item.name}</p>
                     <div className="counter-button-wrapper">
-                      <button onClick={()=>decrement(item)}>
+                      <button onClick={() => decrement(item)}>
                         <HiMinus />
                       </button>
                       <input
@@ -173,14 +194,16 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
                         value={item.quantity}
                         max={max}
                         onChange={(e) => handleQuantityOnChange(e, item)}
-                        onBlur={()=>handleQuantityOnBlur(item)}
+                        onBlur={() => handleQuantityOnBlur(item)}
                       />
-                      <button onClick={()=>increment(item)}>
+                      <button onClick={() => increment(item)}>
                         <HiPlus />
                       </button>
                     </div>
                     <p>${Number(item.price).toFixed(2)}</p>
-                    <button onClick={()=> props.removeShoppingCartItem(item)}>Remove</button>
+                    <button onClick={() => props.removeShoppingCartItem(item)}>
+                      Remove
+                    </button>
                   </div>
                 </div>
               );
@@ -202,13 +225,17 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
             </div>
             <div className="shopping-drawer-total-wrapper">
               <p>Total</p>
-              <p>${subtotal ? Number(subtotal + 10).toFixed(2) : Number(0).toFixed(2)}</p>
+              <p>
+                $
+                {subtotal
+                  ? Number(subtotal + 10).toFixed(2)
+                  : Number(0).toFixed(2)}
+              </p>
             </div>
-            <Link to={'/login'} onClick={() => props.setOpenShoppingBagDrawer(false)}>
-            <button className="shopping-drawer-checkout-button">
-              CHECK OUT
-            </button>
-            </Link>
+              <button className="shopping-drawer-checkout-button" onClick={checkoutOnClick}>
+                CHECK OUT
+              </button>
+
           </>
         ) : (
           <button

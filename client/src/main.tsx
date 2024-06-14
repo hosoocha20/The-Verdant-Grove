@@ -21,6 +21,7 @@ import { ILoginUser, IUser } from './interfaces/IUser.ts'
 import { shopItemArrayAll } from './data/ShopData.ts'
 import { IShoppingCartItem } from './interfaces/IShop.ts'
 import Login from './pages/Login.tsx'
+import Checkout from './pages/Checkout.tsx'
 
 
 
@@ -178,6 +179,10 @@ const router = createBrowserRouter([{
               element: <UserProfile />
             }
           ]
+        },
+        {
+          path: '/checkout',
+          element: <Checkout/>
         },
         {
           path: '*',
