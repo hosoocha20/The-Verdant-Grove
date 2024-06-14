@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Outlet, Link, NavLink, useOutletContext } from "react-router-dom";
+import { IUser } from "../interfaces/IUser";
 
 const Account = () => {
-  const {logOut} : {logOut: ()=> void} = useOutletContext();
+  const {logOut, authedUser, updateUserProfile,authedEmail} : {logOut: ()=> void, authedUser: IUser, updateUserProfile : (e: React.MouseEvent<HTMLButtonElement>, update: IUser)=>void, authedEmail: string} = useOutletContext();
   return (
     <div className="account-container">
       <h1>My Account</h1>
@@ -14,7 +15,7 @@ const Account = () => {
           <Link to={"../"} className="account-link" onClick={logOut}>Logout</Link>
         </div>
         <div className="account-flex-wrap-r">
-          <Outlet />
+          <Outlet context={{authedUser, updateUserProfile, authedEmail}}/>
         </div>
       </div>
     </div>

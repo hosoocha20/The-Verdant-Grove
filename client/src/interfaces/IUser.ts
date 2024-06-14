@@ -5,6 +5,15 @@ export interface IUser{
     pw: string;
 }
 
+export interface IUserProfile{
+    firstName: string;
+    lastName: string;
+    email: string;
+    address1: string;
+    address2: string;
+    zip: string;
+}
+
 export interface ILoginUser{
     email: string;
     pw: string;

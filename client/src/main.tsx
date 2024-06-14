@@ -28,6 +28,7 @@ const Layout = () => {
   const navigate = useNavigate();
   const [isSignedOn, setIsSignedOn] = useState(false);
   const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: ''});
+  const [authedEmail, setAuthedEmail] = useState('');
 
   const [searchResult, setSearchResult] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,6 +60,7 @@ const Layout = () => {
     e.preventDefault();
     if (users.some(u=> (u.email === user.email && u.pw === user.pw))){
       setIsSignedOn(true);
+      setAuthedEmail(user.email)
       const findUser = users.find(u => (u.email === user.email));
       if (findUser)
         setAuthedUser(findUser);
@@ -93,11 +95,18 @@ const Layout = () => {
     setShoppingCart((prev) => prev.filter((i) => i.checked !== true));
   }
 
+  /*Account*/ 
+  const updateUserProfile = (e: React.MouseEvent<HTMLButtonElement>, update: IUser) =>{
+    e.preventDefault();
+    setUsers((prev) => prev.map((u) => (u.email === update.email ? {...u, firstName: update.firstName, lastName: update.lastName} : u)));
+    setAuthedUser(update);
+  }
+
 
   return(
     <div className='App'>
       <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} logIn={logIn} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem}/>
-      <Outlet context={{ setIsSignedOn, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut, authErrorMsg, setAuthErrorMsg}}/>
+      <Outlet context={{ setIsSignedOn, authedEmail, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut, authErrorMsg, setAuthErrorMsg, updateUserProfile}}/>
       <Footer />
       <ScrollRestoration />
     </div>
