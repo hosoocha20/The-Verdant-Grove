@@ -35,20 +35,22 @@ const Layout = () => {
   
   
   const [users, setUsers] = useState<IUser[]>([]);
-  const [authErrorMsg, setAuthErrorMsg] = useState('')
+  const [authErrorMsg, setAuthErrorMsg] = useState({msg: ''})
   const [shoppingCart, setShoppingCart] = useState<IShoppingCartItem[]>([]);
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
 
 
 
-  const signUp = (e: React.FormEvent) =>{
+  const signUp = (e: React.FormEvent, signupUser: IUser) =>{
     e.preventDefault();
-    if (users.some(u=> u.email === authedUser.email)){
-      setAuthErrorMsg("An account with this email already exists.")
+    if (users.some(u=> u.email === signupUser.email)){
+      setAuthErrorMsg({...authErrorMsg, msg: "An account with this email already exists."})
       return
     }
-    setUsers((prev) => [...prev, authedUser])
+    setUsers((prev) => [...prev, signupUser])
+    setAuthedUser(signupUser)
     setIsSignedOn(true);
+    setAuthErrorMsg({msg: ''});
     //setAuthedUser((user) => ({ ...user, firstName: e.target.value }))
     navigate("/")
   }
@@ -62,7 +64,7 @@ const Layout = () => {
         setAuthedUser(findUser);
       navigate("/")
     }else{
-      setAuthErrorMsg("Your email or password is incorrect. Please try again.")
+      setAuthErrorMsg({...authErrorMsg, msg: "Your email or password is incorrect. Please try again."})
     }
   }
 
@@ -95,7 +97,7 @@ const Layout = () => {
   return(
     <div className='App'>
       <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} logIn={logIn} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem}/>
-      <Outlet context={{ setIsSignedOn, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut}}/>
+      <Outlet context={{ setIsSignedOn, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut, authErrorMsg, setAuthErrorMsg}}/>
       <Footer />
       <ScrollRestoration />
     </div>
