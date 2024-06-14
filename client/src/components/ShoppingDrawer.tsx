@@ -4,6 +4,7 @@ import CounterButton from "./CounterButton";
 import { IoIosArrowBack } from "react-icons/io";
 import { TfiClose } from "react-icons/tfi";
 import { HiPlus, HiMinus } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 interface ShoppingDrawerProps {
   clickedOutsideShoppingRef: React.RefObject<HTMLDivElement>;
@@ -11,7 +12,6 @@ interface ShoppingDrawerProps {
   setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   shoppingCart: IShoppingCartItem[];
   setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>;
-  updateShoppingCartQuantity: () => void;
   removeShoppingCartItem: (item: IShoppingCartItem) => void;
   removeSelectedShoppingCartItem: () => void;
 }
@@ -204,9 +204,11 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
               <p>Total</p>
               <p>${subtotal ? Number(subtotal + 10).toFixed(2) : Number(0).toFixed(2)}</p>
             </div>
+            <Link to={'/login'} onClick={() => props.setOpenShoppingBagDrawer(false)}>
             <button className="shopping-drawer-checkout-button">
               CHECK OUT
             </button>
+            </Link>
           </>
         ) : (
           <button

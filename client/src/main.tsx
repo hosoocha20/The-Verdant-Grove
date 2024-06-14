@@ -17,16 +17,17 @@ import SearchResults from './pages/SearchResults.tsx'
 import Account from './pages/Account.tsx'
 import UserProfile from './components/UserProfile.tsx'
 import Orders from './components/Orders.tsx'
-import { IUser } from './interfaces/IUser.ts'
+import { ILoginUser, IUser } from './interfaces/IUser.ts'
 import { shopItemArrayAll } from './data/ShopData.ts'
 import { IShoppingCartItem } from './interfaces/IShop.ts'
+import Login from './pages/Login.tsx'
 
 
 
 const Layout = () => {
   const navigate = useNavigate();
   const [isSignedOn, setIsSignedOn] = useState(false);
-  const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: ''})
+  const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: ''});
 
   const [searchResult, setSearchResult] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
@@ -52,9 +53,27 @@ const Layout = () => {
     navigate("/")
   }
 
-  const updateShoppingCartQuantity = () =>{
-
+  const logIn = (e: React.FormEvent, user: ILoginUser) =>{
+    e.preventDefault();
+    if (users.some(u=> (u.email === user.email && u.pw === user.pw))){
+      setIsSignedOn(true);
+      const findUser = users.find(u => (u.email === user.email));
+      if (findUser)
+        setAuthedUser(findUser);
+      navigate("/")
+    }else{
+      setAuthErrorMsg("Your email or password is incorrect. Please try again.")
+    }
   }
+
+  const logOut = () => {
+    setAuthedUser({firstName: '', lastName: '', email: '', pw: ''});
+    setIsSignedOn(false)
+  }
+  // const updateShoppingCartQuantity = () =>{
+
+  // }
+
   const addToShoppingCart = (item: IShoppingCartItem) =>{
     const isItemInBag = shoppingCart.find((i) => i.name === item.name)
     if (isItemInBag){
@@ -75,8 +94,8 @@ const Layout = () => {
 
   return(
     <div className='App'>
-      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} searchResult={searchResult} setSearchResult={setSearchResult} updateShoppingCartQuantity={updateShoppingCartQuantity} removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem}/>
-      <Outlet context={{ setIsSignedOn, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart}}/>
+      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} logIn={logIn} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem}/>
+      <Outlet context={{ setIsSignedOn, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut}}/>
       <Footer />
       <ScrollRestoration />
     </div>
@@ -130,6 +149,10 @@ const router = createBrowserRouter([{
         {
           path: '/register',
           element: <Signup />
+        },
+        {
+          path: '/login',
+          element: <Login />
         },
         {
           path: '/account',

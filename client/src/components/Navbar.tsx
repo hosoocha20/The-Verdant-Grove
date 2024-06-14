@@ -7,7 +7,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useDisableBodyScroll } from "../hooks/useDisableBodyScroll";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { Link, useNavigate, createSearchParams } from "react-router-dom";
-import { IUser } from "../interfaces/IUser";
+import { IUser, ILoginUser } from "../interfaces/IUser";
 import Sidebar from "./Sidebar";
 import { IShoppingCartItem } from "../interfaces/IShop";
 import ShoppingDrawer from "./ShoppingDrawer";
@@ -16,11 +16,11 @@ import SearchResults from "../pages/SearchResults";
 
 interface NavbarProps {
   isSignedOn: boolean;
+  logIn : (e: React.FormEvent, user: ILoginUser) => void;
   searchResult: string;
   setSearchResult: React.Dispatch<React.SetStateAction<string>>;
   shoppingCart: IShoppingCartItem[];
   setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>;
-  updateShoppingCartQuantity: () => void;
   openShoppingBagDrawer: boolean;
   setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   removeShoppingCartItem : (item: IShoppingCartItem) => void;
@@ -169,9 +169,9 @@ const Navbar = (props: NavbarProps) => {
         </form>
       </div>
 
-      <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
+      <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer} logIn={props.logIn}/>
 
-      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} setShoppingCart={props.setShoppingCart} updateShoppingCartQuantity={props.updateShoppingCartQuantity} removeShoppingCartItem={props.removeShoppingCartItem} removeSelectedShoppingCartItem={props.removeSelectedShoppingCartItem}/>
+      <ShoppingDrawer clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} setShoppingCart={props.setShoppingCart}  removeShoppingCartItem={props.removeShoppingCartItem} removeSelectedShoppingCartItem={props.removeSelectedShoppingCartItem}/>
 
     </nav>
   );

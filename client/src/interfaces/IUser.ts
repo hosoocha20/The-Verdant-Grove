@@ -5,3 +5,7 @@ export interface IUser{
     pw: string;
 }
 
+export interface ILoginUser{
+    email: string;
+    pw: string;
+}
