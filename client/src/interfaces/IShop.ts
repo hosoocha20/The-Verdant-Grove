@@ -25,6 +25,10 @@ export interface IShoppingCartItem {
   name: string;
   quantity: number;
   price: number;
-  imgSrc: string;
+  imgSrc: string[];
   checked: boolean;
+}
+
+export interface ICheckoutItems {
+  checkoutProducts: IShoppingCartItem[];
 }

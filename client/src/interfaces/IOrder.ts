@@ -1,4 +1,4 @@
-import { IShoppingCartItem } from "./IShop";
+import { ICheckoutItems, IShoppingCartItem } from "./IShop";
 
 export interface IOrderDetail {
     orderNo: string;
@@ -7,7 +7,9 @@ export interface IOrderDetail {
     email: string;
     delivery: IOrderDelivery;
     products: IShoppingCartItem[];
+    subtotal: number;
     total: number;
+    shipping: number;
     payment: string;
 
 }
