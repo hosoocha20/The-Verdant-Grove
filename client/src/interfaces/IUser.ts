@@ -1,8 +1,11 @@
+import { IShoppingCartItem } from "./IShop";
+
 export interface IUser{
     firstName: string;
     lastName: string;
     email: string;
     pw: string;
+    cart: IShoppingCartItem[];
 }
 
 export interface IUserProfile{

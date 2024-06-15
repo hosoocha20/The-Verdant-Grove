@@ -22,13 +22,14 @@ import { shopItemArrayAll } from './data/ShopData.ts'
 import { IShoppingCartItem } from './interfaces/IShop.ts'
 import Login from './pages/Login.tsx'
 import Checkout from './pages/Checkout.tsx'
+import Payment from './pages/Payment.tsx'
 
 
 
 const Layout = () => {
   const navigate = useNavigate();
   const [isSignedOn, setIsSignedOn] = useState(false);
-  const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: ''});
+  const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: '', cart: []});
   const [authedEmail, setAuthedEmail] = useState('');
 
   const [searchResult, setSearchResult] = useState('');
@@ -83,7 +84,8 @@ const Layout = () => {
   }
 
   const logOut = () => {
-    setAuthedUser({firstName: '', lastName: '', email: '', pw: ''});
+    setAuthedUser({firstName: '', lastName: '', email: '', pw: '', cart: []});
+    setShoppingCart([]);
     setIsSignedOn(false)
   }
   // const updateShoppingCartQuantity = () =>{
@@ -97,6 +99,16 @@ const Layout = () => {
     }else{
       setShoppingCart((prev) => [...prev, item])
     }
+    // if (isSignedOn){
+    //   const findUser = users.find((u) => u.email === item.email)
+    //   const isItemInBag = findUser?.cart.find((i) => i.name === item.name)
+    //   if (isItemInBag)
+    //     setUsers((prev) => prev.map((u) => (u.email === item.email ? {...u, cart: (u.cart.map((i) => (i.name === item.name ? {...i, quantity : (i.quantity + item.quantity)} : i)))} : u)))
+    //   else
+    //     setUsers((prev) => prev.map((u) => (u.email === item.email ? {...u, cart: [...u.cart, item]} : u)))
+    // }else{
+
+    // }
     setOpenShoppingBagDrawer(true);
   }
 
@@ -194,6 +206,10 @@ const router = createBrowserRouter([{
         {
           path: '/checkout',
           element: <Checkout/>
+        },
+        {
+          path: '/payment',
+          element: <Payment />
         },
         {
           path: '*',
