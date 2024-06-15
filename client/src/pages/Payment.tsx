@@ -25,7 +25,7 @@ const Payment = () => {
           <p>Amount paid</p>
           <p>NZD $127.12</p>
         </div>
-        <Link to={'/payment'}>
+        <Link to={'/'}>
           <button>CLOSE</button>
         </Link>
       </div>

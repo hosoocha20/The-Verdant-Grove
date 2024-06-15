@@ -8,7 +8,8 @@ const Checkout = () => {
   const {
     authedUser,
     shoppingCart,
-  }: { authedUser: IUser; shoppingCart: IShoppingCartItem[] } =
+    proceedToPay
+  }: { authedUser: IUser; shoppingCart: IShoppingCartItem[] , proceedToPay : (order: IOrderDetail) => void} =
     useOutletContext();
 
   const [orderDetail, setOrderDetail] = useState<IOrderDetail>({
@@ -22,6 +23,7 @@ const Checkout = () => {
     total: 0,
     shipping: 10,
     payment: "unpaid",
+    date: new Date(),
   });
 
   const getCheckoutItems = async () => {
@@ -43,6 +45,11 @@ const Checkout = () => {
       console.log(err);
     }
   };
+
+  const payOnSubmit = (order: IOrderDetail) => {
+    setOrderDetail({...orderDetail, date: new Date(), payment: "paid"})
+    proceedToPay(order);
+  }
 
   useEffect(() => {
     getCheckoutItems();
@@ -208,7 +215,7 @@ const Checkout = () => {
               <span>NZD</span> ${Number(orderDetail.total).toFixed(2)}
             </p>
           </div>
-          <Link to={'/payment'}>
+          <Link to={'/payment'} onClick={() => payOnSubmit(orderDetail)}>
             <button className="checkout-pay-btn">Proceed to Pay</button>
           </Link>
         </div>

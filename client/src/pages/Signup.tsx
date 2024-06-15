@@ -3,7 +3,7 @@ import { IUser } from "../interfaces/IUser";
 import { useOutletContext } from "react-router-dom";
 //setUser:  React.Dispatch<React.SetStateAction<IUser>>;
 const Signup = () => {
-  const [user, setUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: '', cart: []});
+  const [user, setUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: []});
   //type AddUser = (e: React.FormEvent, user: IUser) => void;
   const {  signUp, authErrorMsg, setAuthErrorMsg} : {  signUp : (e : React.FormEvent, user: IUser) => void, authErrorMsg : {msg : string}, setAuthErrorMsg: React.Dispatch<React.SetStateAction<{msg: string}>>} = useOutletContext();
  // const  addUser : AddUser    = useOutletContext();

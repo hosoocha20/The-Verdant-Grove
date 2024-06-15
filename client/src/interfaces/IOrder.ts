@@ -11,6 +11,7 @@ export interface IOrderDetail {
     total: number;
     shipping: number;
     payment: string;
+    date: Date;
 
 }
 

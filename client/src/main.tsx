@@ -23,13 +23,27 @@ import { IShoppingCartItem } from './interfaces/IShop.ts'
 import Login from './pages/Login.tsx'
 import Checkout from './pages/Checkout.tsx'
 import Payment from './pages/Payment.tsx'
+import { IOrderDetail } from './interfaces/IOrder.ts'
 
 
 
 const Layout = () => {
   const navigate = useNavigate();
+  const emptyOrderDetail = (): IOrderDetail => ({
+    orderNo: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    delivery: {address1: "", address2: "", city: "", zip:"", mobile: ""},
+    products: [],
+    subtotal: 0,
+    total: 0,
+    shipping: 10,
+    payment: "unpaid",
+    date: new Date(),
+});
   const [isSignedOn, setIsSignedOn] = useState(false);
-  const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: '', cart: []});
+  const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: [] });
   const [authedEmail, setAuthedEmail] = useState('');
 
   const [searchResult, setSearchResult] = useState('');
@@ -84,7 +98,7 @@ const Layout = () => {
   }
 
   const logOut = () => {
-    setAuthedUser({firstName: '', lastName: '', email: '', pw: '', cart: []});
+    setAuthedUser({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: []});
     setShoppingCart([]);
     setIsSignedOn(false)
   }
@@ -119,6 +133,11 @@ const Layout = () => {
     setShoppingCart((prev) => prev.filter((i) => i.checked !== true));
   }
 
+  /*Checkout*/
+  const proceedToPay = (order: IOrderDetail) => {
+    setUsers((prev) => prev.map((u) => (u.email === order.email ? {...u, orders: [...u.orders, order]} : u)))
+  }
+
   /*Account*/ 
   const updateUserProfile = (e: React.MouseEvent<HTMLButtonElement>, update: IUser) =>{
     e.preventDefault();
@@ -130,7 +149,7 @@ const Layout = () => {
   return(
     <div className='App'>
       <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} logIn={logIn} loginErrorMsg={loginErrorMsg} setLoginErrorMsg={setLoginErrorMsg} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
-      <Outlet context={{ setIsSignedOn, authedEmail, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut, authErrorMsg, setAuthErrorMsg,loginErrorMsg, setLoginErrorMsg ,updateUserProfile, shoppingCart}}/>
+      <Outlet context={{ setIsSignedOn, authedEmail, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut, authErrorMsg, setAuthErrorMsg,loginErrorMsg, setLoginErrorMsg ,updateUserProfile, shoppingCart, proceedToPay}}/>
       <Footer />
       <ScrollRestoration />
     </div>
