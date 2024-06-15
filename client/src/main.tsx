@@ -149,7 +149,7 @@ const Layout = () => {
   return(
     <div className='App'>
       <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} logIn={logIn} loginErrorMsg={loginErrorMsg} setLoginErrorMsg={setLoginErrorMsg} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
-      <Outlet context={{ setIsSignedOn, authedEmail, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut, authErrorMsg, setAuthErrorMsg,loginErrorMsg, setLoginErrorMsg ,updateUserProfile, shoppingCart, proceedToPay}}/>
+      <Outlet context={{ users,setIsSignedOn, authedEmail, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut, authErrorMsg, setAuthErrorMsg,loginErrorMsg, setLoginErrorMsg ,updateUserProfile, shoppingCart, proceedToPay}}/>
       <Footer />
       <ScrollRestoration />
     </div>

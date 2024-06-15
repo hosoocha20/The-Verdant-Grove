@@ -46,9 +46,9 @@ const Checkout = () => {
     }
   };
 
-  const payOnSubmit = (order: IOrderDetail) => {
+  const payOnSubmit = () => {
     setOrderDetail({...orderDetail, date: new Date(), payment: "paid"})
-    proceedToPay(order);
+    proceedToPay(orderDetail);
   }
 
   useEffect(() => {
@@ -215,7 +215,7 @@ const Checkout = () => {
               <span>NZD</span> ${Number(orderDetail.total).toFixed(2)}
             </p>
           </div>
-          <Link to={'/payment'} onClick={() => payOnSubmit(orderDetail)}>
+          <Link to={'/payment'} onClick={payOnSubmit}>
             <button className="checkout-pay-btn">Proceed to Pay</button>
           </Link>
         </div>

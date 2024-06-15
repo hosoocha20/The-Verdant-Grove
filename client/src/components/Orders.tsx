@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,6 +9,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Pagination from "@mui/material/Pagination";
 import TablePagination from "@mui/material/TablePagination";
+import { IUser } from "../interfaces/IUser";
+import { IOrderDetail } from "../interfaces/IOrder";
 
 
 function createData(
@@ -38,7 +40,8 @@ function createData(
   ];
 
 const Orders = () => {
-    const [orderHistory, setOrderHistory] = useState(true);
+    const { users, authedUser } : {users: IUser[], authedUser: IUser} = useOutletContext();
+    const [orderHistory, setOrderHistory] = useState<IOrderDetail[]>([]);
 
     const [itemsPerPage, setItemsPerPage] = useState(8);
     const [page, setPage] = useState(0);
@@ -50,13 +53,19 @@ const Orders = () => {
     ) => {
       setPage(value);
     };
+
+    useEffect(() =>{
+      const user = users.find((u) => u.email === authedUser.email);
+      if (user)
+        setOrderHistory(user.orders);
+    },[])
   return (
     <div className="account-orders-container">
       <h2>Orders</h2>
       <hr></hr>
       <h3>Order History</h3>
       <div className="account-order-history-container">
-        {orderHistory ? (
+        {orderHistory.length !== 0 ? (
           <div className="account-order-history-exists">
             <TableContainer>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -69,14 +78,14 @@ const Orders = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows
+                  {orderHistory
                     .slice(
                       page * itemsPerPage,
                       page * itemsPerPage + itemsPerPage
                     )
                     .map((row) => (
                       <TableRow
-                        key={row.order}
+                        key={row.orderNo}
                         sx={{
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
@@ -86,18 +95,18 @@ const Orders = () => {
                           scope="row"
                           style={{ cursor: "pointer" }}
                         >
-                          #{row.order}
+                          #{row.orderNo}
                         </TableCell>
-                        <TableCell align="left">{row.date}</TableCell>
-                        <TableCell align="left">{row.status}</TableCell>
-                        <TableCell align="left">${row.total}.00</TableCell>
+                        <TableCell align="left">{row.date.toISOString()}</TableCell>
+                        <TableCell align="left">{row.payment}</TableCell>
+                        <TableCell align="left">${Number(row.total).toFixed(2)}</TableCell>
                       </TableRow>
                     ))}
                 </TableBody>
               </Table>
 
               <TablePagination
-                count={rows.length}
+                count={orderHistory.length}
                 page={page}
                 rowsPerPage={itemsPerPage}
                 rowsPerPageOptions={[-1]}
