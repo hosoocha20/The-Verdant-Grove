@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { IoIosArrowBack } from "react-icons/io";
 import { TfiClose } from "react-icons/tfi";
 import { Link } from 'react-router-dom';
@@ -8,11 +8,36 @@ interface LoginDrawerProps{
     clickedOutsideUserRef: React.RefObject<HTMLDivElement>;
     openLoginDrawer: boolean;
     logIn : (e: React.FormEvent, user: ILoginUser) => void;
+    loginErrorMsg: {msg: string};
+    setLoginErrorMsg : React.Dispatch<React.SetStateAction<{msg: string}>>;
     setOpenLoginDrawer: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
 const LoginDrawer = (props: LoginDrawerProps) => {
   const [loginUser, setLoginUser] = useState<ILoginUser>({email:"", pw: ""})
+
+
+  useEffect(() =>{
+    //setUser({firstName: '', lastName: '', email: '', pw: ''})
+    let obj = document.getElementById('login-drawer-error')
+    if (obj) {
+      obj.style.animation = 'none';
+      window.requestAnimationFrame(function(){
+        obj.style.animation = 'horizontal-shaking 0.35s';
+      });
+    }
+
+  }, [props.loginErrorMsg])
+
+  useEffect(() =>{
+    if (props.openLoginDrawer){
+      setLoginUser({email:"", pw: ""});
+      props.setLoginErrorMsg({msg: ""})
+    }
+
+  },[props.openLoginDrawer])
+
+
   return (
     <div
     ref={props.clickedOutsideUserRef}
@@ -43,14 +68,17 @@ const LoginDrawer = (props: LoginDrawerProps) => {
         <input type="password" id="pw-login" placeholder="PASSWORD" value={loginUser.pw} onChange={(e)=>setLoginUser({ ...loginUser, pw: e.target.value })}/>
         <p>PASSWORD</p>
       </div>
-      <button className="login-drawer-login-button" onClick={() => props.setOpenLoginDrawer(false)}>LOG IN</button>
-      <div className="login-drawer-signup-wrapper">
+      <div>
+        <p className='login-drawer-error-msg' id='login-drawer-error'>{props.loginErrorMsg.msg || " "}</p>
+        <button className="login-drawer-login-button" >LOG IN</button>
+      </div>
+    </form>
+    <div className="login-drawer-signup-wrapper">
         <p>Are you not a member yet?</p>
         <Link to={'/register'} onClick={() => props.setOpenLoginDrawer(false)}>
           <button className="login-drawer-signup-button">SIGN UP</button>
         </Link>
       </div>
-    </form>
   </div>
   )
 }

@@ -16,7 +16,6 @@ const Checkout = () => {
   const getCheckoutItems = async() =>{
     try{
         const data = await shoppingCart.filter((i) => i.checked === true);
-        //setCheckoutCart(data);
         const subtotal = data.reduce(
             (accumulator, currentValue) =>
               accumulator + currentValue.price * currentValue.quantity,

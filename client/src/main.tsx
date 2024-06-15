@@ -38,19 +38,28 @@ const Layout = () => {
   
   const [users, setUsers] = useState<IUser[]>([]);
   const [authErrorMsg, setAuthErrorMsg] = useState({msg: ''})
+  const [loginErrorMsg, setLoginErrorMsg] = useState({msg: ''})
   const [shoppingCart, setShoppingCart] = useState<IShoppingCartItem[]>([]);
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
+  const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
 
 
 
-  const signUp = (e: React.FormEvent, signupUser: IUser) =>{
+  const signUp = (e: React.FormEvent, user: IUser) =>{
     e.preventDefault();
-    if (users.some(u=> u.email === signupUser.email)){
+    const emailRe = /^\S+@\S+\.\S+$/;
+    const isValid = emailRe.test(user.email)
+
+    if (!isValid){
+      setAuthErrorMsg({...authErrorMsg, msg: "Invalid email"})
+      return
+    }
+    if (users.some(u=> u.email === user.email)){
       setAuthErrorMsg({...authErrorMsg, msg: "An account with this email already exists."})
       return
     }
-    setUsers((prev) => [...prev, signupUser])
-    setAuthedUser(signupUser)
+    setUsers((prev) => [...prev, user])
+    setAuthedUser(user)
     setIsSignedOn(true);
     setAuthErrorMsg({msg: ''});
     //setAuthedUser((user) => ({ ...user, firstName: e.target.value }))
@@ -62,12 +71,14 @@ const Layout = () => {
     if (users.some(u=> (u.email === user.email && u.pw === user.pw))){
       setIsSignedOn(true);
       setAuthedEmail(user.email)
+      setOpenLoginDrawer(false);
       const findUser = users.find(u => (u.email === user.email));
       if (findUser)
         setAuthedUser(findUser);
       navigate("/")
+      setLoginErrorMsg({msg: ""})
     }else{
-      setAuthErrorMsg({...authErrorMsg, msg: "Your email or password is incorrect. Please try again."})
+      setLoginErrorMsg({...authErrorMsg, msg: "Your email or password is incorrect. Please try again."})
     }
   }
 
@@ -106,8 +117,8 @@ const Layout = () => {
 
   return(
     <div className='App'>
-      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} logIn={logIn} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem}/>
-      <Outlet context={{ setIsSignedOn, authedEmail, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut, authErrorMsg, setAuthErrorMsg, updateUserProfile, shoppingCart}}/>
+      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} logIn={logIn} loginErrorMsg={loginErrorMsg} setLoginErrorMsg={setLoginErrorMsg} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
+      <Outlet context={{ setIsSignedOn, authedEmail, authedUser, setAuthedUser, signUp, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut, authErrorMsg, setAuthErrorMsg,loginErrorMsg, setLoginErrorMsg ,updateUserProfile, shoppingCart}}/>
       <Footer />
       <ScrollRestoration />
     </div>

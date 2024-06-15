@@ -16,7 +16,11 @@ import SearchResults from "../pages/SearchResults";
 
 interface NavbarProps {
   isSignedOn: boolean;
+  openLoginDrawer: boolean;
+  setOpenLoginDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   logIn : (e: React.FormEvent, user: ILoginUser) => void;
+  loginErrorMsg : {msg: string};
+  setLoginErrorMsg : React.Dispatch<React.SetStateAction<{msg: string}>>;
   searchResult: string;
   setSearchResult: React.Dispatch<React.SetStateAction<string>>;
   shoppingCart: IShoppingCartItem[];
@@ -31,7 +35,7 @@ const Navbar = (props: NavbarProps) => {
   const [openShopOptions, setOpenShopOptions] = useState(false);
   //const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
   const [openSearchBar, setOpenSearchBar] = useState(false);
-  const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
+  //const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
 
 
   const navigate = useNavigate();
@@ -66,8 +70,8 @@ const Navbar = (props: NavbarProps) => {
     }
   });
   const clickedOutsideUserRef = useOutsideClick(() => {
-    if (openLoginDrawer) {
-      setOpenLoginDrawer(false);
+    if (props.openLoginDrawer) {
+      props.setOpenLoginDrawer(false);
     }
   });
   const clickedOutsideShoppingRef = useOutsideClick(() => {
@@ -93,7 +97,7 @@ const Navbar = (props: NavbarProps) => {
     if (props.isSignedOn){
       navigate('/account')
     }else{
-      setOpenLoginDrawer(true)
+      props.setOpenLoginDrawer(true)
     }
   }
 
@@ -141,7 +145,7 @@ const Navbar = (props: NavbarProps) => {
       {/*Background overlays for drawers*/}
       <div
         className={`nav-r-shopping-drawer-bg-overlay ${
-          props.openShoppingBagDrawer || openLoginDrawer
+          props.openShoppingBagDrawer || props.openLoginDrawer
             ? ""
             : "nav-r-shopping-drawer-bg-close"
         }`}
@@ -169,7 +173,7 @@ const Navbar = (props: NavbarProps) => {
         </form>
       </div>
 
-      <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer} logIn={props.logIn}/>
+      <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={props.openLoginDrawer} setOpenLoginDrawer={props.setOpenLoginDrawer} logIn={props.logIn} loginErrorMsg={props.loginErrorMsg} setLoginErrorMsg={props.setLoginErrorMsg}/>
 
       <ShoppingDrawer isSignedOn={props.isSignedOn} clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} setShoppingCart={props.setShoppingCart}  removeShoppingCartItem={props.removeShoppingCartItem} removeSelectedShoppingCartItem={props.removeSelectedShoppingCartItem}/>
 

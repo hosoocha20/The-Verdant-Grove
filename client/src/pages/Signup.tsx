@@ -9,18 +9,7 @@ const Signup = () => {
  // const  addUser : AddUser    = useOutletContext();
  // const  authedUser: IUser = useOutletContext();
 
-  const signUpOnSubmit = (e: React.FormEvent, user: IUser) =>{
-    e.preventDefault();
-    const emailRe = /^\S+@\S+\.\S+$/;
-    const isValid = emailRe.test(user.email)
-    if (isValid){
-      signUp(e, user);
-    }else{
-      setAuthErrorMsg({...authErrorMsg, msg: "Invalid email"})
-    }
-      
 
-  }
 
   useEffect(() =>{
     //setUser({firstName: '', lastName: '', email: '', pw: ''})
@@ -34,12 +23,16 @@ const Signup = () => {
 
   }, [authErrorMsg])
 
+  useEffect(() =>{
+    setAuthErrorMsg({msg: ""})
+  },[])
+
 
   return (
     <div className="signup-container">
       <div>
         <h1>Sign Up</h1>
-        <form className="signup-form" onSubmit={(e) => signUpOnSubmit(e, user)}>
+        <form className="signup-form" onSubmit={(e) => signUp(e, user)}>
           <label>
             First Name
             <input type="text" name="firstName_signUp" value={user.firstName} onChange={ (e) => setUser({ ...user, firstName: e.target.value })} required/>

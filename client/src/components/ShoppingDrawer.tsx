@@ -46,6 +46,10 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
       i.name === item.name ? { ...i, checked: !i.checked } : i
     );
     props.setShoppingCart(checkedArray);
+    if (checkedArray.some((i) => !i.checked))
+        setCheckedAll(false);
+    if (checkedArray.every((i) => i.checked))
+        setCheckedAll(true)
     const checkedArrayTotal = props.shoppingCart.filter(
       (i) => i.checked === true
     );

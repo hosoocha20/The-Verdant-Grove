@@ -42,7 +42,6 @@
     }
 
     button{
-        margin-top: 2.5rem;
         background-color: transparent;
         z-index: 0;
         padding: 1rem;
@@ -78,6 +77,12 @@
             
         }
     }
+}
+.login-error-msg{
+    margin-top: 2.5rem;
+    font-size: 13px;
+    color: $punch-650;
+    animation: horizontal-shaking 0.35s ;
 }
 
 .login-signup-wrapper{
@@ -125,3 +130,11 @@
         
     }
 }
+
+@keyframes horizontal-shaking {
+    0% { transform: translateX(0) }
+    25% { transform: translateX(5px) }
+    50% { transform: translateX(-5px) }
+    75% { transform: translateX(5px) }
+    100% { transform: translateX(0) }
+   }

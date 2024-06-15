@@ -327,7 +327,6 @@ padding: 2rem 4rem 2rem 4rem;
     }
 
     button{
-        
         font-weight: 500;
         padding: 1rem;
         border-radius: 0.1rem; 
@@ -358,9 +357,23 @@ padding: 2rem 4rem 2rem 4rem;
         background-color: $punch-600;
     }
 }
+.login-drawer-error-msg{
+    font-size: 13px;
+    color: $punch-650;
+    margin-bottom: 1rem;
+    animation: horizontal-shaking 0.35s ;
+}
 .login-drawer-signup-wrapper{
+    padding-right: 2rem;
     p{
+        font-size: 13px;
         margin-bottom: 0.7rem;
+    }
+    button{
+        
+        font-weight: 500;
+        padding: 1rem;
+        border-radius: 0.1rem; 
     }
 }
 .login-drawer-signup-button{
@@ -608,6 +621,14 @@ padding: 2rem 4rem 2rem 4rem;
         color: #ffffff;
     }
 }
+
+@keyframes horizontal-shaking {
+    0% { transform: translateX(0) }
+    25% { transform: translateX(5px) }
+    50% { transform: translateX(-5px) }
+    75% { transform: translateX(5px) }
+    100% { transform: translateX(0) }
+   }
 
 @media screen and (max-width: $media-tablet){
     .nav-container{
