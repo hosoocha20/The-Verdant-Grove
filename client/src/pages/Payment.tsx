@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TiTick } from "react-icons/ti";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Payment = () => {
+  const location = useLocation();
+  const { orderNo, email, mobile, date, total } : {orderNo: string, email: string, mobile: string, date: Date, total : number} = location.state;
+  //console.log(location.state.orderNo)
+  //console.log(orderDetail.orderNo)
+  
   return (
     <div className="payment-container">
       <div className="payment-box">
@@ -15,17 +20,21 @@ const Payment = () => {
         </div>
         <div className="payment-order-details-wrapper">
           <p>Order No.</p>
-          <p>123456</p>
+          <p>{orderNo}</p>
           <p>Email</p>
-          <p>johndoe@gmail.com</p>
-          <p>Mobile</p>
-          <p>027123456</p>
+          <p>{email}</p>
+          {mobile && (
+            <>
+              <p>Mobile</p>
+              <p>{mobile}</p>
+            </>
+          )}
           <p>Date</p>
-          <p>16 June, 2024</p>
+          <p>{date.toISOString()}</p>
           <p>Amount paid</p>
-          <p>NZD $127.12</p>
+          <p>NZD ${total}</p>
         </div>
-        <Link to={'/'}>
+        <Link to={"/"}>
           <button>CLOSE</button>
         </Link>
       </div>

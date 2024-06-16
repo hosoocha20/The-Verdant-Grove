@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { IShoppingCartItem } from "../interfaces/IShop";
 import { IUser } from "../interfaces/IUser";
 import { IOrderDetail } from "../interfaces/IOrder";
 
 const Checkout = () => {
+    const navigate = useNavigate();
   const {
     authedUser,
     shoppingCart,
@@ -24,6 +25,7 @@ const Checkout = () => {
     shipping: 10,
     payment: "unpaid",
     date: new Date(),
+    mobile: "",
   });
 
   const getCheckoutItems = async () => {
@@ -38,8 +40,8 @@ const Checkout = () => {
       setOrderDetail({
         ...orderDetail,
         products: data,
-        subtotal: subtotal,
-        total: total,
+        subtotal: +subtotal.toFixed(2),
+        total: +total.toFixed(2),
       });
     } catch (err) {
       console.log(err);
@@ -48,8 +50,17 @@ const Checkout = () => {
 
   const payOnSubmit = () => {
     setOrderDetail({...orderDetail, date: new Date(), payment: "paid"})
-    proceedToPay(orderDetail);
+    //proceedToPay(orderDetail);
   }
+
+
+  useEffect(() =>{
+    if (orderDetail.payment === "paid"){
+        proceedToPay(orderDetail);
+        navigate('/payment', {state: {orderNo: orderDetail.orderNo, email: orderDetail.email, mobile: orderDetail.mobile, date: orderDetail.date, total: orderDetail.total}})
+    }
+
+  },[orderDetail.payment])
 
   useEffect(() => {
     getCheckoutItems();
@@ -215,9 +226,7 @@ const Checkout = () => {
               <span>NZD</span> ${Number(orderDetail.total).toFixed(2)}
             </p>
           </div>
-          <Link to={'/payment'} onClick={payOnSubmit}>
-            <button className="checkout-pay-btn">Proceed to Pay</button>
-          </Link>
+            <button className="checkout-pay-btn" onClick={payOnSubmit}>Proceed to Pay</button>
         </div>
       </div>
     </div>

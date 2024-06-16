@@ -5,6 +5,7 @@ export interface IOrderDetail {
     firstName: string;
     lastName: string;
     email: string;
+    mobile: string;
     delivery: IOrderDelivery;
     products: IShoppingCartItem[];
     subtotal: number;

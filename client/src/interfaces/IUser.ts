@@ -8,6 +8,7 @@ export interface IUser{
     pw: string;
     cart: IShoppingCartItem[];
     orders: IOrderDetail[];
+    address: IUserAddress;
 }
 
 export interface IUserNew{
@@ -17,12 +18,11 @@ export interface IUserNew{
     pw: string;
     cart: IShoppingCartItem[];
     orders: IOrderDetail[];
+    address: IUserAddress;
 }
 
-export interface IUserProfile{
-    firstName: string;
-    lastName: string;
-    email: string;
+export interface IUserAddress{
+    city: string;
     address1: string;
     address2: string;
     zip: string;

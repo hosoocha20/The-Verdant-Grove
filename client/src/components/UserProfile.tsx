@@ -50,27 +50,19 @@ const UserProfile = () => {
             </label>
             <label>
                 Address 1
-                <input type='text' disabled={inputsDisabled}/>
+                <input type='text' value={updateUser.address.address1} onChange={(e)=>setUpdateUser({...updateUser, address: {...updateUser.address, address1: e.target.value}})} disabled={inputsDisabled}/>
             </label>
             <label>
                 Address 2
-                <input type='text' disabled={inputsDisabled}/>
+                <input type='text' value={updateUser.address.address2} onChange={(e)=>setUpdateUser({...updateUser, address: {...updateUser.address, address2: e.target.value}})} disabled={inputsDisabled}/>
             </label>
             <label>
                 City
-                <input type='text' disabled={inputsDisabled}/>
-            </label>
-            <label>
-                Country
-                <input type='text' disabled={inputsDisabled}/>
-            </label>
-            <label>
-                Province
-                <input type='text' disabled={inputsDisabled}/>
+                <input type='text' value={updateUser.address.city} onChange={(e)=>setUpdateUser({...updateUser, address: {...updateUser.address, city: e.target.value}})} disabled={inputsDisabled}/>
             </label>
             <label>
                 Postal/Zip code
-                <input type='text' disabled={inputsDisabled}/>
+                <input type='text' value={updateUser.address.zip} onChange={(e)=>setUpdateUser({...updateUser, address: {...updateUser.address, zip: e.target.value}})} disabled={inputsDisabled}/>
             </label>
             <hr></hr>
             <div className='userProfile-form__button-wrapper'>

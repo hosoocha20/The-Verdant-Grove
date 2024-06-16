@@ -40,10 +40,11 @@ const Layout = () => {
     total: 0,
     shipping: 10,
     payment: "unpaid",
+    mobile: "",
     date: new Date(),
 });
   const [isSignedOn, setIsSignedOn] = useState(false);
-  const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: [] });
+  const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: [], address: {city: "", address1: "", address2: "", zip: ""} });
   const [authedEmail, setAuthedEmail] = useState('');
 
   const [searchResult, setSearchResult] = useState('');
@@ -98,7 +99,7 @@ const Layout = () => {
   }
 
   const logOut = () => {
-    setAuthedUser({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: []});
+    setAuthedUser({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: [], address: {city: "", address1: "", address2: "", zip: ""}});
     setShoppingCart([]);
     setIsSignedOn(false)
   }
