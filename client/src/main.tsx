@@ -102,6 +102,7 @@ const Layout = () => {
     setAuthedUser({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: [], address: {city: "", address1: "", address2: "", zip: ""}});
     setShoppingCart([]);
     setIsSignedOn(false)
+    window.location.reload();
   }
   // const updateShoppingCartQuantity = () =>{
 

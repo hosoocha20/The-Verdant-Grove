@@ -30,7 +30,7 @@ const Payment = () => {
             </>
           )}
           <p>Date</p>
-          <p>{date.toISOString()}</p>
+          <p>{date.toLocaleString('en-NZ', {month: 'long', day: 'numeric', year: 'numeric'})}</p>
           <p>Amount paid</p>
           <p>NZD ${total}</p>
         </div>

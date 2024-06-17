@@ -97,7 +97,7 @@ const Orders = () => {
                         >
                           #{row.orderNo}
                         </TableCell>
-                        <TableCell align="left">{row.date.toISOString()}</TableCell>
+                        <TableCell align="left">{row.date.toLocaleString('en-NZ', {month: 'long', day: 'numeric', year: 'numeric'})}</TableCell>
                         <TableCell align="left">{row.payment}</TableCell>
                         <TableCell align="left">${Number(row.total).toFixed(2)}</TableCell>
                       </TableRow>
