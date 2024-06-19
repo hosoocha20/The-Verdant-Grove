@@ -16,6 +16,17 @@ export interface IShopItem {
     productDetail: IProductDetail[];
   }
 
+export interface IProduct {
+  name: string;
+  quantity: number;
+  price: number;
+  category: string;
+  imgMainSrc: string[];
+  imgsSrc: string[];
+  description: string;
+  productDetail: IProductDetail;
+}
+
 export interface ShopType {
     shopItemArray: IShopItem[];
 }
