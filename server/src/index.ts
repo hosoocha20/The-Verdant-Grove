@@ -43,9 +43,22 @@ app.get('/products/:category', async (req: Request, res: Response) => {
     const {category} = req.params;
     try{
         const products = await Product.find({category: category});
+        
         res.json(products);
     }catch(err){
         console.log(err)
+    }
+})
+
+//Search
+app.get('/products/search/:keyword', async (req: Request, res: Response) => {
+    const { keyword } = req.params;
+    try{
+        const products = await Product.find({name: {$regex: keyword, $options: 'i'}})
+        console.log(products);
+        res.json(products);
+    }catch(err){
+        console.error(err);
     }
 })
 
