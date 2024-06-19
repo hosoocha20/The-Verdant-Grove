@@ -1,5 +1,7 @@
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
+import cors from 'cors';
+
 
 import Bag from './models/Bag'
 import User from './models/User'
@@ -11,7 +13,16 @@ const app = express();
 
 
 //Express Middleware Function
+app.use(cors(
+    {
+        origin: "*",
+    }
+));
+// app.use(cors({
+//     origin: "https://verdantgrove.com",
+// }))
 app.use(express.json());
+
 
 
 const PORT = 5000;
@@ -20,12 +31,19 @@ const PORT = 5000;
 app.get('/', async(req: Request, res: Response) => {
     res.send("hello world")
 })
+app.get('/products', async(req: Request, res: Response) => {
+    try{
 
+    }catch{
+
+    }
+})
+
+//Admin Only
 app.post("/products", async(req: Request, res: Response) => {
     console.log(req.body);
     try{
         const newProduct = new Product({
-            productId: req.body.productId, 
             name: req.body.name, 
             quantity: 1, 
             price: req.body.price, 
@@ -41,6 +59,7 @@ app.post("/products", async(req: Request, res: Response) => {
         console.log(err)
     }
 });
+
 
 mongoose.connect(`${process.env.CONNECTION_STRING}`).then(() => {
     app.listen(`${PORT}`, ()=>{
