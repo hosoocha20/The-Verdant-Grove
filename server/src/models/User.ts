@@ -28,6 +28,11 @@ const UserSchema = new Schema({
         lastName: String,
         email: String,
         mobile: String,
+        subtotal: Number,
+        total: Number,
+        shipping: Number,
+        payment: String,
+        date: Date,
         delivery: {    
             address1: String,
             address2: String,
@@ -41,12 +46,8 @@ const UserSchema = new Schema({
             price: Number,
             imgSrc: [String],
             checked: Boolean,
-        }],
-        subtotal: Number,
-        total: Number,
-        shipping: Number,
-        payment: String,
-        date: Date
+        }]
+
     }]
 })
 

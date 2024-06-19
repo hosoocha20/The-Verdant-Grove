@@ -39,6 +39,16 @@ app.get('/products', async (req: Request, res: Response) => {
         console.log(err)
     }
 })
+app.get('/products/:category', async (req: Request, res: Response) => {
+    const {category} = req.params;
+    try{
+        const products = await Product.find({category: category});
+        res.json(products);
+    }catch(err){
+        console.log(err)
+    }
+})
+
 
 //Admin Only
 app.post("/products", async (req: Request, res: Response) => {
