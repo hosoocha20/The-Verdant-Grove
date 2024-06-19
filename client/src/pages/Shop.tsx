@@ -95,7 +95,7 @@ const Shop = () => {
   // ];
   
   //const  shopItemArray   = useLoaderData() as IShopItem[];
-  const [activeShopOption, setActiveShopOption] = useState(shopOption);
+ 
 
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [page, setPage] = useState(1);
