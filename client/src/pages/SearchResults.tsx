@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, SetURLSearchParams, useOutletContext, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  SetURLSearchParams,
+  useOutletContext,
+  useSearchParams,
+} from "react-router-dom";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
@@ -8,142 +13,158 @@ import { TfiSearch } from "react-icons/tfi";
 import { IProduct } from "../interfaces/IShop";
 
 const SearchResults = () => {
-    //const [searchParams, setSearchParams] = useSearchParams();
-    const [top, setTop] = useState(true)
-    const {searchResult,  searchParams, setSearchParams}: {searchResult: string, searchParams: URLSearchParams, setSearchParams: SetURLSearchParams} = useOutletContext();
-    //const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword')?.trim() || '')
-    const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword')?.trim() || '')
-    const [thisSearchResult, setThisSearchResult] = useState(searchResult);
-    const [shopItemArray, setShopItemArray] = useState<IProduct[]>([])
-    const [productsAll, setProductsAll] = useState<IProduct[]>([]);
+  const {
+    searchResult,
+    searchParams,
+    setSearchParams,
+  }: {
+    searchResult: string;
+    searchParams: URLSearchParams;
+    setSearchParams: SetURLSearchParams;
+  } = useOutletContext();
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get("keyword")?.trim() || ""
+  );
+  const [thisSearchResult, setThisSearchResult] = useState(searchResult || "");
+  const [shopItemArray, setShopItemArray] = useState<IProduct[]>([]);
 
+  interface ShopItem {
+    productId: string;
+    name: string;
+    quantity: number;
+    price: number;
+    category: string;
+    imgMainSrc: string[];
+  }
 
-  
-    interface ShopItem {
-      productId: string;
-      name: string;
-      quantity: number;
-      price: number;
-      category: string;
-      imgMainSrc: string[];
+  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [page, setPage] = useState(1);
+  const [noOfPages, setNoOfPages] = useState(
+    Math.ceil(shopItemArray.length / itemsPerPage)
+  );
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+    scrollToTop();
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const searchFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSearchParams({ keyword: thisSearchResult.trim() });
+  };
+
+  const getSearchedProducts = async () => {
+    let response;
+
+    try {
+      response = await axios.get(
+        `${import.meta.env.VITE_SERVERURL}/products/search/${searchQuery}`
+      );
+      const json = await response.data;
+      console.log(json);
+      setShopItemArray(json);
+      setNoOfPages(Math.ceil(json.length / itemsPerPage));
+    } catch (err) {
+      console.log(err);
     }
+  };
 
+  useEffect(() => {
+    getSearchedProducts();
+    setPage(1);
 
-    
-      const [itemsPerPage, setItemsPerPage] = useState(12);
-      const [page, setPage] = useState(1);
-      const [noOfPages, setNoOfPages] = useState(Math.ceil(shopItemArray.length / itemsPerPage));
-    
-      const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        setPage(value);
-        scrollToTop();
-      };
+    setSearchQuery(searchParams.get("keyword")?.trim() || "");
+    setThisSearchResult(searchParams.get("keyword")?.trim() || "");
+  }, [searchParams]);
+  useEffect(() => {
+    getSearchedProducts();
 
-      const scrollToTop = () => {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'smooth'
-      });
-      }
+    setPage(1);
+  }, [searchQuery]);
 
-      const searchFormSubmit = (e: React.FormEvent) =>{
-        e.preventDefault();
-        setSearchParams({keyword: thisSearchResult.trim()})
-      }
-
-      const getAllProducts = async () =>{
-        let response;
-        try{
-          response = await axios.get(`${import.meta.env.VITE_SERVERURL}/products`);
-          const json = await response.data;
-          //console.log(json);
-          setProductsAll(json);
-        }catch(err){
-          console.log(err);
-        }
-      }
-
-      useEffect(() =>{
-        const searchedArray = productsAll.filter((item) => item.name.includes(thisSearchResult.toUpperCase())) || []
-        setNoOfPages(Math.ceil(shopItemArray.length / itemsPerPage))
-        setPage(1);
-        setShopItemArray(searchedArray);
-        setSearchQuery(searchParams.get('keyword')?.trim() || '')
-        setThisSearchResult(searchParams.get('keyword')?.trim() || '')
-      },[searchParams])
-      useEffect(() =>{
-        const searchedArray = productsAll.filter((item) => item.name.includes(thisSearchResult.toUpperCase())) || []
-        setShopItemArray(searchedArray);
-        setNoOfPages(Math.ceil(shopItemArray.length / itemsPerPage))
-        setPage(1);
-      },[searchQuery])
-
-      useEffect(() =>{
-        getAllProducts();
-      },[])
-
-
-
-
-
+  useEffect(() => {
+    //getSearchedProducts();
+  }, []);
 
   return (
     <div className="searchResults-container">
-      <div
-        className="searchResults-searchbar-container"
-      >
+      <div className="searchResults-searchbar-container">
         <TfiSearch />
         <form
           className="searchResults-searchbar-form"
-          onSubmit={(e)=>searchFormSubmit(e)}
+          onSubmit={(e) => searchFormSubmit(e)}
         >
-          <input type="text" placeholder="SEARCH FOR SOMETHING..." value={thisSearchResult} onChange={(e) => setThisSearchResult(e.target.value)}/>
+          <input
+            type="text"
+            placeholder="SEARCH FOR SOMETHING..."
+            value={thisSearchResult}
+            onChange={(e) => setThisSearchResult(e.target.value)}
+          />
           <button>Search</button>
         </form>
       </div>
       <div className="searchResults-results-container">
         {shopItemArray.length ? (
-            <p>{shopItemArray.length} Results</p>
-        )
-    :
-    (
-        <p>No results were found</p>
-    )}
-        
+          <p>{shopItemArray.length} Results</p>
+        ) : (
+          <p>No results were found</p>
+        )}
       </div>
       {shopItemArray.length !== 0 && (
         <div className={`searchResults-product-container`}>
-
-
-        <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
-            {shopItemArray.slice((page - 1) * itemsPerPage, page * itemsPerPage ).map((item: IProduct) => (
-            
+          <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
+            {shopItemArray
+              .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+              .map((item: IProduct) => (
                 <Grid item xs={6} sm={4} md={3}>
-                <Link to={`/shop/product/detail/${item.name.toLowerCase()}`} state={{productItem:item}}>
-                <div className="searchResults-product-item-container">
-                    <div className="searchResults-product-item-img-wrapper">
-                    <img className= "searchResults-product-img-hover" loading="lazy" src={`${"/src/assets/" + item.imgMainSrc[1]}`}  alt={item.name} width="auto" height="auto"/>
-                    <img className= "searchResults-product-img-main" loading="lazy" src={`${"/src/assets/" + item.imgMainSrc[0]}`}  alt={item.name + " hover"} width="auto" height="auto"/>
+                  <Link
+                    to={`/shop/product/detail/${item.name.toLowerCase()}`}
+                    state={{ productItem: item }}
+                  >
+                    <div className="searchResults-product-item-container">
+                      <div className="searchResults-product-item-img-wrapper">
+                        <img
+                          className="searchResults-product-img-hover"
+                          loading="lazy"
+                          src={`${"/src/assets/" + item.imgMainSrc[1]}`}
+                          alt={item.name}
+                          width="auto"
+                          height="auto"
+                        />
+                        <img
+                          className="searchResults-product-img-main"
+                          loading="lazy"
+                          src={`${"/src/assets/" + item.imgMainSrc[0]}`}
+                          alt={item.name + " hover"}
+                          width="auto"
+                          height="auto"
+                        />
+                      </div>
+                      <p className="searchResults-product-item-name">
+                        {item.name}
+                      </p>
+                      <p>${item.price}</p>
                     </div>
-                    <p className="searchResults-product-item-name">{item.name}</p>
-                    <p>${item.price}</p>
-                </div>
-                </Link>
+                  </Link>
                 </Grid>
-            
-            ))}
-        </Grid>
-        <Pagination
+              ))}
+          </Grid>
+          <Pagination
             count={noOfPages}
             page={page}
             onChange={handleChange}
             defaultPage={1}
-        ></Pagination>
-
+          ></Pagination>
         </div>
       )}
-
     </div>
   );
 };
