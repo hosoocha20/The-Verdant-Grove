@@ -91,7 +91,7 @@ const SearchResults = () => {
   }, [searchQuery]);
 
   useEffect(() => {
-    //getSearchedProducts();
+    getSearchedProducts();
   }, []);
 
   return (
