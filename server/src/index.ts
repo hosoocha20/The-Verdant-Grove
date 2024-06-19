@@ -31,16 +31,17 @@ const PORT = 5000;
 app.get('/', async(req: Request, res: Response) => {
     res.send("hello world")
 })
-app.get('/products', async(req: Request, res: Response) => {
+app.get('/products', async (req: Request, res: Response) => {
     try{
-
-    }catch{
-
+        const products = await Product.find();
+        res.json(products);
+    }catch(err){
+        console.log(err)
     }
 })
 
 //Admin Only
-app.post("/products", async(req: Request, res: Response) => {
+app.post("/products", async (req: Request, res: Response) => {
     console.log(req.body);
     try{
         const newProduct = new Product({
