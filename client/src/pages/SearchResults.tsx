@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, SetURLSearchParams, useOutletContext, useSearchParams } from "react-router-dom";
+import axios from "axios";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
 import { TfiSearch } from "react-icons/tfi";
-import { shopItemArrayAll } from "../data/ShopData";
-import { IShopItem } from "../interfaces/IShop";
+
+import { IProduct } from "../interfaces/IShop";
 
 const SearchResults = () => {
     //const [searchParams, setSearchParams] = useSearchParams();
@@ -13,7 +14,8 @@ const SearchResults = () => {
     //const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword')?.trim() || '')
     const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword')?.trim() || '')
     const [thisSearchResult, setThisSearchResult] = useState(searchResult);
-    const [shopItemArray, setShopItemArray] = useState<IShopItem[]>([])
+    const [shopItemArray, setShopItemArray] = useState<IProduct[]>([])
+    const [productsAll, setProductsAll] = useState<IProduct[]>([]);
 
 
   
@@ -50,8 +52,20 @@ const SearchResults = () => {
         setSearchParams({keyword: thisSearchResult.trim()})
       }
 
+      const getAllProducts = async () =>{
+        let response;
+        try{
+          response = await axios.get(`${import.meta.env.VITE_SERVERURL}/products`);
+          const json = await response.data;
+          //console.log(json);
+          setProductsAll(json);
+        }catch(err){
+          console.log(err);
+        }
+      }
+
       useEffect(() =>{
-        const searchedArray = shopItemArrayAll.filter((item) => item.name.includes(thisSearchResult.toUpperCase())) || []
+        const searchedArray = productsAll.filter((item) => item.name.includes(thisSearchResult.toUpperCase())) || []
         setNoOfPages(Math.ceil(shopItemArray.length / itemsPerPage))
         setPage(1);
         setShopItemArray(searchedArray);
@@ -59,11 +73,15 @@ const SearchResults = () => {
         setThisSearchResult(searchParams.get('keyword')?.trim() || '')
       },[searchParams])
       useEffect(() =>{
-        const searchedArray = shopItemArrayAll.filter((item) => item.name.includes(thisSearchResult.toUpperCase())) || []
+        const searchedArray = productsAll.filter((item) => item.name.includes(thisSearchResult.toUpperCase())) || []
         setShopItemArray(searchedArray);
         setNoOfPages(Math.ceil(shopItemArray.length / itemsPerPage))
         setPage(1);
       },[searchQuery])
+
+      useEffect(() =>{
+        getAllProducts();
+      },[])
 
 
 
@@ -99,7 +117,7 @@ const SearchResults = () => {
 
 
         <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
-            {shopItemArray.slice((page - 1) * itemsPerPage, page * itemsPerPage ).map((item: ShopItem) => (
+            {shopItemArray.slice((page - 1) * itemsPerPage, page * itemsPerPage ).map((item: IProduct) => (
             
                 <Grid item xs={6} sm={4} md={3}>
                 <Link to={`/shop/product/detail/${item.name.toLowerCase()}`} state={{productItem:item}}>

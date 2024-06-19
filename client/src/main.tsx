@@ -18,7 +18,7 @@ import Account from './pages/Account.tsx'
 import UserProfile from './components/UserProfile.tsx'
 import Orders from './components/Orders.tsx'
 import { ILoginUser, IUser } from './interfaces/IUser.ts'
-import { shopItemArrayAll } from './data/ShopData.ts'
+
 import { IShoppingCartItem } from './interfaces/IShop.ts'
 import Login from './pages/Login.tsx'
 import Checkout from './pages/Checkout.tsx'

@@ -4,17 +4,18 @@ export interface IProductDetail{
 
 }
 
-export interface IShopItem {
-    productId: string;
-    name: string;
-    quantity: number;
-    price: number;
-    category: string;
-    imgMainSrc: string[];
-    imgsSrc: string[];
-    description: string;
-    productDetail: IProductDetail[];
-  }
+// export interface IShopItem {
+//     productId: string;
+//     name: string;
+//     quantity: number;
+//     price: number;
+//     category: string;
+//     imgMainSrc: string[];
+//     imgsSrc: string[];
+//     description: string;
+//     productDetail: IProductDetail[];
+//   }
+
 
 export interface IProduct {
   name: string;
@@ -28,7 +29,7 @@ export interface IProduct {
 }
 
 export interface ShopType {
-    shopItemArray: IShopItem[];
+    shopItemArray: IProduct[];
 }
 
 export interface IShoppingCartItem {

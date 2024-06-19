@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const ProductSchema = new Schema({
-    productId: String,
     name: String,
     quantity: Number,
     price: Number,

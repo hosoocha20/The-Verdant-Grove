@@ -52,7 +52,7 @@ app.post("/products", async (req: Request, res: Response) => {
             imgsSrc:req.body.imgsSrc, 
             description: req.body.description, 
             category: req.body.category, 
-            productDetail: {size: req.body.size, countrySrc: req.body.countrySrc}
+            productDetail: req.body.productDetail
         });
         const createdProduct = await newProduct.save();
         res.json(createdProduct);

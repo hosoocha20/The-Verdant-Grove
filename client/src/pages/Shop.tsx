@@ -9,7 +9,7 @@ import newIn from "../assets/new.jpg";
 import collab from "../assets/collab1.png";
 import al from "../assets/silver.jpeg";
 
-import {IProduct, IShopItem, ShopType}  from "../interfaces/IShop";
+import {IProduct, ShopType}  from "../interfaces/IShop";
 
 // export function productLoader() {
 //   const shopItemArray: IShopItem[] = [

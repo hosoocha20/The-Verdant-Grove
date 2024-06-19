@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import CounterButton from "../components/CounterButton";
-import { IShopItem , IShoppingCartItem} from "../interfaces/IShop";
+import { IProduct , IShoppingCartItem} from "../interfaces/IShop";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { HiPlus, HiMinus } from "react-icons/hi";
 import { IUser } from "../interfaces/IUser";
@@ -74,10 +74,10 @@ const Product = () => {
             openDetails && "product-r-details-span-open"
           }`}
         >
-          <p>Size: {productItem.productDetail[0].size}</p>
+          <p>Size: {productItem.productDetail.size}</p>
           <p>
             Origin of Country: Product of{" "}
-            {productItem.productDetail[0].countrySrc}
+            {productItem.productDetail.countrySrc}
           </p>
         </div>
 
