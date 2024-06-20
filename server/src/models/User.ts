@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 //const ObjectId = Schema.ObjectId;
 
 const UserSchema = new Schema({
-    email: String,
+    email: {type: String, unique: true},
     firstName: String,
     lastName: String,
     pw: String,
@@ -16,14 +16,14 @@ const UserSchema = new Schema({
         zip: String
     },
     cart: [{
-        name: String,
+        name: {type: String, unique: true},
         quantity: Number,
         price: Number,
         imgSrc: [String],
         checked: Boolean,
     }],
     orders: [{
-        orderNo: String,        
+        orderNo: {type: String, unique: true},        
         firstName: String,
         lastName: String,
         email: String,
@@ -41,7 +41,7 @@ const UserSchema = new Schema({
             mobile: String
         },
         products: [{
-            name: String,
+            name: {type: String, unique: true},
             quantity: Number,
             price: Number,
             imgSrc: [String],
