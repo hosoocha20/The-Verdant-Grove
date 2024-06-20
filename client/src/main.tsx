@@ -24,9 +24,9 @@ import Login from './pages/Login.tsx'
 import Checkout from './pages/Checkout.tsx'
 import Payment from './pages/Payment.tsx'
 import { IOrderDetail } from './interfaces/IOrder.ts'
-import useLocalStorage from './hooks/useLocalStorage.tsx'
 
 
+const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || '[]');
 
 const Layout = () => {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ const Layout = () => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [authErrorMsg, setAuthErrorMsg] = useState({msg: ''})
   const [loginErrorMsg, setLoginErrorMsg] = useState({msg: ''})
-  const [shoppingCart, setShoppingCart] = useState<IShoppingCartItem[]>([]);
+  const [shoppingCart, setShoppingCart] = useState<IShoppingCartItem[]>(cartFromLocalStorage);
   //const [shoppingCart, setShoppingCart] = useLocalStorage<IShoppingCartItem[]>("cart", []);
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
