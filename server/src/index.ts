@@ -8,6 +8,7 @@ import User from './models/User'
 import Product from "./models/Product";
 import { createProductsController } from "./controllers/createProductsController";
 import { getAllProductsController, getProductsByCatController, getProductsBySearchController } from "./controllers/getProductsController";
+import { createUserController } from "./controllers/createUserController";
 
 
 require('dotenv').config()
@@ -41,9 +42,7 @@ app.get('/products/:category', getProductsByCatController)
 app.get('/products/search/:keyword', getProductsBySearchController)
 
 //Add User
-app.post("/register", async (req: Request, res: Response) => {
-
-})
+app.post("/register", createUserController)
 
 
 //Admin Only
