@@ -24,6 +24,7 @@ import Login from './pages/Login.tsx'
 import Checkout from './pages/Checkout.tsx'
 import Payment from './pages/Payment.tsx'
 import { IOrderDetail } from './interfaces/IOrder.ts'
+import useLocalStorage from './hooks/useLocalStorage.tsx'
 
 
 
@@ -56,6 +57,7 @@ const Layout = () => {
   const [authErrorMsg, setAuthErrorMsg] = useState({msg: ''})
   const [loginErrorMsg, setLoginErrorMsg] = useState({msg: ''})
   const [shoppingCart, setShoppingCart] = useState<IShoppingCartItem[]>([]);
+  //const [shoppingCart, setShoppingCart] = useLocalStorage<IShoppingCartItem[]>("cart", []);
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
 
@@ -111,9 +113,9 @@ const Layout = () => {
   const addToShoppingCart = (item: IShoppingCartItem) =>{
     const isItemInBag = shoppingCart.find((i) => i.name === item.name)
     if (isItemInBag){
-      setShoppingCart((prev) => prev.map((i) => (i.name === item.name ? {...i, quantity: (i.quantity + item.quantity)} : i)))
+      setShoppingCart((prev: IShoppingCartItem[]) => prev.map((i) => (i.name === item.name ? {...i, quantity: (i.quantity + item.quantity)} : i)))
     }else{
-      setShoppingCart((prev) => [...prev, item])
+      setShoppingCart((prev : IShoppingCartItem[]) => [...prev, item])
     }
     // if (isSignedOn){
     //   const findUser = users.find((u) => u.email === item.email)
@@ -146,6 +148,10 @@ const Layout = () => {
     setUsers((prev) => prev.map((u) => (u.email === update.email ? {...u, firstName: update.firstName, lastName: update.lastName} : u)));
     setAuthedUser(update);
   }
+
+  useEffect(() =>{
+    localStorage.setItem("cart", JSON.stringify(shoppingCart))
+  },[shoppingCart])
 
 
   return(
