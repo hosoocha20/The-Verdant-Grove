@@ -14,7 +14,7 @@ import { createUserController } from "./controllers/createUserController";
 require('dotenv').config()
 
 const app = express();
-
+import bodyParser from 'body-parser';
 
 //Express Middleware Function
 app.use(cors(
@@ -22,10 +22,12 @@ app.use(cors(
         origin: "*",
     }
 ));
+
 // app.use(cors({
 //     origin: "https://verdantgrove.com",
 // }))
 app.use(express.json());
+app.use(bodyParser.json());
 
 
 
