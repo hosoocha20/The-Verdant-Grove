@@ -48,6 +48,7 @@ const Layout = () => {
 });
   const [cookies, setCookie, removeCookie] = useCookies();
   const userEmail = cookies.Email || '';
+  const authToken = cookies.AuthToken || '';
   const [isSignedOn, setIsSignedOn] = useState(false);
   const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: [], address: {city: "", address1: "", address2: "", zip: ""} });
   const [authedEmail, setAuthedEmail] = useState('');
@@ -65,26 +66,6 @@ const Layout = () => {
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
 
 
-  // const signUp1 = (e: React.FormEvent, user: IUser) =>{
-  //   e.preventDefault();
-  //   const emailRe = /^\S+@\S+\.\S+$/;
-  //   const isValid = emailRe.test(user.email)
-
-  //   if (!isValid){
-  //     setAuthErrorMsg({...authErrorMsg, msg: "Invalid email"})
-  //     return
-  //   }
-  //   if (users.some(u=> u.email === user.email)){
-  //     setAuthErrorMsg({...authErrorMsg, msg: "An account with this email already exists."})
-  //     return
-  //   }
-  //   setUsers((prev) => [...prev, user])
-  //   setAuthedUser(user)
-  //   setIsSignedOn(true);
-  //   setAuthErrorMsg({msg: ''});
-  //   //setAuthedUser((user) => ({ ...user, firstName: e.target.value }))
-  //   navigate("/")
-  // }
 
   const logIn = (e: React.FormEvent, user: ILoginUser) =>{
     e.preventDefault();
@@ -155,14 +136,14 @@ const Layout = () => {
     //adding cart products to local storage for users who are not signed in - so their cart is maintained
   useEffect(() =>{
     //if user isnt signed on then we add to local storage, else, we will add to user database
-    if (!isSignedOn)
+    if (!authToken)
       localStorage.setItem("cart", JSON.stringify(shoppingCart))
   },[shoppingCart])
 
 
   return(
     <div className='App'>
-      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} isSignedOn={isSignedOn} logIn={logIn} loginErrorMsg={loginErrorMsg} setLoginErrorMsg={setLoginErrorMsg} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
+      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} authToken={authToken} logIn={logIn} loginErrorMsg={loginErrorMsg} setLoginErrorMsg={setLoginErrorMsg} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
       <Outlet context={{ users,setIsSignedOn, authedEmail, authedUser, setAuthedUser, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut,loginErrorMsg, setLoginErrorMsg ,updateUserProfile, shoppingCart, setShoppingCart, proceedToPay}}/>
       <Footer />
       <ScrollRestoration />

@@ -7,7 +7,7 @@ import { HiPlus, HiMinus } from "react-icons/hi";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
 interface ShoppingDrawerProps {
-  isSignedOn: boolean;
+  authToken: string;
   clickedOutsideShoppingRef: React.RefObject<HTMLDivElement>;
   openShoppingBagDrawer: boolean;
   setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
@@ -112,7 +112,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
 
   const checkoutOnClick = () =>{
     props.setOpenShoppingBagDrawer(false)
-    if (props.isSignedOn)
+    if (props.authToken)
       navigate('/checkout')
     else 
       navigate('/login')

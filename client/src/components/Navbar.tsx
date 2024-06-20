@@ -15,7 +15,7 @@ import LoginDrawer from "./LoginDrawer";
 import SearchResults from "../pages/SearchResults";
 
 interface NavbarProps {
-  isSignedOn: boolean;
+  authToken : string;
   openLoginDrawer: boolean;
   setOpenLoginDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   logIn : (e: React.FormEvent, user: ILoginUser) => void;
@@ -94,7 +94,7 @@ const Navbar = (props: NavbarProps) => {
   }
 
   const userOnClick = () =>{
-    if (props.isSignedOn){
+    if (props.authToken){
       navigate('/account')
     }else{
       props.setOpenLoginDrawer(true)
@@ -139,7 +139,7 @@ const Navbar = (props: NavbarProps) => {
         />
       </div>
 
-      <Sidebar openNavMenu={openNavMenu} isSignedOn={props.isSignedOn} openShopOptions={openShopOptions} openShopMenu_Link={openShopMenu_Link} />
+      <Sidebar openNavMenu={openNavMenu} authToken={props.authToken} openShopOptions={openShopOptions} openShopMenu_Link={openShopMenu_Link} />
 
 
       {/*Background overlays for drawers*/}
@@ -175,7 +175,7 @@ const Navbar = (props: NavbarProps) => {
 
       <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={props.openLoginDrawer} setOpenLoginDrawer={props.setOpenLoginDrawer} logIn={props.logIn} loginErrorMsg={props.loginErrorMsg} setLoginErrorMsg={props.setLoginErrorMsg}/>
 
-      <ShoppingDrawer isSignedOn={props.isSignedOn} clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} setShoppingCart={props.setShoppingCart}  removeShoppingCartItem={props.removeShoppingCartItem} removeSelectedShoppingCartItem={props.removeSelectedShoppingCartItem}/>
+      <ShoppingDrawer authToken={props.authToken} clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} setShoppingCart={props.setShoppingCart}  removeShoppingCartItem={props.removeShoppingCartItem} removeSelectedShoppingCartItem={props.removeSelectedShoppingCartItem}/>
 
     </nav>
   );

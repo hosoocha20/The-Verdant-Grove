@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { HiPlus, HiMinus } from "react-icons/hi";
 
 interface SidebarProps{
-    isSignedOn: boolean;
+    authToken : string;
     openNavMenu: boolean;
     openShopOptions: boolean;
     openShopMenu_Link: (link: string) => void;
@@ -80,7 +80,7 @@ const Sidebar = (props: SidebarProps) => {
       >
         About
       </Link>
-      {props.isSignedOn ? (
+      {props.authToken ? (
         <Link
           to={`/account`}
           className="nav-l-menu-drawer-link-b"
