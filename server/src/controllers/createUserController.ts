@@ -8,7 +8,7 @@ import User from '../models/User'
 
 
 export async function createUserController(req: Request, res: Response) {
-    const { firstName, lastName,email, pw, cart} = req.body;
+    const { firstName, lastName,email, pw, cart} = req.body ;
     const salt = bcrypt.genSaltSync(10);
     const hashedPw = bcrypt.hashSync(pw, salt);
     try{
@@ -17,8 +17,16 @@ export async function createUserController(req: Request, res: Response) {
             lastName: lastName,
             email: email,
             pw: hashedPw,
-            cart: cart
+            cart: cart,
+            address: {
+                city: '',
+                address1: '',
+                address2: '',
+                zip: ''
+            },
+            orders: [],
         })
+        const createdUser = await newUser.save();
         const token = jwt.sign({ email }, 'secret', {expiresIn: '1hr'})
         res.json({ email, token})
     }catch(err){
