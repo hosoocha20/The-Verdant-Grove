@@ -1,15 +1,57 @@
-import React, {SetStateAction, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 import { IUser } from "../interfaces/IUser";
+import { IShoppingCartItem } from "../interfaces/IShop";
 import { useOutletContext } from "react-router-dom";
-//setUser:  React.Dispatch<React.SetStateAction<IUser>>;
+
+interface IUserSignup{
+  firstName: string,
+  lastName: string,
+  email: string,
+  pw: string,
+  cart: IShoppingCartItem[]
+}
 const Signup = () => {
-  const [user, setUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: [], address: {city: "", address1: "", address2: "", zip: ""}});
-  //type AddUser = (e: React.FormEvent, user: IUser) => void;
-  const {  signUp, authErrorMsg, setAuthErrorMsg} : {  signUp : (e : React.FormEvent, user: IUser) => void, authErrorMsg : {msg : string}, setAuthErrorMsg: React.Dispatch<React.SetStateAction<{msg: string}>>} = useOutletContext();
+  const [user, setUser] = useState<IUserSignup>({firstName: '', lastName: '', email: '', pw: '', cart: []});
+  const [signupErrorMsg, setSignupErrorMsg] = useState({msg: ''});
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const {shoppingCart, setShoppingCart} : {shoppingCart: IShoppingCartItem[], setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>} = useOutletContext();
+  
  // const  addUser : AddUser    = useOutletContext();
  // const  authedUser: IUser = useOutletContext();
 
+ const signUp = async (e: React.FormEvent) => {
+  e.preventDefault();
+  const emailRe = /^\S+@\S+\.\S+$/;
+  const isValid = emailRe.test(user.email)
 
+  if (!isValid){
+    setSignupErrorMsg({...signupErrorMsg, msg: "Invalid email"})
+    return
+  }
+  try{
+    const response = await fetch(`${import.meta.env.VITE_SERVERURL}/register`, {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({firstName: user.firstName, lastName: user.lastName, email: user.email, pw: user.pw, cart: user.cart,})
+    })
+    const data = await response.json();
+    console.log(data)
+    if (data.detail) {
+      setSignupErrorMsg(data.detail)
+    }else{
+    setCookie('Email', data.email);
+    setCookie('AuthToken', data.token);
+    setShoppingCart([]);  //reset shopping cart
+    
+    window.location.reload()
+    }
+  }catch(err){
+    console.log(err);
+  }
+
+}
 
   useEffect(() =>{
     //setUser({firstName: '', lastName: '', email: '', pw: ''})
@@ -21,10 +63,10 @@ const Signup = () => {
       });
     }
 
-  }, [authErrorMsg])
+  }, [signupErrorMsg])
 
   useEffect(() =>{
-    setAuthErrorMsg({msg: ""})
+    setSignupErrorMsg({msg: ""})
   },[])
 
 
@@ -32,7 +74,7 @@ const Signup = () => {
     <div className="signup-container">
       <div>
         <h1>Sign Up</h1>
-        <form className="signup-form" onSubmit={(e) => signUp(e, user)}>
+        <form className="signup-form" onSubmit={(e) => signUp(e)}>
           <label>
             First Name
             <input type="text" name="firstName_signUp" value={user.firstName} onChange={ (e) => setUser({ ...user, firstName: e.target.value })} required/>
@@ -49,8 +91,8 @@ const Signup = () => {
             Password
             <input type="password" name="pw_signUp" value={user.pw} onChange={ (e) => setUser({ ...user, pw: e.target.value })}  required/>
           </label>
-          {authErrorMsg && (
-            <p className="signup-error-msg" id="signUp-error">{authErrorMsg.msg}</p>
+          {signupErrorMsg && (
+            <p className="signup-error-msg" id="signUp-error">{signupErrorMsg.msg}</p>
           )}
           <button>SIGN UP</button>
         </form>
