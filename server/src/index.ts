@@ -15,6 +15,7 @@ require('dotenv').config()
 
 const app = express();
 import bodyParser from 'body-parser';
+import { authUserController } from "./controllers/authUserController";
 
 //Express Middleware Function
 app.use(cors(
@@ -45,6 +46,8 @@ app.get('/products/search/:keyword', getProductsBySearchController)
 
 //Add User
 app.post("/register", createUserController)
+//Login
+app.post("/login", authUserController)
 
 
 //Admin Only

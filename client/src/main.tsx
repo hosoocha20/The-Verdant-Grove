@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import {Outlet, RouterProvider, createBrowserRouter, ScrollRestoration, useNavigate, useSearchParams} from 'react-router-dom'
 import axios from "axios";
 import  { useCookies } from 'react-cookie';
-import App from './App.tsx'
 import './index.css'
 import './styles/App.scss';
 import Navbar from './components/Navbar.tsx'
@@ -67,26 +66,28 @@ const Layout = () => {
 
 
 
-  const logIn = (e: React.FormEvent, user: ILoginUser) =>{
+  const logIn = async (e: React.FormEvent, user: ILoginUser) =>{
     e.preventDefault();
-    if (users.some(u=> (u.email === user.email && u.pw === user.pw))){
-      setIsSignedOn(true);
-      setAuthedEmail(user.email)
-      setOpenLoginDrawer(false);
-      const findUser = users.find(u => (u.email === user.email));
-      if (findUser)
-        setAuthedUser(findUser);
-      navigate("/")
-      setLoginErrorMsg({msg: ""})
+    const response = await fetch(`${import.meta.env.VITE_SERVERURL}/login`, {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email: user.email, pw: user.pw})
+    })
+    const data = await response.json();
+    if (data.detail){
+      setLoginErrorMsg({...loginErrorMsg, msg: data.detail})
     }else{
-      setLoginErrorMsg({...loginErrorMsg, msg: "Your email or password is incorrect. Please try again."})
+      setCookie("Email", data.email);
+      setCookie("AuthToken", data.token);
+      setOpenLoginDrawer(false);
+      window.location.reload();
     }
   }
 
   const logOut = () => {
     setAuthedUser({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: [], address: {city: "", address1: "", address2: "", zip: ""}});
-    setShoppingCart([]);
-    setIsSignedOn(false)
+    removeCookie('Email');
+    removeCookie('AuthToken');
     window.location.reload();
   }
   // const updateShoppingCartQuantity = () =>{
