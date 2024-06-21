@@ -25,6 +25,7 @@ import Login from './pages/Login.tsx'
 import Checkout from './pages/Checkout.tsx'
 import Payment from './pages/Payment.tsx'
 import { IOrderDetail } from './interfaces/IOrder.ts'
+import ProtectedRoutes from './routes/ProtectedRoutes.tsx';
 
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || '[]');
@@ -126,12 +127,7 @@ const Layout = () => {
     setUsers((prev) => prev.map((u) => (u.email === order.email ? {...u, orders: [...u.orders, order]} : u)))
   }
 
-  /*Account*/ 
-  const updateUserProfile = (e: React.MouseEvent<HTMLButtonElement>, update: IUser) =>{
-    e.preventDefault();
-    setUsers((prev) => prev.map((u) => (u.email === update.email ? {...u, firstName: update.firstName, lastName: update.lastName} : u)));
-    setAuthedUser(update);
-  }
+
 
   
     //adding cart products to local storage for users who are not signed in - so their cart is maintained
@@ -145,7 +141,7 @@ const Layout = () => {
   return(
     <div className='App'>
       <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} authToken={authToken} logIn={logIn} loginErrorMsg={loginErrorMsg} setLoginErrorMsg={setLoginErrorMsg} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
-      <Outlet context={{ users,setIsSignedOn, authedEmail, authedUser, setAuthedUser, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut,loginErrorMsg, setLoginErrorMsg ,updateUserProfile, shoppingCart, setShoppingCart, proceedToPay}}/>
+      <Outlet context={{authToken, users,setIsSignedOn, authedEmail, authedUser, setAuthedUser, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut,loginErrorMsg, setLoginErrorMsg, shoppingCart, setShoppingCart, proceedToPay}}/>
       <Footer />
       <ScrollRestoration />
     </div>
@@ -205,26 +201,31 @@ const router = createBrowserRouter([{
           element: <Login />
         },
         {
-          path: '/account',
-          element: <Account />,
+          element: <ProtectedRoutes />,
           children : [
             {
-              index: true,
-              element: <Orders />
+              path: '/account',
+              element: <Account />,
+              children : [
+                {
+                  index: true,
+                  element: <Orders />
+                },
+                {
+                  path:'/account/profile',
+                  element: <UserProfile />
+                }
+              ]
             },
             {
-              path:'/account/profile',
-              element: <UserProfile />
-            }
+              path: '/checkout',
+              element: <Checkout/>
+            },
+            {
+              path: '/payment',
+              element: <Payment />
+            },
           ]
-        },
-        {
-          path: '/checkout',
-          element: <Checkout/>
-        },
-        {
-          path: '/payment',
-          element: <Payment />
         },
         {
           path: '*',

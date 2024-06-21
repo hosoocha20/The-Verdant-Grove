@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Outlet, Link, NavLink, useOutletContext } from "react-router-dom";
-import { IUser } from "../interfaces/IUser";
+
 
 const Account = () => {
   const {logOut, email} : {logOut: ()=> void,  email: string} = useOutletContext();

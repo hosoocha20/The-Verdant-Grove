@@ -1,6 +1,6 @@
 import React from 'react'
 import { useCookies } from 'react-cookie'
-import { Navigate, Outlet, useOutletContext} from 'react-router-dom'
+import { Navigate, Outlet} from 'react-router-dom'
 
 const ProtectedRoutes = () => {
     const [cookies, setCookie, removeCookie] = useCookies();
