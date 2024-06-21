@@ -41,7 +41,6 @@ const Product = () => {
   }
 
   const addToBag = () =>{
-
     addToShoppingCart(thisItem)
   }
 

@@ -16,8 +16,8 @@ require('dotenv').config()
 const app = express();
 import bodyParser from 'body-parser';
 import { authUserController } from "./controllers/authUserController";
-import { getUserDetails, getUserOrders } from "./controllers/getUsersController";
-import { putUserDetailController } from "./controllers/putUsersController";
+import { getUserCart, getUserDetails, getUserOrders } from "./controllers/getUsersController";
+import putUserCartController, { putUserDetailController } from "./controllers/putUsersController";
 
 //Express Middleware Function
 app.use(cors(
@@ -44,6 +44,9 @@ app.get('/products', getAllProductsController)
 app.get('/products/:category', getProductsByCatController)
 //Search
 app.get('/products/search/:keyword', getProductsBySearchController)
+//Cart
+app.get('/cart/:email', getUserCart)
+app.put('/cart/:email', putUserCartController)
 
 //Add User
 app.post("/register", createUserController)

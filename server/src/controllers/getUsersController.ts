@@ -26,3 +26,14 @@ export async function getUserDetails(req: Request, res: Response) {
         console.log(err)
     }
 }
+
+export async function getUserCart(req: Request, res: Response){
+    const {email} = req.params;
+    try{
+        const user = await User.find({email : email});
+        const cart = user[0].cart;
+        res.json(cart)
+    }catch(err){
+        console.log(err)
+    }
+}

@@ -17,3 +17,17 @@ export async function putUserDetailController(req: Request, res: Response){
     }
     
 }
+
+export default async function putUserCartController(req: Request, res: Response) {
+    const {email} = req.params;
+    const {product} = req.body;
+    try{
+        const user = await User.find({email : email});
+        user[0].cart.push(product);
+        await user[0].save();
+        console.log(user[0].cart);
+        res.json(user[0].cart)
+    }catch(err){
+        console.log(err)
+    }
+}

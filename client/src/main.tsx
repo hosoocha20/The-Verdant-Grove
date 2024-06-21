@@ -47,7 +47,7 @@ const Layout = () => {
     date: new Date(),
 });
   const [cookies, setCookie, removeCookie] = useCookies();
-  const userEmail = cookies.Email || '';
+  const email = cookies.Email || '';
   const authToken = cookies.AuthToken || '';
   const [isSignedOn, setIsSignedOn] = useState(false);
   const [authedUser, setAuthedUser] = useState<IUser>({firstName: '', lastName: '', email: '', pw: '', cart: [], orders: [], address: {city: "", address1: "", address2: "", zip: ""} });
@@ -66,7 +66,7 @@ const Layout = () => {
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
 
 
-
+//Auth Requests
   const logIn = async (e: React.FormEvent, user: ILoginUser) =>{
     e.preventDefault();
     const response = await fetch(`${import.meta.env.VITE_SERVERURL}/login`, {
@@ -91,27 +91,52 @@ const Layout = () => {
     removeCookie('AuthToken');
     window.location.reload();
   }
+
+//Cart Requests
+
+  const getUserCart = async () =>{
+    let response;
+    try{
+      response = await axios.get(`${import.meta.env.VITE_SERVERURL}/cart/${email}`);
+      const data = await response.data;
+      setShoppingCart(data)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
+  const updateUserCart = async (product: IShoppingCartItem) =>{
+    let response;
+    try{
+      response = await fetch(`${import.meta.env.VITE_SERVERURL}/cart/${email}`, {
+        method: "PUT",
+        headers:  {'Content-Type': 'application/json'},
+        body: JSON.stringify({product})
+      })
+      const data = await response.json();
+      setShoppingCart(data);
+    }catch(err){
+      console.log(err)
+    }
+  }
   // const updateShoppingCartQuantity = () =>{
 
   // }
 
   const addToShoppingCart = (item: IShoppingCartItem) =>{
-    const isItemInBag = shoppingCart.find((i) => i.name === item.name)
-    if (isItemInBag){
-      setShoppingCart((prev: IShoppingCartItem[]) => prev.map((i) => (i.name === item.name ? {...i, quantity: (i.quantity + item.quantity)} : i)))
-    }else{
-      setShoppingCart((prev : IShoppingCartItem[]) => [...prev, item])
+    if (!authToken){
+      const isItemInBag = shoppingCart.find((i) => i.name === item.name)
+      if (isItemInBag){
+        setShoppingCart((prev: IShoppingCartItem[]) => prev.map((i) => (i.name === item.name ? {...i, quantity: (i.quantity + item.quantity)} : i)))
+      }else{
+        setShoppingCart((prev : IShoppingCartItem[]) => [...prev, item])
+      }
     }
-    // if (isSignedOn){
-    //   const findUser = users.find((u) => u.email === item.email)
-    //   const isItemInBag = findUser?.cart.find((i) => i.name === item.name)
-    //   if (isItemInBag)
-    //     setUsers((prev) => prev.map((u) => (u.email === item.email ? {...u, cart: (u.cart.map((i) => (i.name === item.name ? {...i, quantity : (i.quantity + item.quantity)} : i)))} : u)))
-    //   else
-    //     setUsers((prev) => prev.map((u) => (u.email === item.email ? {...u, cart: [...u.cart, item]} : u)))
-    // }else{
+    else{
+      updateUserCart(item);
+    }
 
-    // }
+
     setOpenShoppingBagDrawer(true);
   }
 
@@ -136,6 +161,10 @@ const Layout = () => {
     if (!authToken)
       localStorage.setItem("cart", JSON.stringify(shoppingCart))
   },[shoppingCart])
+  useEffect(()=>{
+    if (authToken)
+      getUserCart();
+  },[])
 
 
   return(
