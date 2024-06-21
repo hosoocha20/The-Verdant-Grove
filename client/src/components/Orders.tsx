@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -40,7 +41,7 @@ function createData(
   ];
 
 const Orders = () => {
-    const { users, authedUser } : {users: IUser[], authedUser: IUser} = useOutletContext();
+    const { email} : {email: string} = useOutletContext();
     const [orderHistory, setOrderHistory] = useState<IOrderDetail[]>([]);
 
     const [itemsPerPage, setItemsPerPage] = useState(8);
@@ -54,10 +55,19 @@ const Orders = () => {
       setPage(value);
     };
 
+    const getUserOrders = async () =>{
+      let response;
+      try{
+        response = await axios.get(`${import.meta.env.VITE_SERVERURL}/account/orders/${email}`);
+        const json = await response.data;
+        setOrderHistory(json);
+      }catch(err){
+        console.log(err)
+      }
+    }
+
     useEffect(() =>{
-      const user = users.find((u) => u.email === authedUser.email);
-      if (user)
-        setOrderHistory(user.orders);
+      getUserOrders();
     },[])
   return (
     <div className="account-orders-container">

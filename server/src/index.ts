@@ -16,6 +16,7 @@ require('dotenv').config()
 const app = express();
 import bodyParser from 'body-parser';
 import { authUserController } from "./controllers/authUserController";
+import { getUserOrders } from "./controllers/getUsersController";
 
 //Express Middleware Function
 app.use(cors(
@@ -34,13 +35,12 @@ app.use(bodyParser.json());
 
 const PORT = 5000;
 
-
+//Shop
 app.get('/', async(req: Request, res: Response) => {
     res.send("hello world")
 })
 app.get('/products', getAllProductsController)
 app.get('/products/:category', getProductsByCatController)
-
 //Search
 app.get('/products/search/:keyword', getProductsBySearchController)
 
@@ -49,6 +49,8 @@ app.post("/register", createUserController)
 //Login
 app.post("/login", authUserController)
 
+//Account
+app.get("/account/orders/:email", getUserOrders)
 
 //Admin Only
 app.post("/products", createProductsController);
