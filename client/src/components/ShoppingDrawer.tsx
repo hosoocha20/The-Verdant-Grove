@@ -9,8 +9,8 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 interface ShoppingDrawerProps {
   authToken: string;
   checkedAll : boolean;
-  handleCheckedAllOnChange : ()=> Promise<void>;
-  handleCheckedItemOnChange: (product: IShoppingCartItem) => Promise<void>;
+  handleCheckedAllOnChange : ()=> void;
+  handleCheckedItemOnChange: (product: IShoppingCartItem) => void;
   clickedOutsideShoppingRef: React.RefObject<HTMLDivElement>;
   openShoppingBagDrawer: boolean;
   setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;

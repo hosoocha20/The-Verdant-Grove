@@ -17,8 +17,8 @@ import SearchResults from "../pages/SearchResults";
 interface NavbarProps {
   authToken : string;
   checkedAll : boolean;
-  handleCheckedAllOnChange : () => Promise<void>;
-  handleCheckedItemOnChange : (product: IShoppingCartItem) => Promise<void>;
+  handleCheckedAllOnChange : () => void;
+  handleCheckedItemOnChange : (product: IShoppingCartItem) => void;
   openLoginDrawer: boolean;
   setOpenLoginDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   logIn : (e: React.FormEvent, user: ILoginUser) => void;

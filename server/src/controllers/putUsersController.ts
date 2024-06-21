@@ -37,7 +37,7 @@ export async function deleteUserCartItem(req: Request, res: Response){
     const {product} = req.body;
     const query = {email: email};
     try{
-        const user = await User.updateOne(query, {$pull: {cart: {name : product.name}}, "new": true});
+        await User.updateOne(query, {$pull: {cart: {name : product.name}}, "new": true});
         const updated = await User.find(query)
         res.json(updated[0].cart);
         
@@ -51,8 +51,21 @@ export async function updateCartCheckAll(req: Request, res: Response){
     const {state}: {state: Boolean} = req.body;
     const query = {email: email}
     try{
-        const user = await User.updateMany(query, {$set: {"cart.$[].checked" : state}, "new": true});
+        await User.updateMany(query, {$set: {"cart.$[].checked" : state}, "new": true});
         const updated = await User.find(query)
+        res.json(updated[0].cart);
+    }catch(err){
+        console.log(err)
+    }
+}
+
+export async function updateCartCheckSelect(req: Request, res: Response){
+    const {email} = req.params;
+    const {product} = req.body;
+    const query = {"email": email, "cart.name" : product.name}
+    try{
+        await User.updateOne(query, {$set : {"cart.$.checked" : !product.checked}, "new": true});
+        const updated = await User.find({"email": email});
         res.json(updated[0].cart);
     }catch(err){
         console.log(err)
