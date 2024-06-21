@@ -17,7 +17,8 @@ const app = express();
 import bodyParser from 'body-parser';
 import { authUserController } from "./controllers/authUserController";
 import { getUserCart, getUserDetails, getUserOrders } from "./controllers/getUsersController";
-import putUserCartController, { putUserDetailController } from "./controllers/putUsersController";
+import putUserCartController, { deleteUserCartItem, putUserDetailController } from "./controllers/putUsersController";
+import { deleteSelectedProducts } from "./controllers/deleteUsersController";
 
 //Express Middleware Function
 app.use(cors(
@@ -47,6 +48,8 @@ app.get('/products/search/:keyword', getProductsBySearchController)
 //Cart
 app.get('/cart/:email', getUserCart)
 app.put('/cart/:email', putUserCartController)
+app.put('/cart/removeProduct/:email', deleteUserCartItem)
+app.delete('/cart/removeSelectedProducts/:email', deleteSelectedProducts)
 
 //Add User
 app.post("/register", createUserController)

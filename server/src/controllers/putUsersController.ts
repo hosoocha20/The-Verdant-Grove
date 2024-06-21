@@ -31,3 +31,17 @@ export default async function putUserCartController(req: Request, res: Response)
         console.log(err)
     }
 }
+
+export async function deleteUserCartItem(req: Request, res: Response){
+    const {email} = req.params;
+    const {product} = req.body;
+    const query = {email: email};
+    try{
+        const user = await User.updateOne(query, {$pull: {cart: {name : product.name}}, "new": true});
+        const updated = await User.find(query)
+        res.json(updated[0].cart);
+        
+    }catch(err){
+        console.log(err)
+    }
+}

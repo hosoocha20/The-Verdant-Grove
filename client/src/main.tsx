@@ -119,6 +119,48 @@ const Layout = () => {
       console.log(err)
     }
   }
+
+  const removeUserCartItem = async (product: IShoppingCartItem) =>{
+    let response;
+    try{
+      response = await fetch(`${import.meta.env.VITE_SERVERURL}/cart/removeProduct/${email}`, {
+        method: 'PUT',
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify({product})
+      })
+      const data = await response.json();
+      setShoppingCart(data);
+    }catch(err){
+      console.log(err)
+    }
+  }
+  const removeUserSelectedCartItem = async () =>{
+    let response;
+    try{
+      response = await fetch(`${import.meta.env.VITE_SERVERURL}/cart/removeSelectedProducts/${email}`, {
+        method: 'DELETE',
+        headers: {'Content-Type' : 'application/json'},
+      })
+      const data = await response.json();
+      console.log(data)
+      setShoppingCart(data);
+    }catch(err){
+      console.log(err)
+    }
+  }
+  const removeShoppingCartItem = (item: IShoppingCartItem) => {
+    if (!authToken)
+      setShoppingCart((prev) => prev.filter((i) => i.name !== item.name));
+    else{
+      removeUserCartItem(item);
+    }
+  };
+  const removeSelectedShoppingCartItem = () => {
+    if (!authToken)
+      setShoppingCart((prev) => prev.filter((i) => i.checked !== true));
+    else
+    removeUserSelectedCartItem();
+  }
   // const updateShoppingCartQuantity = () =>{
 
   // }
@@ -140,12 +182,8 @@ const Layout = () => {
     setOpenShoppingBagDrawer(true);
   }
 
-  const removeShoppingCartItem = (item: IShoppingCartItem) => {
-    setShoppingCart((prev) => prev.filter((i) => i.name !== item.name));
-  };
-  const removeSelectedShoppingCartItem = () => {
-    setShoppingCart((prev) => prev.filter((i) => i.checked !== true));
-  }
+
+
 
   /*Checkout*/
   const proceedToPay = (order: IOrderDetail) => {
