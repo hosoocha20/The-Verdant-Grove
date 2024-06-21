@@ -60,9 +60,12 @@ const Layout = () => {
   
   const [users, setUsers] = useState<IUser[]>([]);
   const [loginErrorMsg, setLoginErrorMsg] = useState({msg: ''})
+  
   const [shoppingCart, setShoppingCart] = useState<IShoppingCartItem[]>(cartFromLocalStorage);
-  //const [shoppingCart, setShoppingCart] = useLocalStorage<IShoppingCartItem[]>("cart", []);
+  //ShoppingDrawer Hooks
+  const [checkedAll, setCheckedAll] = useState(true);
   const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
+  //LoginDrawer Hooks
   const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
 
 
@@ -93,7 +96,6 @@ const Layout = () => {
   }
 
 //Cart Requests
-
   const getUserCart = async () =>{
     let response;
     try{
@@ -142,7 +144,7 @@ const Layout = () => {
         headers: {'Content-Type' : 'application/json'},
       })
       const data = await response.json();
-      console.log(data)
+      
       setShoppingCart(data);
     }catch(err){
       console.log(err)
@@ -161,9 +163,6 @@ const Layout = () => {
     else
     removeUserSelectedCartItem();
   }
-  // const updateShoppingCartQuantity = () =>{
-
-  // }
 
   const addToShoppingCart = (item: IShoppingCartItem) =>{
     if (!authToken){
@@ -177,9 +176,35 @@ const Layout = () => {
     else{
       updateUserCart(item);
     }
-
-
     setOpenShoppingBagDrawer(true);
+  }
+  const updateCartItemsCheckAll = async () =>{
+    let response;
+    try{
+      response = await fetch(`${import.meta.env.VITE_SERVERURL}/cart/updateCheckAll/${email}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({state: !checkedAll}),
+      })
+      const data = await response.json();
+      console.log(data);
+      setShoppingCart(data)
+    }catch(err){
+      console.log(err)
+    }
+  }
+  const handleCheckedAllOnChange = async () =>{
+    if (!authToken){
+      setShoppingCart((prev) =>
+        prev.map((i) => ({ ...i, checked: !checkedAll }))
+      );
+    }else{
+      updateCartItemsCheckAll();
+    }
+    setCheckedAll(!checkedAll);
+  }
+  const handleCheckedItemOnChange = async (product: IShoppingCartItem) =>{
+
   }
 
 
@@ -207,7 +232,7 @@ const Layout = () => {
 
   return(
     <div className='App'>
-      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} authToken={authToken} logIn={logIn} loginErrorMsg={loginErrorMsg} setLoginErrorMsg={setLoginErrorMsg} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
+      <Navbar openShoppingBagDrawer={openShoppingBagDrawer} setOpenShoppingBagDrawer={setOpenShoppingBagDrawer} shoppingCart={shoppingCart} setShoppingCart={setShoppingCart} checkedAll={checkedAll} handleCheckedAllOnChange={handleCheckedAllOnChange} handleCheckedItemOnChange={handleCheckedItemOnChange} authToken={authToken} logIn={logIn} loginErrorMsg={loginErrorMsg} setLoginErrorMsg={setLoginErrorMsg} searchResult={searchResult} setSearchResult={setSearchResult}  removeShoppingCartItem={removeShoppingCartItem } removeSelectedShoppingCartItem={removeSelectedShoppingCartItem} openLoginDrawer={openLoginDrawer} setOpenLoginDrawer={setOpenLoginDrawer}/>
       <Outlet context={{authToken, users,setIsSignedOn, authedEmail, authedUser, setAuthedUser, searchResult,   searchParams, setSearchParams, addToShoppingCart, logIn, logOut,loginErrorMsg, setLoginErrorMsg, shoppingCart, setShoppingCart, proceedToPay}}/>
       <Footer />
       <ScrollRestoration />

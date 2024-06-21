@@ -8,6 +8,9 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 
 interface ShoppingDrawerProps {
   authToken: string;
+  checkedAll : boolean;
+  handleCheckedAllOnChange : ()=> Promise<void>;
+  handleCheckedItemOnChange: (product: IShoppingCartItem) => Promise<void>;
   clickedOutsideShoppingRef: React.RefObject<HTMLDivElement>;
   openShoppingBagDrawer: boolean;
   setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,19 +20,19 @@ interface ShoppingDrawerProps {
   removeSelectedShoppingCartItem: () => void;
 }
 const ShoppingDrawer = (props: ShoppingDrawerProps) => {
-  const [checkedAll, setCheckedAll] = useState(true);
+  
   const navigate = useNavigate();
 
   const min = 1;
   const max = 99;
 
-  const handleCheckedAllOnChange = () => {
-    //props.shoppingCart.forEach((i)=>{i.checked = !checkedAll;})
-    props.setShoppingCart((prev) =>
-      prev.map((i) => ({ ...i, checked: !checkedAll }))
-    );
-    setCheckedAll(!checkedAll);
-  };
+  // const handleCheckedAllOnChange = () => {
+  //   //props.shoppingCart.forEach((i)=>{i.checked = !checkedAll;})
+  //   props.setShoppingCart((prev) =>
+  //     prev.map((i) => ({ ...i, checked: !checkedAll }))
+  //   );
+  //   setCheckedAll(!checkedAll);
+  // };
   const getSubtotal = (): number => {
     const checkedArrayTotal = props.shoppingCart.filter(
       (i) => i.checked === true
@@ -41,26 +44,27 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
     );
   };
   const [subtotal, setSubtotal] = useState(getSubtotal());
-  const handleCheckedItemOnChange = (item: IShoppingCartItem) => {
-    const checkedArray = props.shoppingCart.map((i) =>
-      i.name === item.name ? { ...i, checked: !i.checked } : i
-    );
-    props.setShoppingCart(checkedArray);
-    if (checkedArray.some((i) => !i.checked))
-        setCheckedAll(false);
-    if (checkedArray.every((i) => i.checked))
-        setCheckedAll(true)
-    const checkedArrayTotal = props.shoppingCart.filter(
-      (i) => i.checked === true
-    );
-    setSubtotal(
-      checkedArrayTotal.reduce(
-        (accumulator, currentValue) =>
-          accumulator + currentValue.price * currentValue.quantity,
-        0
-      )
-    );
-  };
+  // const handleCheckedItemOnChange = (item: IShoppingCartItem) => {
+  //   const checkedArray = props.shoppingCart.map((i) =>
+  //     i.name === item.name ? { ...i, checked: !i.checked } : i
+  //   );
+  //   props.setShoppingCart(checkedArray);
+  //   if (checkedArray.some((i) => !i.checked))
+  //       setCheckedAll(false);
+  //   if (checkedArray.every((i) => i.checked))
+  //       setCheckedAll(true)
+  //   const checkedArrayTotal = props.shoppingCart.filter(
+  //     (i) => i.checked === true
+  //   );
+  //   setSubtotal(
+  //     checkedArrayTotal.reduce(
+  //       (accumulator, currentValue) =>
+  //         accumulator + currentValue.price * currentValue.quantity,
+  //       0
+  //     )
+  //   );
+  // };
+
 
   const decrement = (item: IShoppingCartItem) => {
     if (item.quantity > min) {
@@ -160,8 +164,8 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
                 type="checkbox"
                 id="selectBagCheckbox"
                 className="ui-checkbox"
-                checked={checkedAll}
-                onChange={handleCheckedAllOnChange}
+                checked={props.checkedAll}
+                onChange={props.handleCheckedAllOnChange}
               />
               <label htmlFor="selectBagCheckbox">Select All</label>
             </div>
@@ -181,7 +185,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
                     id="itemBagCheckbox"
                     className="ui-checkbox"
                     checked={item.checked}
-                    onChange={() => handleCheckedItemOnChange(item)}
+                    onChange={() => props.handleCheckedItemOnChange(item)}
                   />
                   <img
                     src={`${"/src/assets/" + item.imgSrc[0]}`}

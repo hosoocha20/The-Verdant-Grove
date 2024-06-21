@@ -45,3 +45,16 @@ export async function deleteUserCartItem(req: Request, res: Response){
         console.log(err)
     }
 }
+
+export async function updateCartCheckAll(req: Request, res: Response){
+    const {email} = req.params;
+    const {state}: {state: Boolean} = req.body;
+    const query = {email: email}
+    try{
+        const user = await User.updateMany(query, {$set: {"cart.$[].checked" : state}, "new": true});
+        const updated = await User.find(query)
+        res.json(updated[0].cart);
+    }catch(err){
+        console.log(err)
+    }
+}
