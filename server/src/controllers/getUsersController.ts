@@ -14,3 +14,15 @@ export async function getUserOrders(req: Request, res: Response) {
         console.log(err)
     }
 }
+
+export async function getUserDetails(req: Request, res: Response) {
+    const {email} = req.params;
+    try{
+        const userDetails = await User.find({email: email}, {firstName:1, lastName:1, email: 1, address:1});
+        //console.log("userDetails: ", userDetails);
+        res.json(userDetails);
+
+    }catch(err){
+        console.log(err)
+    }
+}

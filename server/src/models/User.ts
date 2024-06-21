@@ -3,8 +3,56 @@ import mongoose from "mongoose"
 
 const Schema = mongoose.Schema;
 //const ObjectId = Schema.ObjectId;
+interface IShoppingCartItem {
+    name: string;
+    quantity: number;
+    price: number;
+    imgSrc: string[];
+    checked: boolean;
+  }
 
-const CartSchema = new Schema({
+interface IOrderDetail {
+    orderNo: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    mobile?: string;
+    delivery: IOrderDelivery;
+    products: IShoppingCartItem[];
+    subtotal: number;
+    total: number;
+    shipping: number;
+    payment: string;
+    date: Date;
+
+}
+
+interface IOrderDelivery {
+    address1: string;
+    address2: string;
+    city: string;
+    zip: string;
+    mobile: string;
+}
+
+interface IUserAddress{
+    city?: string;
+    address1?: string;
+    address2?: string;
+    zip?: string;
+}
+
+interface IUser{
+    firstName: string;
+    lastName: string;
+    email: string;
+    pw: string;
+    cart: IShoppingCartItem[];
+    orders: IOrderDetail[];
+    address: IUserAddress;
+}
+
+const CartSchema = new Schema<IShoppingCartItem>({
     name: String,
     quantity: Number,
     price: Number,
@@ -12,7 +60,7 @@ const CartSchema = new Schema({
     checked: Boolean,
 })
 
-const OrderSchema = new Schema({
+const OrderSchema = new Schema<IOrderDetail>({
     orderNo: {type: String, unique: true},        
     firstName: String,
     lastName: String,
@@ -40,7 +88,7 @@ const OrderSchema = new Schema({
 })
 
 
-const UserSchema = new Schema({
+const UserSchema = new Schema<IUser>({
     email: {type: String, required: true, index: {unique: true}},
     firstName: {type: String,  required: true},
     lastName: {type: String,  required: true},
@@ -61,6 +109,6 @@ const UserSchema = new Schema({
     },
 })
 
-const UserModel = mongoose.model('User', UserSchema);
+const UserModel = mongoose.model<IUser>('User', UserSchema);
 
 export default UserModel;

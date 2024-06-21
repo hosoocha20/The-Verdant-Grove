@@ -16,7 +16,8 @@ require('dotenv').config()
 const app = express();
 import bodyParser from 'body-parser';
 import { authUserController } from "./controllers/authUserController";
-import { getUserOrders } from "./controllers/getUsersController";
+import { getUserDetails, getUserOrders } from "./controllers/getUsersController";
+import { putUserDetailController } from "./controllers/putUsersController";
 
 //Express Middleware Function
 app.use(cors(
@@ -51,6 +52,9 @@ app.post("/login", authUserController)
 
 //Account
 app.get("/account/orders/:email", getUserOrders)
+app.get("/account/profile/:email", getUserDetails)
+app.put("/account/profile/:email", putUserDetailController)
+
 
 //Admin Only
 app.post("/products", createProductsController);

@@ -11,6 +11,13 @@ export interface IUser{
     address: IUserAddress;
 }
 
+export interface IUserProfile{
+    firstName: string;
+    lastName: string;
+    email: string;
+    address: IUserAddress;
+}
+
 export interface IUserNew{
     firstName: string;
     lastName: string;
