@@ -246,32 +246,96 @@ const Layout = () => {
   };
   const updateCartItemsCheckSelect = async (product: IShoppingCartItem) => {
     let response;
-    try{
+    try {
       response = await fetch(
         `${import.meta.env.VITE_SERVERURL}/cart/updateCheckSelect/${email}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ product}),
+          body: JSON.stringify({ product }),
         }
       );
       const data = await response.json();
 
       setShoppingCart(data);
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-
-  }
+  };
   const handleCheckedItemOnChange = (product: IShoppingCartItem) => {
     if (!authToken) {
       const checkedArray = shoppingCart.map((i) =>
         i.name === product.name ? { ...i, checked: !i.checked } : i
       );
       setShoppingCart(checkedArray);
-    }else{
-      updateCartItemsCheckSelect(product)
+    } else {
+      updateCartItemsCheckSelect(product);
     }
+  };
+  const updateCartItemQuantityByOne = async (
+    product: IShoppingCartItem,
+    val: number
+  ) => {
+    let response;
+    try {
+      response = await fetch(
+        `${import.meta.env.VITE_SERVERURL}/cart/updateQuantityOne/${email}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ product, val }),
+        }
+      );
+      const data = await response.json();
+      setShoppingCart(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleQuantityCounterOnChange = (
+    product: IShoppingCartItem,
+    val: number
+  ) => {
+    if (!authToken) {
+      //decrement (val = -1), increment (val = 1)
+      setShoppingCart((prev) =>
+        prev.map((i) =>
+          i.name === product.name ? { ...i, quantity: i.quantity + val } : i
+        )
+      );
+    } else {
+      updateCartItemQuantityByOne(product, val);
+    }
+  };
+  const updateCartItemQuantityByVal = async (
+    product: IShoppingCartItem,
+    val: number
+  ) => {
+    let response;
+    try {
+      response = await fetch(
+        `${import.meta.env.VITE_SERVERURL}/cart/updateQuantityByVal/${email}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ product, val }),
+        }
+      );
+      const data = await response.json();
+      setShoppingCart(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleQuantityValOnChange = (
+    product: IShoppingCartItem,
+    val: number
+  ) => {
+    setShoppingCart((prev) =>
+      prev.map((i) => (i.name === product.name ? { ...i, quantity: val } : i))
+    );
+    if (authToken)
+        updateCartItemQuantityByVal(product, val)
   };
 
   /*Checkout*/
@@ -290,7 +354,7 @@ const Layout = () => {
     if (shoppingCart.some((i) => !i.checked)) setCheckedAll(false);
     if (shoppingCart.every((i) => i.checked)) setCheckedAll(true);
   }, [shoppingCart]);
-  
+
   useEffect(() => {
     if (authToken) getUserCart();
   }, []);
@@ -305,6 +369,8 @@ const Layout = () => {
         checkedAll={checkedAll}
         handleCheckedAllOnChange={handleCheckedAllOnChange}
         handleCheckedItemOnChange={handleCheckedItemOnChange}
+        handleQuantityCounterOnChange={handleQuantityCounterOnChange}
+        handleQuantityValOnChange={handleQuantityValOnChange}
         authToken={authToken}
         logIn={logIn}
         loginErrorMsg={loginErrorMsg}

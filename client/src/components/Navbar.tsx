@@ -19,6 +19,8 @@ interface NavbarProps {
   checkedAll : boolean;
   handleCheckedAllOnChange : () => void;
   handleCheckedItemOnChange : (product: IShoppingCartItem) => void;
+  handleQuantityCounterOnChange: (product: IShoppingCartItem, val:number) => void;
+  handleQuantityValOnChange : (product: IShoppingCartItem, val: number) => void;
   openLoginDrawer: boolean;
   setOpenLoginDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   logIn : (e: React.FormEvent, user: ILoginUser) => void;
@@ -178,7 +180,7 @@ const Navbar = (props: NavbarProps) => {
 
       <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={props.openLoginDrawer} setOpenLoginDrawer={props.setOpenLoginDrawer} logIn={props.logIn} loginErrorMsg={props.loginErrorMsg} setLoginErrorMsg={props.setLoginErrorMsg}/>
 
-      <ShoppingDrawer authToken={props.authToken} checkedAll={props.checkedAll} handleCheckedAllOnChange={props.handleCheckedAllOnChange} handleCheckedItemOnChange={props.handleCheckedItemOnChange} clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart} setShoppingCart={props.setShoppingCart}  removeShoppingCartItem={props.removeShoppingCartItem} removeSelectedShoppingCartItem={props.removeSelectedShoppingCartItem}/>
+      <ShoppingDrawer authToken={props.authToken} checkedAll={props.checkedAll} handleCheckedAllOnChange={props.handleCheckedAllOnChange} handleCheckedItemOnChange={props.handleCheckedItemOnChange} handleQuantityCounterOnChange={props.handleQuantityCounterOnChange} handleQuantityValOnChange={props.handleQuantityValOnChange} clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart}  removeShoppingCartItem={props.removeShoppingCartItem} removeSelectedShoppingCartItem={props.removeSelectedShoppingCartItem}/>
 
     </nav>
   );

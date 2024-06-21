@@ -71,3 +71,29 @@ export async function updateCartCheckSelect(req: Request, res: Response){
         console.log(err)
     }
 }
+
+export async function updateCartQuantityOne(req:Request, res: Response){
+    const {email} = req.params;
+    const {product, val} = req.body;
+    const query = {"email": email, "cart.name" : product.name};
+    try{
+        await User.updateOne(query, {$set : {"cart.$.quantity" : product.quantity + val}, "new": true});
+        const updated = await User.find({"email": email});
+        res.json(updated[0].cart);
+    }catch(err){
+        console.log(err)
+    }
+}
+
+export async function updateCartQuantityByVal(req:Request, res: Response){
+    const {email} = req.params;
+    const {product, val} = req.body;
+    const query = {"email": email, "cart.name" : product.name};
+    try{
+        await User.updateOne(query, {$set : {"cart.$.quantity" : val}, "new": true});
+        const updated = await User.find({"email": email});
+        res.json(updated[0].cart);
+    }catch(err){
+        console.log(err)
+    }
+}
