@@ -41,7 +41,7 @@ const OrderSchema = new Schema({
 
 
 const UserSchema = new Schema({
-    email: {type: String, required: true, unique: true},
+    email: {type: String, required: true, index: {unique: true}},
     firstName: {type: String,  required: true},
     lastName: {type: String,  required: true},
     pw: {type: String, required: true},

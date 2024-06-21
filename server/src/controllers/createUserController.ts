@@ -30,7 +30,7 @@ export async function createUserController(req: Request, res: Response) {
         const token = jwt.sign({ email }, 'secret', {expiresIn: '1hr'})
         res.json({ email, token})
     }catch(err){
-        console.log(err)
+        console.log(err);
         if (err) {
             res.json({ detail: 'An account with this email already exists.'})
           }

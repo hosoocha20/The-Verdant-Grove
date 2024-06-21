@@ -39,12 +39,11 @@ const Signup = () => {
     const data = await response.json();
     console.log(data)
     if (data.detail) {
-      setSignupErrorMsg(data.detail)
+      setSignupErrorMsg({...signupErrorMsg, msg: data.detail})
     }else{
     setCookie('Email', data.email);
     setCookie('AuthToken', data.token);
     setShoppingCart([]);  //reset shopping cart
-    
     window.location.reload()
     }
   }catch(err){
