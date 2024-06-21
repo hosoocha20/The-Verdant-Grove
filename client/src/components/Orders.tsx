@@ -7,38 +7,10 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Pagination from "@mui/material/Pagination";
 import TablePagination from "@mui/material/TablePagination";
-import { IUser } from "../interfaces/IUser";
 import { IOrderDetail } from "../interfaces/IOrder";
 
 
-function createData(
-    order: string,
-    date: string,
-    status: string,
-    total: string
-  ) {
-    return { order, date, status, total };
-  }
-  
-  const rows = [
-    createData("012345", "May 14, 2024", "Paid", "79"),
-    createData("123642", "January 24, 2024", "Paid", "29"),
-    createData("235632", "December 10, 2023", "Paid", "13"),
-    createData("157323", "October 3, 2023", "Paid", "48"),
-    createData("135242", "May 14, 2023", "Paid", "24"),
-    createData("135241", "May 14, 2023", "Paid", "24"),
-    createData("135243", "May 14, 2023", "Paid", "24"),
-    createData("135244", "May 14, 2023", "Paid", "24"),
-    createData("135245", "May 14, 2023", "Paid", "24"),
-    createData("135246", "May 14, 2023", "Paid", "24"),
-    createData("135247", "May 14, 2023", "Paid", "24"),
-    createData("135248", "May 14, 2023", "Paid", "24"),
-    createData("135249", "May 14, 2023", "Paid", "24"),
-    createData("135210", "May 14, 2023", "Paid", "24"),
-  ];
 
 const Orders = () => {
     const { email} : {email: string} = useOutletContext();
@@ -46,7 +18,6 @@ const Orders = () => {
 
     const [itemsPerPage, setItemsPerPage] = useState(8);
     const [page, setPage] = useState(0);
-    const [noOfPages] = useState(Math.ceil(rows.length / itemsPerPage));
   
     const handleChange = (
       event: React.MouseEvent<HTMLButtonElement> | null,
