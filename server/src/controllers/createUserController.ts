@@ -27,7 +27,7 @@ export async function createUserController(req: Request, res: Response) {
             orders: [],
         })
         const createdUser = await newUser.save();
-        const token = jwt.sign({ email }, 'secret', {expiresIn: '1hr'})
+        const token = jwt.sign({ email }, 'secret', {expiresIn: '1h'})
         res.json({ email, token})
     }catch(err){
         console.log(err);

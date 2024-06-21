@@ -61,11 +61,11 @@ const LoginDrawer = (props: LoginDrawerProps) => {
     <h1>Log in</h1>
     <form className="login-drawer-form" onSubmit={(e) => props.logIn(e, loginUser)}>
       <div className="login-drawer-email-wrapper">
-        <input type="email" id="email-login" placeholder="EMAIL" value={loginUser.email} onChange={(e)=>setLoginUser({ ...loginUser, email: e.target.value })}/>
+        <input type="email" id="email-login" placeholder="EMAIL" required value={loginUser.email} onChange={(e)=>setLoginUser({ ...loginUser, email: e.target.value })}/>
         <p>EMAIL</p>
       </div>
       <div className="login-drawer-pw-wrapper">
-        <input type="password" id="pw-login" placeholder="PASSWORD" value={loginUser.pw} onChange={(e)=>setLoginUser({ ...loginUser, pw: e.target.value })}/>
+        <input type="password" id="pw-login" placeholder="PASSWORD" required value={loginUser.pw} onChange={(e)=>setLoginUser({ ...loginUser, pw: e.target.value })}/>
         <p>PASSWORD</p>
       </div>
       <div>
