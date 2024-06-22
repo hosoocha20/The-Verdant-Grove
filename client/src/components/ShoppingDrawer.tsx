@@ -31,7 +31,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
     );
     return checkedArrayTotal.reduce(
       (accumulator, currentValue) =>
-        accumulator + currentValue.price * currentValue.quantity,
+        accumulator + currentValue.price * ((isNaN(currentValue.quantity)) ? 1 : currentValue.quantity ),
       0
     );
   };
@@ -75,7 +75,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
     setSubtotal(
       checkedArrayTotal.reduce(
         (accumulator, currentValue) =>
-          accumulator + currentValue.price * currentValue.quantity,
+          accumulator + currentValue.price * ((Number.isNaN(currentValue.quantity)) ? 1 : currentValue.quantity ),
         0
       )
     );

@@ -27,23 +27,25 @@ const Checkout = () => {
     date: new Date(),
   });
 
-  const getCheckoutItems = () =>  {
+  const getSubTotal = (cart: IShoppingCartItem[]) : number =>  {
     try {
-      const data = orderDetail.products.filter((i) => i.checked === true);
+      const data = cart.filter((i) => i.checked === true);
       const subtotal = data.reduce(
         (accumulator, currentValue) =>
           accumulator + currentValue.price * currentValue.quantity,
         0
       );
-      const total = subtotal + orderDetail.shipping;
-      setOrderDetail({
-        ...orderDetail,
-        subtotal: +subtotal.toFixed(2),
-        total: +total.toFixed(2),
-      });
+      // const total = subtotal + orderDetail.shipping;
+      // setOrderDetail({
+      //   ...orderDetail,
+      //   subtotal: +subtotal.toFixed(2),
+      //   total: +total.toFixed(2),
+      // });
+      return subtotal
     } catch (err) {
       console.log(err);
     }
+    return 0
   };
 
   const getUserOrderDetails = async () => {
@@ -58,11 +60,12 @@ const Checkout = () => {
         email: email,
         delivery: { address1: data.address?.address1 || "", address2: data.address?.address2 || "", city: data.address?.city || "", zip: data.address?.zip || "", mobile: "" },
         products: data.cart,
-        subtotal: (data.cart.reduce((acc : number, curr: IShoppingCartItem) => acc+curr.price*curr.quantity)),
-        total: (data.cart.reduce((acc : number, curr: IShoppingCartItem) => acc+curr.price*curr.quantity) + 10),
+        subtotal: getSubTotal(data.cart),
+        total: getSubTotal(data.cart) + 10,
         shipping: 10,
         payment: "unpaid",
         date: new Date(),})
+        
     }catch(err){
       console.log(err)
     }
@@ -84,7 +87,8 @@ const Checkout = () => {
 
   useEffect(() => {
     getUserOrderDetails();
-    getCheckoutItems();
+    console.log(orderDetail.subtotal)
+    //getCheckoutItems();
     
   }, []);
   return (
