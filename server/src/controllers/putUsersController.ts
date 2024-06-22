@@ -97,3 +97,20 @@ export async function updateCartQuantityByVal(req:Request, res: Response){
         console.log(err)
     }
 }
+
+export async function proceedToPay(req: Request, res: Response){
+    const {email} = req.params;
+    const {orderDetail} = req.body;
+    console.log(orderDetail);
+    try{
+        const user = await User.find({email : email});
+        user[0].orders.push(orderDetail);
+        await user[0].save();
+        console.log(user[0].orders);
+        res.sendStatus(200);
+        //res.json(user[0].cart)
+    }catch(err){
+        console.log(err)
+        res.sendStatus(500);
+    }
+}

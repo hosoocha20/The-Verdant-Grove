@@ -9,11 +9,11 @@ import { IUser } from "../interfaces/IUser";
 const Product = () => {
   const location = useLocation();
   const { productItem } = location.state;
-  const { addToShoppingCart, authedUser } : {addToShoppingCart: (item: IShoppingCartItem) => void, authedUser: IUser} = useOutletContext();
+  const { addToShoppingCart} : {addToShoppingCart: (item: IShoppingCartItem) => void} = useOutletContext();
   const min = 1;
   const max = 99;
   const [quantity, setQuantity] = useState(min);
-  const [thisItem, setThisItem] = useState<IShoppingCartItem>({email: authedUser.email, name: productItem.name, quantity: 1, price: productItem.price, imgSrc: productItem.imgMainSrc, checked: true})
+  const [thisItem, setThisItem] = useState<IShoppingCartItem>({ name: productItem.name, quantity: 1, price: productItem.price, imgSrc: productItem.imgMainSrc, checked: true})
 
 
   //console.log(productItem)

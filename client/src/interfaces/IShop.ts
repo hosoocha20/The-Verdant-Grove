@@ -33,7 +33,6 @@ export interface ShopType {
 }
 
 export interface IShoppingCartItem {
-  email: string;
   name: string;
   quantity: number;
   price: number;

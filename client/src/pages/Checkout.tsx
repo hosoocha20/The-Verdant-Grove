@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { IShoppingCartItem } from "../interfaces/IShop";
-import { IUser } from "../interfaces/IUser";
 import { IOrderDetail } from "../interfaces/IOrder";
 import axios from "axios";
 
 const Checkout = () => {
-    const navigate = useNavigate();
-  const {
-    email,
-    proceedToPay
-  }: { email: string , proceedToPay : (order: IOrderDetail) => void} =
-    useOutletContext();
+  const navigate = useNavigate();
+  const { email }: { email: string } = useOutletContext();
 
   const [orderDetail, setOrderDetail] = useState<IOrderDetail>({
     orderNo: "",
@@ -27,7 +22,12 @@ const Checkout = () => {
     date: new Date(),
   });
 
-  const getSubTotal = (cart: IShoppingCartItem[]) : number =>  {
+  const genRanHex = (size: number) =>
+    [...Array(size)]
+      .map(() => Math.floor(Math.random() * 16).toString(16))
+      .join("");
+
+  const getSubTotal = (cart: IShoppingCartItem[]): number => {
     try {
       const data = cart.filter((i) => i.checked === true);
       const subtotal = data.reduce(
@@ -35,61 +35,101 @@ const Checkout = () => {
           accumulator + currentValue.price * currentValue.quantity,
         0
       );
-      // const total = subtotal + orderDetail.shipping;
-      // setOrderDetail({
-      //   ...orderDetail,
-      //   subtotal: +subtotal.toFixed(2),
-      //   total: +total.toFixed(2),
-      // });
-      return subtotal
+      return subtotal;
     } catch (err) {
       console.log(err);
     }
-    return 0
+    return 0;
   };
 
   const getUserOrderDetails = async () => {
     let response;
-    try{
-      response = await axios.get(`${import.meta.env.VITE_SERVERURL}/checkout/orderForm/${email}`);
+    try {
+      response = await axios.get(
+        `${import.meta.env.VITE_SERVERURL}/checkout/orderForm/${email}`
+      );
       const data = response.data;
-      setOrderDetail({    
-        orderNo: String(Date.now() + Math.random()),
+      setOrderDetail({
+        orderNo: "",
         firstName: data.firstName,
         lastName: data.lastName,
         email: email,
-        delivery: { address1: data.address?.address1 || "", address2: data.address?.address2 || "", city: data.address?.city || "", zip: data.address?.zip || "", mobile: "" },
+        delivery: {
+          address1: data.address?.address1 || "",
+          address2: data.address?.address2 || "",
+          city: data.address?.city || "",
+          zip: data.address?.zip || "",
+          mobile: "",
+        },
         products: data.cart,
         subtotal: getSubTotal(data.cart),
         total: getSubTotal(data.cart) + 10,
         shipping: 10,
         payment: "unpaid",
-        date: new Date(),})
-        
+        date: new Date(),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const removeCheckedOutItemsFromCart = async () => {
+    console.log('Hi')
+    let response;
+    try{
+      response = await fetch(
+        `${import.meta.env.VITE_SERVERURL}/checkout/proceedToPay/${email}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" }
+        }
+      );
+      if (response.status === 200){
+        navigate('/payment', {state: {orderNo: orderDetail.orderNo, email: orderDetail.email, mobile: orderDetail.delivery.mobile, date: orderDetail.date, total: orderDetail.total}})
+      }else{
+        console.log(response.status)
+      }
     }catch(err){
       console.log(err)
     }
   }
 
-  const payOnSubmit = () => {
-    setOrderDetail({...orderDetail, date: new Date(), payment: "paid"})
-    //proceedToPay(orderDetail);
-  }
-
-
-  useEffect(() =>{
-    if (orderDetail.payment === "paid"){
-        proceedToPay(orderDetail);
-        navigate('/payment', {state: {orderNo: orderDetail.orderNo, email: orderDetail.email, mobile: orderDetail.delivery.mobile, date: orderDetail.date, total: orderDetail.total}})
+  const proceedToPay = async () => {
+    let response;
+    try {
+      response = await fetch(
+        `${import.meta.env.VITE_SERVERURL}/checkout/proceedToPay/${email}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderDetail }),
+        }
+      );
+      if (response.status === 200) {
+        //remove checkedout items from cart
+        removeCheckedOutItemsFromCart();
+      }else{
+        console.log(response.status)
+      }
+    } catch (err) {
+      console.log(err);
     }
+  };
+  const payOnSubmit =  () => {
+    setOrderDetail({ ...orderDetail, orderNo: genRanHex(8), date: new Date(), payment: "paid" });
 
-  },[orderDetail.payment])
+    //proceedToPay(orderDetail);
+  };
+
+  useEffect(() => {
+    if (orderDetail.payment === "paid") {
+      proceedToPay();
+    }
+  }, [orderDetail.payment]);
 
   useEffect(() => {
     getUserOrderDetails();
-    console.log(orderDetail.subtotal)
     //getCheckoutItems();
-    
   }, []);
   return (
     <div className="checkout-container">
@@ -246,7 +286,9 @@ const Checkout = () => {
               <span>NZD</span> ${Number(orderDetail.total).toFixed(2)}
             </p>
           </div>
-            <button className="checkout-pay-btn" onClick={payOnSubmit}>Proceed to Pay</button>
+          <button className="checkout-pay-btn" onClick={payOnSubmit}>
+            Proceed to Pay
+          </button>
         </div>
       </div>
     </div>

@@ -320,14 +320,7 @@ const Layout = () => {
         updateCartItemQuantityByVal(product, val)
   };
 
-  /*Checkout*/
-  const proceedToPay = (order: IOrderDetail) => {
-    setUsers((prev) =>
-      prev.map((u) =>
-        u.email === order.email ? { ...u, orders: [...u.orders, order] } : u
-      )
-    );
-  };
+ 
 
   //adding cart products to local storage for users who are not signed in - so their cart is maintained
   useEffect(() => {
@@ -380,7 +373,6 @@ const Layout = () => {
           setLoginErrorMsg,
           shoppingCart,
           setShoppingCart,
-          proceedToPay,
         }}
       />
       <Footer />
