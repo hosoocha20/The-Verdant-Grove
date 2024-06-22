@@ -61,7 +61,7 @@ const Layout = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   //const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword')?.trim() || '')
 
-  const [users, setUsers] = useState<IUser[]>([]);
+
   const [loginErrorMsg, setLoginErrorMsg] = useState({ msg: "" });
 
   const [shoppingCart, setShoppingCart] =
@@ -361,7 +361,6 @@ const Layout = () => {
         context={{
           authToken,
           email,
-          users,
           setIsSignedOn,
           searchResult,
           searchParams,
