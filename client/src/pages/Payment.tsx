@@ -20,7 +20,7 @@ const Payment = () => {
         </div>
         <div className="payment-order-details-wrapper">
           <p>Order No.</p>
-          <p>{orderNo}</p>
+          <p>{orderNo.toUpperCase()}</p>
           <p>Email</p>
           <p>{email}</p>
           {mobile && (
@@ -34,7 +34,7 @@ const Payment = () => {
           <p>Amount paid</p>
           <p>NZD ${total}</p>
         </div>
-        <Link to={"/"}>
+        <Link reloadDocument to={"/"} >
           <button>CLOSE</button>
         </Link>
       </div>

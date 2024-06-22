@@ -74,7 +74,6 @@ const Checkout = () => {
   };
 
   const removeCheckedOutItemsFromCart = async () => {
-    console.log('Hi')
     let response;
     try{
       response = await fetch(
