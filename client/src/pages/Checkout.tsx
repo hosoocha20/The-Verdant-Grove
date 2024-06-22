@@ -3,21 +3,21 @@ import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { IShoppingCartItem } from "../interfaces/IShop";
 import { IUser } from "../interfaces/IUser";
 import { IOrderDetail } from "../interfaces/IOrder";
+import axios from "axios";
 
 const Checkout = () => {
     const navigate = useNavigate();
   const {
-    authedUser,
-    shoppingCart,
+    email,
     proceedToPay
-  }: { authedUser: IUser; shoppingCart: IShoppingCartItem[] , proceedToPay : (order: IOrderDetail) => void} =
+  }: { email: string , proceedToPay : (order: IOrderDetail) => void} =
     useOutletContext();
 
   const [orderDetail, setOrderDetail] = useState<IOrderDetail>({
-    orderNo: "12345",
-    firstName: authedUser.firstName,
-    lastName: authedUser.lastName,
-    email: authedUser.email,
+    orderNo: "",
+    firstName: "",
+    lastName: "",
+    email: email,
     delivery: { address1: "", address2: "", city: "", zip: "", mobile: "" },
     products: [],
     subtotal: 0,
@@ -25,12 +25,11 @@ const Checkout = () => {
     shipping: 10,
     payment: "unpaid",
     date: new Date(),
-    mobile: "",
   });
 
-  const getCheckoutItems = async () => {
+  const getCheckoutItems = () =>  {
     try {
-      const data = await shoppingCart.filter((i) => i.checked === true);
+      const data = orderDetail.products.filter((i) => i.checked === true);
       const subtotal = data.reduce(
         (accumulator, currentValue) =>
           accumulator + currentValue.price * currentValue.quantity,
@@ -39,7 +38,6 @@ const Checkout = () => {
       const total = subtotal + orderDetail.shipping;
       setOrderDetail({
         ...orderDetail,
-        products: data,
         subtotal: +subtotal.toFixed(2),
         total: +total.toFixed(2),
       });
@@ -47,6 +45,28 @@ const Checkout = () => {
       console.log(err);
     }
   };
+
+  const getUserOrderDetails = async () => {
+    let response;
+    try{
+      response = await axios.get(`${import.meta.env.VITE_SERVERURL}/checkout/orderForm/${email}`);
+      const data = response.data;
+      setOrderDetail({    
+        orderNo: String(Date.now() + Math.random()),
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: email,
+        delivery: { address1: data.address?.address1 || "", address2: data.address?.address2 || "", city: data.address?.city || "", zip: data.address?.zip || "", mobile: "" },
+        products: data.cart,
+        subtotal: (data.cart.reduce((acc : number, curr: IShoppingCartItem) => acc+curr.price*curr.quantity)),
+        total: (data.cart.reduce((acc : number, curr: IShoppingCartItem) => acc+curr.price*curr.quantity) + 10),
+        shipping: 10,
+        payment: "unpaid",
+        date: new Date(),})
+    }catch(err){
+      console.log(err)
+    }
+  }
 
   const payOnSubmit = () => {
     setOrderDetail({...orderDetail, date: new Date(), payment: "paid"})
@@ -57,19 +77,15 @@ const Checkout = () => {
   useEffect(() =>{
     if (orderDetail.payment === "paid"){
         proceedToPay(orderDetail);
-        navigate('/payment', {state: {orderNo: orderDetail.orderNo, email: orderDetail.email, mobile: orderDetail.mobile, date: orderDetail.date, total: orderDetail.total}})
+        navigate('/payment', {state: {orderNo: orderDetail.orderNo, email: orderDetail.email, mobile: orderDetail.delivery.mobile, date: orderDetail.date, total: orderDetail.total}})
     }
 
   },[orderDetail.payment])
 
   useEffect(() => {
+    getUserOrderDetails();
     getCheckoutItems();
-    setOrderDetail({
-      ...orderDetail,
-      firstName: authedUser.firstName,
-      lastName: authedUser.lastName,
-      email: authedUser.email,
-    });
+    
   }, []);
   return (
     <div className="checkout-container">

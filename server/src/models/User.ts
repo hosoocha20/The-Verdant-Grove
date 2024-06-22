@@ -16,7 +16,6 @@ interface IOrderDetail {
     firstName: string;
     lastName: string;
     email: string;
-    mobile?: string;
     delivery: IOrderDelivery;
     products: IShoppingCartItem[];
     subtotal: number;
@@ -65,7 +64,6 @@ const OrderSchema = new Schema<IOrderDetail>({
     firstName: String,
     lastName: String,
     email: String,
-    mobile: String,
     subtotal: Number,
     total: Number,
     shipping: Number,

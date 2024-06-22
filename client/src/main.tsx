@@ -49,23 +49,13 @@ const Layout = () => {
     total: 0,
     shipping: 10,
     payment: "unpaid",
-    mobile: "",
     date: new Date(),
   });
   const [cookies, setCookie, removeCookie] = useCookies();
   const email = cookies.Email || "";
   const authToken = cookies.AuthToken || "";
   const [isSignedOn, setIsSignedOn] = useState(false);
-  const [authedUser, setAuthedUser] = useState<IUser>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    pw: "",
-    cart: [],
-    orders: [],
-    address: { city: "", address1: "", address2: "", zip: "" },
-  });
-  const [authedEmail, setAuthedEmail] = useState("");
+
 
   const [searchResult, setSearchResult] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
@@ -102,15 +92,7 @@ const Layout = () => {
   };
 
   const logOut = () => {
-    setAuthedUser({
-      firstName: "",
-      lastName: "",
-      email: "",
-      pw: "",
-      cart: [],
-      orders: [],
-      address: { city: "", address1: "", address2: "", zip: "" },
-    });
+
     removeCookie("Email");
     removeCookie("AuthToken");
     window.location.reload();
@@ -385,11 +367,9 @@ const Layout = () => {
       <Outlet
         context={{
           authToken,
+          email,
           users,
           setIsSignedOn,
-          authedEmail,
-          authedUser,
-          setAuthedUser,
           searchResult,
           searchParams,
           setSearchParams,

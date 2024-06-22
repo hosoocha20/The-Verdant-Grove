@@ -37,3 +37,26 @@ export async function getUserCart(req: Request, res: Response){
         console.log(err)
     }
 }
+
+export async function getUserOrderDetails(req: Request, res: Response){
+    const {email} = req.params;
+    try{
+        const user = await User.aggregate([{"$match": {"email": email, "cart.checked": true}},
+            {"$set" : {
+                "cart" : {
+                    "$filter" : {
+                        "input": "$cart",
+                        "cond" : {
+                            "$eq" : ["$$this.checked", true]
+                        }
+                    }
+                }
+            }}],
+             {"firstName":1, "lastName":1, "address" :1, "cart.$":1, "_id": 0}); 
+        //console.log(user);
+        res.json(user[0])
+    }catch(err){
+        console.log(err)
+    }
+}
+
