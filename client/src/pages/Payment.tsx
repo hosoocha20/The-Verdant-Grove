@@ -20,7 +20,7 @@ const Payment = () => {
         </div>
         <div className="payment-order-details-wrapper">
           <p>Order No.</p>
-          <p>{orderNo.toUpperCase()}</p>
+          <p>#{orderNo.toUpperCase()}</p>
           <p>Email</p>
           <p>{email}</p>
           {mobile && (

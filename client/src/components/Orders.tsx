@@ -76,10 +76,10 @@ const Orders = () => {
                           scope="row"
                           style={{ cursor: "pointer" }}
                         >
-                          #{row.orderNo}
+                          #{row.orderNo.toUpperCase()}
                         </TableCell>
-                        <TableCell align="left">{row.date.toLocaleString('en-NZ', {month: 'long', day: 'numeric', year: 'numeric'})}</TableCell>
-                        <TableCell align="left">{row.payment}</TableCell>
+                        <TableCell align="left">{new Date(row.date).toLocaleString('en-NZ', {month: 'long', day: 'numeric', year: 'numeric'})}</TableCell>
+                        <TableCell align="left">{row.payment.charAt(0).toUpperCase() + row.payment.slice(1)}</TableCell>
                         <TableCell align="left">${Number(row.total).toFixed(2)}</TableCell>
                       </TableRow>
                     ))}
