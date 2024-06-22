@@ -54,7 +54,6 @@ const Layout = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const email = cookies.Email || "";
   const authToken = cookies.AuthToken || "";
-  const [isSignedOn, setIsSignedOn] = useState(false);
 
 
   const [searchResult, setSearchResult] = useState("");
@@ -361,7 +360,6 @@ const Layout = () => {
         context={{
           authToken,
           email,
-          setIsSignedOn,
           searchResult,
           searchParams,
           setSearchParams,
