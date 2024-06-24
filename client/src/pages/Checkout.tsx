@@ -115,7 +115,8 @@ const Checkout = () => {
     }
   };
   const payOnSubmit =  () => {
-    setOrderDetail({ ...orderDetail, orderNo: genRanHex(8), date: new Date(), payment: "paid" });
+    if (orderDetail.firstName && orderDetail.lastName && orderDetail.email && orderDetail.delivery.address1 && orderDetail.delivery.city && orderDetail.delivery.zip)
+      setOrderDetail({ ...orderDetail, orderNo: genRanHex(8), date: new Date(), payment: "paid" });
 
     //proceedToPay(orderDetail);
   };
@@ -144,7 +145,9 @@ const Checkout = () => {
               First Name
               <input
                 type="text"
+                className={`${!orderDetail.firstName? "checkout-invalid" : ""}`}
                 value={orderDetail.firstName}
+             
                 onChange={(e) =>
                   setOrderDetail({ ...orderDetail, firstName: e.target.value })
                 }
@@ -154,7 +157,9 @@ const Checkout = () => {
               Last Name
               <input
                 type="text"
+                className={`${!orderDetail.lastName? "checkout-invalid" : ""}`}
                 value={orderDetail.lastName}
+               
                 onChange={(e) =>
                   setOrderDetail({ ...orderDetail, lastName: e.target.value })
                 }
@@ -165,7 +170,9 @@ const Checkout = () => {
             Email
             <input
               type="email"
+              className={`${!orderDetail.email? "checkout-invalid" : ""}`}
               value={orderDetail.email}
+              required
               onChange={(e) =>
                 setOrderDetail({ ...orderDetail, email: e.target.value })
               }
@@ -179,7 +186,9 @@ const Checkout = () => {
             Address Line 1
             <input
               type="text"
+              className={`${!orderDetail.delivery.address1? "checkout-invalid" : ""}`}
               value={orderDetail.delivery.address1}
+              required
               onChange={(e) =>
                 setOrderDetail({
                   ...orderDetail,
@@ -192,7 +201,7 @@ const Checkout = () => {
             />
           </label>
           <label>
-            Address Line 2
+            Address Line 2 (optional)
             <input
               type="text"
               value={orderDetail.delivery.address2}
@@ -211,7 +220,9 @@ const Checkout = () => {
             City
             <input
               type="text"
+              className={`${!orderDetail.delivery.city? "checkout-invalid" : ""}`}
               value={orderDetail.delivery.city}
+              required
               onChange={(e) =>
                 setOrderDetail({
                   ...orderDetail,
@@ -224,7 +235,9 @@ const Checkout = () => {
             Zip/Postal Code
             <input
               type="text"
+              className={`${!orderDetail.delivery.zip? "checkout-invalid" : ""}`}
               value={orderDetail.delivery.zip}
+              required
               onChange={(e) =>
                 setOrderDetail({
                   ...orderDetail,
