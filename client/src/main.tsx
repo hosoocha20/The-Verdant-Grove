@@ -33,6 +33,7 @@ import Checkout from "./pages/Checkout.tsx";
 import Payment from "./pages/Payment.tsx";
 import { IOrderDetail } from "./interfaces/IOrder.ts";
 import ProtectedRoutes from "./routes/ProtectedRoutes.tsx";
+import OrderView from "./components/OrderView.tsx";
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 
@@ -179,8 +180,8 @@ const Layout = () => {
   };
 
   const addToShoppingCart = (item: IShoppingCartItem) => {
+    const isItemInBag = shoppingCart.find((i) => i.name === item.name);
     if (!authToken) {
-      const isItemInBag = shoppingCart.find((i) => i.name === item.name);
       if (isItemInBag) {
         setShoppingCart((prev: IShoppingCartItem[]) =>
           prev.map((i) =>
@@ -193,7 +194,12 @@ const Layout = () => {
         setShoppingCart((prev: IShoppingCartItem[]) => [...prev, item]);
       }
     } else {
-      updateUserCart(item);
+      if (isItemInBag){
+        updateCartItemQuantityByExisting(isItemInBag, item.quantity);
+      }else{
+        updateUserCart(item);
+      }
+      
     }
     setOpenShoppingBagDrawer(true);
   };
@@ -286,6 +292,26 @@ const Layout = () => {
       );
     } else {
       updateCartItemQuantityByOne(product, val);
+    }
+  };
+  const updateCartItemQuantityByExisting = async (
+    product: IShoppingCartItem,
+    val: number
+  ) => {
+    let response;
+    try {
+      response = await fetch(
+        `${import.meta.env.VITE_SERVERURL}/cart/updateQuantityByExisting/${email}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ product, val }),
+        }
+      );
+      const data = await response.json();
+      setShoppingCart(data);
+    } catch (err) {
+      console.log(err);
     }
   };
   const updateCartItemQuantityByVal = async (
@@ -440,6 +466,10 @@ const router = createBrowserRouter([
                   {
                     index: true,
                     element: <Orders />,
+                  },
+                  {
+                    path: "/account/orders/:orderID",
+                    element: <OrderView />
                   },
                   {
                     path: "/account/profile",

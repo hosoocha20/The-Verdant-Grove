@@ -17,7 +17,7 @@ const app = express();
 import bodyParser from 'body-parser';
 import { authUserController } from "./controllers/authUserController";
 import { getUserCart, getUserDetails, getUserOrderDetails, getUserOrders } from "./controllers/getUsersController";
-import putUserCartController, { deleteUserCartItem, proceedToPay, putUserDetailController, updateCartCheckAll, updateCartCheckSelect, updateCartQuantityByVal, updateCartQuantityOne } from "./controllers/putUsersController";
+import putUserCartController, { deleteUserCartItem, proceedToPay, putUserDetailController, updateCartCheckAll, updateCartCheckSelect, updateCartQuantityByExisting, updateCartQuantityByVal, updateCartQuantityOne } from "./controllers/putUsersController";
 import { deleteCheckedOutProducts, deleteSelectedProducts } from "./controllers/deleteUsersController";
 
 //Express Middleware Function
@@ -54,6 +54,7 @@ app.put('/cart/updateCheckAll/:email', updateCartCheckAll)
 app.put('/cart/updateCheckSelect/:email', updateCartCheckSelect)
 app.put('/cart/updateQuantityOne/:email', updateCartQuantityOne)
 app.put('/cart/updateQuantityByVal/:email', updateCartQuantityByVal)
+app.put('/cart/updateQuantityByExisting/:email', updateCartQuantityByExisting)
 //Checkout
 app.get('/checkout/orderForm/:email', getUserOrderDetails)
 app.put('/checkout/proceedToPay/:email', proceedToPay)

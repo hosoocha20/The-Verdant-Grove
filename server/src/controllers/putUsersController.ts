@@ -97,6 +97,18 @@ export async function updateCartQuantityByVal(req:Request, res: Response){
         console.log(err)
     }
 }
+export async function updateCartQuantityByExisting(req: Request, res: Response){
+    const {email} = req.params;
+    const {product, val} = req.body;
+    const query = {"email": email, "cart.name" : product.name};
+    try{
+        await User.updateOne(query, {$set : {"cart.$.quantity" : product.quantity + val}, "new": true});
+        const updated = await User.find({"email": email});
+        res.json(updated[0].cart);
+    }catch(err){
+        console.log(err)
+    }
+}
 
 export async function proceedToPay(req: Request, res: Response){
     const {email} = req.params;
@@ -106,7 +118,7 @@ export async function proceedToPay(req: Request, res: Response){
         const user = await User.find({email : email});
         user[0].orders.push(orderDetail);
         await user[0].save();
-        console.log(user[0].orders);
+        //console.log(user[0].orders);
         res.sendStatus(200);
         //res.json(user[0].cart)
     }catch(err){
