@@ -1,251 +1,308 @@
 @import "./variables";
 
-.account-container{
-    width: 100%;
-    margin-top: var(--nav-height);
-    padding: 3rem 3rem;
+.account-container {
+  width: 100%;
+  margin-top: var(--nav-height);
+  padding: 3rem 3rem;
 
-    hr{
-        height: 1px;
-        border: 0;
-        background-color: $silver-200;
+  hr {
+    height: 1px;
+    border: 0;
+    background-color: $silver-200;
+  }
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: $silver-950;
+    padding-bottom: 1.5rem;
+  }
+}
+.account-flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 60vh;
+  padding: 2.5rem 0;
+}
+.account-flex-wrap-l {
+  @include flex-column();
+  width: 20%;
+  gap: 1rem;
+
+  a {
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+
+    transition: color 0.25s ease-out;
+    text-decoration: none;
+
+    &:hover {
+      color: #000000;
+      text-decoration: underline;
     }
-    h1{
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: $silver-950;
-        padding-bottom: 1.5rem;
-    }
-
-
+  }
 }
-.account-flex-wrap{
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 60vh;
-    padding: 2.5rem 0;
-    
+.account-link {
+  color: $silver-700;
 }
-.account-flex-wrap-l{
-    @include flex-column();
-    width: 20%;
-    gap: 1rem;
-   
-
-    a{
-        font-size: 14px;
-        font-weight: 400;
-        cursor: pointer;
-        
-        transition: color 0.25s ease-out;
-        text-decoration: none;
-
-        &:hover{
-            color: #000000;
-            text-decoration: underline;
-        }
-
-    }
+.account-navLink-active {
+  color: #000000;
 }
-.account-link{
-    color: $silver-700;
+.account-navLink-inactive {
+  color: $silver-700;
 }
-.account-navLink-active{
-    color: #000000;
-}
-.account-navLink-inactive{
-    color: $silver-700;
-}
-.account-flex-wrap-r{
-    flex-grow: 1;
-
+.account-flex-wrap-r {
+  flex-grow: 1;
 }
 
 /*Orders SCSS*/
-.account-orders-container{
-    @include flex-column();
-    row-gap: 1.5rem;
-    hr{
-        background-color: $silver-800;
-    }
-    h2{
-        font-size: 1rem;
-        font-weight: 500;
-    }
-    h3{
-        font-size: 15px;
-        font-weight: 400;
-    } 
+.account-orders-container {
+  @include flex-column();
+  row-gap: 1.5rem;
+  hr {
+    background-color: $silver-800;
+  }
+  h2 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  h3 {
+    font-size: 15px;
+    font-weight: 400;
+  }
 }
-.account-order-history-container{
-    width: 100%;
-    min-height: 150px;
+.account-order-history-container {
+  width: 100%;
+  min-height: 150px;
 }
-.account-order-history-none{
-    @include flex-column();
-    gap: 0.5rem;
-    width: 100%;
-    height: 100%;
+.account-order-history-order-no {
+  color: inherit;
+  text-decoration: none;
+
+  transition: color 0.25s ease;
+  &:hover {
+    color: $punch-600;
+  }
+}
+.account-order-history-none {
+  @include flex-column();
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  color: $silver-700;
+  &__icon {
+    font-size: 20px;
+    border: 1px solid $silver-700;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
     align-items: center;
     justify-content: center;
-    color: $silver-700;
-    &__icon{
-        font-size: 20px;
-        border: 1px solid $silver-700;
-        width:28px;
-        height: 28px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center; 
-    }
-    &:last-child{
-        font-size: 13px;
-    }
+  }
+  &:last-child {
+    font-size: 13px;
+  }
 }
-.account-order-history-exists{
-    width: 100%;
+.account-order-history-exists {
+  width: 100%;
 }
 
+/*OrderView SCSS*/
+.orderView-container {
+  @include flex-column();
+  row-gap: 1.5rem;
+  hr {
+    background-color: $silver-800;
+  }
+  h2 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+.orderView-details {
+  font-size: 15px;
+  p {
+    &:first-child {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+  }
+}
+.orderView-table{
+    max-height: 700px;
+    overflow-y: auto;
+    border-bottom: 1px solid $silver-200;
+    margin-top: 2rem;
+}
+.orderView-table-name {
+  img {
+    width: 120px;
+    vertical-align: middle;
+  }
+  span {
+    padding-left: 10px;
+    font-weight: 500;
+  }
+}
+.orderView-summary-container {
+    margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: right;
+  column-gap: 10vw;
+  > :first-child{
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+}
 
 
+.orderView-summary-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 1rem;
+  column-gap: 10rem;
+
+  p {
+    font-size: 14px;
+    &:nth-child(even) {
+      text-align: right;
+    }
+  }
+}
 
 /*UserProfile SCSS*/
-.userProfile-container{
+.userProfile-container {
+  width: 100%;
+
+  @include flex-column();
+  row-gap: 1.5rem;
+
+  hr {
+    background-color: $silver-800;
+  }
+  h2 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
+.userProfile-form {
+  padding: 1rem 0;
+  @include flex-column();
+  gap: 3rem;
+  &__name-wrapper {
+    display: flex;
+    gap: 10px;
+  }
+  &__button-wrapper {
+    display: flex;
+    gap: 1rem;
+
+    button {
+      padding: 0.7rem;
+      width: 150px;
+      border-radius: 0.15rem;
+      border: 1px solid $silver-950;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+  }
+  label {
+    @include flex-column();
+    gap: 5px;
+    font-size: 13px;
+    color: $silver-900;
+  }
+  input {
+    border: none;
+    border-bottom: 1px solid $silver-300;
+    transition: border 0.25s;
+    padding: 0.2rem 0.2rem 0.5rem 0.2rem;
+
+    &:focus {
+      outline: none;
+      border-bottom: 1px solid $silver-800;
+    }
+  }
+  hr {
+    margin-top: 3rem;
+    background-color: $silver-200;
+  }
+}
+.userProfile-form-save-btn {
+  background-color: transparent;
+  z-index: 0;
+  color: #fff;
+  position: relative;
+  transition: color 0.4s;
+
+  &::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
     width: 100%;
-
-    @include flex-column();
-    row-gap: 1.5rem;
-
-    hr{
-
-        background-color: $silver-800;
-
-        
-    }
-    h2{
-        font-size: 1rem;
-        font-weight: 500;
-    }
-    
+    height: 100%;
+    transform-origin: 100% 0;
+    z-index: -1;
+    transition: transform 0.4s;
+    transform: scaleY(1);
+    background-color: $silver-950;
+  }
+  &:hover::before {
+    transform: scaleY(0);
+  }
+  &:hover {
+    color: #000;
+  }
 }
-.userProfile-form{
-    padding: 1rem 0;
-    @include flex-column();
-    gap: 3rem;
-    &__name-wrapper{
-        display: flex;
-        gap: 10px;
-    }
-    &__button-wrapper{
-        display: flex;
-        gap: 1rem;
+.userProfile-form-edit-btn {
+  background-color: transparent;
+  color: $silver-950;
+  z-index: 0;
+  position: relative;
+  transition: color 0.4s;
 
-        button{
-            padding: 0.7rem;
-            width: 150px;
-            border-radius: 0.15rem;
-            border: 1px solid $silver-950;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 1px;
-        }
-
-    }
-    label{
-        @include flex-column();
-        gap: 5px;
-        font-size: 13px;
-        color: $silver-900;
-    }
-    input{
-        border: none;
-        border-bottom: 1px solid $silver-300;
-        transition: border 0.25s;
-        padding: 0.2rem 0.2rem 0.5rem 0.2rem;
-
-        &:focus{
-            outline: none;
-            border-bottom: 1px solid $silver-800;
-        }
-    }
-    hr{
-        margin-top: 3rem;
-        background-color: $silver-200;
-    }
-
-}
-.userProfile-form-save-btn{
-    background-color: transparent;
-    z-index: 0;
-    color: #fff;
-    position: relative;
-    transition: color .4s;
-
-    &::before{
-        position: absolute;
-        content: "";
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        transform-origin: 100% 0;
-       z-index: -1;
-        transition: transform .4s;
-        transform: scaleY(1);
-        background-color: $silver-950;
-    }
-    &:hover::before{
-        transform: scaleY(0);    
-    }
-    &:hover{
-        color: #000;
-        
-    }
-}
-.userProfile-form-edit-btn{
-    background-color: transparent;
-    color: $silver-950;
-    z-index: 0;
-    position: relative;
-    transition: color .4s;
-
-    &::before{
-        position: absolute;
-        content: "";
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        transform-origin: 0 100%;
-        z-index: -1;
-        transition: transform .4s;
-        transform: scaleY(0);
-        background-color: $silver-950;
-
-    }
-    &:hover::before{
-        transform: scaleY(1);     
-    }
-    &:hover{
-        color: #ffffff;
-        
-    }
+  &::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: 0 100%;
+    z-index: -1;
+    transition: transform 0.4s;
+    transform: scaleY(0);
+    background-color: $silver-950;
+  }
+  &:hover::before {
+    transform: scaleY(1);
+  }
+  &:hover {
+    color: #ffffff;
+  }
 }
 .userProfile-form > label {
-    input{
-        width: 60%;
-    }
+  input {
+    width: 60%;
+  }
 }
 
 /*MUI themes*/
 
-.MuiTableCell-root{
-    display: flex;
+.MuiTableCell-root {
+  display: flex;
 }
-.MuiTablePagination-root{
-    padding-top: 1rem;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
+.MuiTablePagination-root {
+  padding-top: 1rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, Link } from "react-router-dom";
 import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -31,6 +31,9 @@ const Orders = () => {
       try{
         response = await axios.get(`${import.meta.env.VITE_SERVERURL}/account/orders/${email}`);
         const json = await response.data;
+        json.sort((a: IOrderDetail, b: IOrderDetail) => {
+          return  new Date(b.date).getTime() -new Date(a.date).getTime();
+        })
         setOrderHistory(json);
       }catch(err){
         console.log(err)
@@ -74,9 +77,8 @@ const Orders = () => {
                         <TableCell
                           component="th"
                           scope="row"
-                          style={{ cursor: "pointer" }}
                         >
-                          #{row.orderNo.toUpperCase()}
+                          <Link to={`/account/orders/${row.orderNo}`} state={{orderDetail: row}} className="account-order-history-order-no">#{row.orderNo.toUpperCase()}</Link>
                         </TableCell>
                         <TableCell align="left">{new Date(row.date).toLocaleString('en-NZ', {month: 'long', day: 'numeric', year: 'numeric'})}</TableCell>
                         <TableCell align="left">{row.payment.charAt(0).toUpperCase() + row.payment.slice(1)}</TableCell>
