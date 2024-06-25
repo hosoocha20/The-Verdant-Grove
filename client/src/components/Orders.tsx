@@ -77,6 +77,7 @@ const Orders = () => {
                         <TableCell
                           component="th"
                           scope="row"
+                          className="account-order-table-row"
                         >
                           <Link to={`/account/orders/${row.orderNo}`} state={{orderDetail: row}} className="account-order-history-order-no">#{row.orderNo.toUpperCase()}</Link>
                         </TableCell>

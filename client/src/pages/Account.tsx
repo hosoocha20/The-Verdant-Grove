@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet, Link, NavLink, useOutletContext } from "react-router-dom";
+import { SlArrowRight } from "react-icons/sl";
 
 
 const Account = () => {
@@ -10,9 +11,18 @@ const Account = () => {
       <hr></hr>
       <div className="account-flex-wrap">
         <div className="account-flex-wrap-l">
-          <NavLink to={"."} className={({ isActive }) => (isActive ? 'account-navLink-active' : 'account-navLink-inactive')} end>Orders</NavLink>
-          <NavLink to={"profile"} className={({ isActive }) => (isActive ? 'account-navLink-active' : 'account-navLink-inactive')} end>My Profile</NavLink>
-          <Link to={"../"} className="account-link" onClick={logOut}>Logout</Link>
+          <div>
+            <NavLink to={"."} className={({ isActive }) => (isActive ? 'account-navLink-active' : 'account-navLink-inactive')} end>Orders</NavLink>
+            <SlArrowRight className="account-flex-wrap-l-icon-display"/>
+          </div>
+          <div>
+            <NavLink to={"profile"} className={({ isActive }) => (isActive ? 'account-navLink-active' : 'account-navLink-inactive')} end>My Profile</NavLink>
+            <SlArrowRight className="account-flex-wrap-l-icon-display"/>
+          </div>
+          <div>
+            <Link to={"../"} className="account-link" onClick={logOut}>Logout</Link>
+            <SlArrowRight className="account-flex-wrap-l-icon-display"/>
+          </div>
         </div>
         <div className="account-flex-wrap-r">
           <Outlet context={{email}}/>

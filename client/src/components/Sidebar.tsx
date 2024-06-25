@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { HiPlus, HiMinus } from "react-icons/hi";
 
 interface SidebarProps{
@@ -11,7 +11,6 @@ interface SidebarProps{
 }
 
 const Sidebar = (props: SidebarProps) => {
-    const navigate = useNavigate();
     interface ShopMenuLinks {
         name: string;
         link: string;
