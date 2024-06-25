@@ -34,7 +34,7 @@ const Signup = () => {
     const response = await fetch(`${import.meta.env.VITE_SERVERURL}/register`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({firstName: user.firstName, lastName: user.lastName, email: user.email, pw: user.pw, cart: user.cart,})
+      body: JSON.stringify({firstName: user.firstName, lastName: user.lastName, email: user.email.toLowerCase(), pw: user.pw, cart: user.cart,})
     })
     const data = await response.json();
     console.log(data)

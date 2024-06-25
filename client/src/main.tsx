@@ -78,7 +78,7 @@ const Layout = () => {
     const response = await fetch(`${import.meta.env.VITE_SERVERURL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: user.email, pw: user.pw }),
+      body: JSON.stringify({ email: user.email.toLowerCase(), pw: user.pw }),
     });
     const data = await response.json();
     if (data.detail) {
