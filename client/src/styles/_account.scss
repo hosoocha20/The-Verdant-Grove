@@ -397,4 +397,27 @@
   .orderView-summary-body {
     width: 100%;
   }
+
+  /*User Profile*/
+  .userProfile-container{
+    h2{
+        font-size: 0.925rem;
+    }
+  }
+  .userProfile-form{
+    
+    &__button-wrapper{
+        button{
+            width: 100%;
+        }
+    }
+    input{
+        width: 100%;
+    }
+  }
+  .userProfile-form > label {
+    input {
+      width: 100%;
+    }
+  }
 }
