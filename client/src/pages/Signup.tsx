@@ -16,7 +16,7 @@ const Signup = () => {
   const [user, setUser] = useState<IUserSignup>({firstName: '', lastName: '', email: '', pw: '', cart: []});
   const [signupErrorMsg, setSignupErrorMsg] = useState({msg: ''});
   const [cookies, setCookie, removeCookie] = useCookies();
-  const {shoppingCart, setShoppingCart} : {shoppingCart: IShoppingCartItem[], setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>} = useOutletContext();
+  const {setShoppingCart} : { setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>} = useOutletContext();
   
  // const  addUser : AddUser    = useOutletContext();
  // const  authedUser: IUser = useOutletContext();
@@ -44,7 +44,7 @@ const Signup = () => {
     setCookie('Email', data.email);
     setCookie('AuthToken', data.token);
     setShoppingCart([]);  //reset shopping cart
-    window.location.reload()
+    window.location.replace('/')
     }
   }catch(err){
     console.log(err);

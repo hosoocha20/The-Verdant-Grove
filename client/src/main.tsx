@@ -5,7 +5,6 @@ import {
   RouterProvider,
   createBrowserRouter,
   ScrollRestoration,
-  useNavigate,
   useSearchParams,
 } from "react-router-dom";
 import axios from "axios";
@@ -25,33 +24,20 @@ import SearchResults from "./pages/SearchResults.tsx";
 import Account from "./pages/Account.tsx";
 import UserProfile from "./components/UserProfile.tsx";
 import Orders from "./components/Orders.tsx";
-import { ILoginUser, IUser } from "./interfaces/IUser.ts";
+import { ILoginUser } from "./interfaces/IUser.ts";
 
 import { IShoppingCartItem } from "./interfaces/IShop.ts";
 import Login from "./pages/Login.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import Payment from "./pages/Payment.tsx";
-import { IOrderDetail } from "./interfaces/IOrder.ts";
 import ProtectedRoutes from "./routes/ProtectedRoutes.tsx";
 import OrderView from "./components/OrderView.tsx";
+import RestrictedRoutes from "./routes/RestrictedRoutes.tsx";
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 
 const Layout = () => {
-  const navigate = useNavigate();
-  const emptyOrderDetail = (): IOrderDetail => ({
-    orderNo: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    delivery: { address1: "", address2: "", city: "", zip: "", mobile: "" },
-    products: [],
-    subtotal: 0,
-    total: 0,
-    shipping: 10,
-    payment: "unpaid",
-    date: new Date(),
-  });
+
   const [cookies, setCookie, removeCookie] = useCookies();
   const email = cookies.Email || "";
   const authToken = cookies.AuthToken || "";
@@ -87,7 +73,7 @@ const Layout = () => {
       setCookie("Email", data.email);
       setCookie("AuthToken", data.token);
       setOpenLoginDrawer(false);
-      window.location.reload();
+      window.location.replace('/');
     }
   };
 
@@ -449,14 +435,6 @@ const router = createBrowserRouter([
             element: <SearchResults />,
           },
           {
-            path: "/register",
-            element: <Signup />,
-          },
-          {
-            path: "/login",
-            element: <Login />,
-          },
-          {
             element: <ProtectedRoutes />,
             children: [
               {
@@ -486,6 +464,19 @@ const router = createBrowserRouter([
                 element: <Payment />,
               },
             ],
+          },
+          {
+            element: <RestrictedRoutes />,
+            children: [
+              {
+                path: "/register",
+                element: <Signup />,
+              },
+              {
+                path: "/login",
+                element: <Login />,
+              },
+            ]
           },
           {
             path: "*",

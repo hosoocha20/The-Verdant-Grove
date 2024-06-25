@@ -60,7 +60,7 @@ const CartSchema = new Schema<IShoppingCartItem>({
 })
 
 const OrderSchema = new Schema<IOrderDetail>({
-    orderNo: {type: String, unique: true},        
+    orderNo: {type: String},        
     firstName: String,
     lastName: String,
     email: String,

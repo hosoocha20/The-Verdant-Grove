@@ -9,7 +9,7 @@ const ProtectedRoutes = () => {
     const logOut = () => {
         removeCookie('Email');
         removeCookie('AuthToken');
-        window.location.reload();
+        window.location.replace('/');
       }
 
   return (
