@@ -42,8 +42,8 @@
     }
   }
 }
-.account-flex-wrap-l-icon-display{
-    display: none;
+.account-flex-wrap-l-icon-display {
+  display: none;
 }
 .account-link {
   color: $silver-700;
@@ -135,11 +135,11 @@
     }
   }
 }
-.orderView-table{
-    max-height: 700px;
-    overflow-y: auto;
-    border-bottom: 1px solid $silver-200;
-    margin-top: 2rem;
+.orderView-table {
+  max-height: 700px;
+  overflow-y: auto;
+  border-bottom: 1px solid $silver-200;
+  margin-top: 2rem;
 }
 .orderView-table-name {
   img {
@@ -152,18 +152,16 @@
   }
 }
 .orderView-summary-container {
-    margin-top: 2rem;
+  margin-top: 2rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: right;
   column-gap: 10vw;
-  > :first-child{
+  > :first-child {
     font-weight: 500;
     font-size: 15px;
   }
-
 }
-
 
 .orderView-summary-body {
   display: grid;
@@ -311,71 +309,92 @@
 }
 
 @media screen and (max-width: $media-lg) {
-    .account-flex-wrap-l{
-        a{
-            font-size: 13px;
-        }
+  .account-flex-wrap-l {
+    a {
+      font-size: 13px;
     }
+  }
 
-    /*Orders*/
-    .account-orders-container{
-        h3{
-            font-size: 0.87rem;
-        }
+  /*Orders*/
+  .account-orders-container {
+    h3 {
+      font-size: 0.87rem;
     }
-    .css-quj9j6-MuiTable-root{
-        min-width: 0 !important;
+  }
+  .css-quj9j6-MuiTable-root {
+    min-width: 0 !important;
+  }
+  .css-1ex1afd-MuiTableCell-root {
+    font-size: 13px !important;
+    padding: 16px 0 16px 16px !important;
+    a {
+      font-size: 13px;
     }
-    .css-1ex1afd-MuiTableCell-root{
-        font-size: 13px !important;
-        padding: 16px 0 16px 16px !important;
-        a{
-            font-size: 13px;
-        }
-    }
+  }
 }
-@media screen and (max-width: $media-tablet){
-    .account-container{
-        padding: 3rem var(--nav-tablet-padding);
+@media screen and (max-width: $media-tablet) {
+  .account-container {
+    padding: 3rem var(--nav-tablet-padding);
 
-        h1{
-            font-size: 1.1rem;
-        }
+    h1 {
+      font-size: 1.1rem;
     }
-    .account-flex-wrap{
-        flex-direction: column-reverse;
-        gap: 2rem;
+  }
+  .account-flex-wrap {
+    flex-direction: column-reverse;
+    gap: 2rem;
+  }
+  .account-flex-wrap-l {
+    width: 100%;
+    gap: 0;
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid $silver-200;
     }
-    .account-flex-wrap-l{
-        width: 100%;
-        gap: 0;
-        div{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid $silver-200;
-        }
-        a{
-            padding: 0.9rem 0;
-            width: 100%;
-        }
-        
-        
+    a {
+      padding: 0.9rem 0;
+      width: 100%;
     }
-    .account-flex-wrap-l-icon-display{
-        display: block;
-        font-size: 0.8rem;
-        color: $silver-600;
-    }
+  }
+  .account-flex-wrap-l-icon-display {
+    display: block;
+    font-size: 0.8rem;
+    color: $silver-600;
+  }
 
-    /*Orders*/
-    .css-1ygcj2i-MuiTableCell-root{
-        font-size: 13px !important;
+  /*Orders*/
+  .css-1ygcj2i-MuiTableCell-root {
+    font-size: 13px !important;
+  }
+  .css-1ex1afd-MuiTableCell-root {
+    font-size: 12px !important;
+    a {
+      font-size: 13px;
     }
-    .css-1ex1afd-MuiTableCell-root{
-        font-size: 12px !important;
-        a{
-            font-size: 13px;
-        }
+  }
+
+  /*Order View*/
+  .orderView-table-name {
+    img {
+      width: 90px;
+      vertical-align: text-bottom;
     }
+    span {
+      display: block;
+      padding-left: 0;
+    }
+  }
+  .orderView-summary-container {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: initial;
+    column-gap: 0;
+    row-gap: 1rem;
+  }
+  .orderView-summary-body {
+    width: 100%;
+  }
 }
