@@ -114,3 +114,27 @@
     }
 }
 
+
+@media screen and (max-width: $media-lg){
+    .product-l-container{
+        width: 55%;
+        padding: 2.5rem 0 0 3rem;
+    }
+}
+@media screen and (max-width: $media-tablet){
+    .product-container{
+        flex-direction: column-reverse;
+    }
+    .product-l-container{
+        width: 100%;
+        padding: 2.5rem var(--nav-tablet-padding) 4rem var(--nav-tablet-padding);
+    }
+    .product-r-container{
+        position: inherit;
+        top: 0;
+        width: 100%;
+        padding: 2rem var(--nav-tablet-padding) 0 var(--nav-tablet-padding);
+        height: auto;
+    }
+}
+

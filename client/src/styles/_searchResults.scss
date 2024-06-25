@@ -72,6 +72,7 @@
 .searchResults-product-item-name{
     cursor: pointer;
     color: $silver-950;
+    text-align: center;
 }
 .searchResults-product-item-img-wrapper{
     width: 70%;
@@ -96,6 +97,25 @@
 
     &:hover{
         opacity: 1;
+    }
+
+}
+
+@media screen and (max-width: $media-tablet) {
+    .searchResults-container{
+        margin-top: 4.7rem;
+    }
+    .searchResults-searchbar-container{
+        height: 4rem;
+        padding: 0 var(--nav-tablet-padding);
+    }
+    .searchResults-searchbar-form{
+        input{
+            padding: 0.5rem 0.5rem;
+        }
+    }
+    .searchResults-product-container{
+        padding: 0 var(--nav-tablet-padding) 5rem var(--nav-tablet-padding);
     }
 
 }

@@ -109,6 +109,7 @@
 .shop-product-item-name{
     cursor: pointer;
     color: $silver-950;
+    text-align: center;
 }
 .shop-product-item-img-wrapper{
     width: 70%;
@@ -138,7 +139,7 @@
 }
 
 
-@media screen and (max-width: $media-mobile){
+@media screen and (max-width: $media-tablet){
     .shop-options-btn-container{
         gap: 0.8rem;
     }

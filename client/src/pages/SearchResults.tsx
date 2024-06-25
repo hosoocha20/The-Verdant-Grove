@@ -28,14 +28,6 @@ const SearchResults = () => {
   const [thisSearchResult, setThisSearchResult] = useState(searchResult || "");
   const [shopItemArray, setShopItemArray] = useState<IProduct[]>([]);
 
-  interface ShopItem {
-    productId: string;
-    name: string;
-    quantity: number;
-    price: number;
-    category: string;
-    imgMainSrc: string[];
-  }
 
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [page, setPage] = useState(1);
