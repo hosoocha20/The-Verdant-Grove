@@ -555,7 +555,9 @@
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+  margin-bottom: 2rem;
 }
+
 .shopping-drawer-checkout-button {
   border: 1px solid #000000;
   background-color: transparent;
@@ -692,7 +694,7 @@
   }
   /*Shopping Drawer*/
   .nav-r-shopping-drawer{
-    padding: 2rem 0 3rem var(--nav-tablet-padding);
+    padding: 2rem 0 6rem var(--nav-tablet-padding);
   }
   .shopping-drawer-item-wrapper {
     gap: 2px;

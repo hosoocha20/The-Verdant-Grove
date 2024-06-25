@@ -138,3 +138,14 @@
     75% { transform: translateX(5px) }
     100% { transform: translateX(0) }
    }
+
+   @media screen and (max-width: $media-tablet) {
+    .login-container{
+        align-items: normal;
+        padding: calc(var(--nav-height) + 2rem) var(--nav-tablet-padding) 6rem var(--nav-tablet-padding);
+    }
+    .login-form{
+        width: 100%;
+        
+    }
+   }

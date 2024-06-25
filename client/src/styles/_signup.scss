@@ -92,3 +92,14 @@
     75% { transform: translateX(5px) }
     100% { transform: translateX(0) }
    }
+
+   @media screen and (max-width: $media-tablet) {
+    .signup-container{
+        align-items: normal;
+        padding: calc(var(--nav-height) + 2rem) var(--nav-tablet-padding) 6rem var(--nav-tablet-padding);
+    }
+    .signup-form{
+        width: 100%;
+        
+    }
+   }
