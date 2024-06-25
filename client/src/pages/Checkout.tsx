@@ -165,6 +165,12 @@ const Checkout = () => {
                 }
               />
             </label>
+            {!orderDetail.firstName && 
+            <p>Enter a first name</p>
+            }
+            {!orderDetail.lastName && 
+            <p>Enter a last name</p>
+            }
           </div>
           <label>
             Email
@@ -177,6 +183,9 @@ const Checkout = () => {
                 setOrderDetail({ ...orderDetail, email: e.target.value })
               }
             />
+            {!orderDetail.email && 
+            <p>Enter an email</p>
+            }
           </label>
         </div>
         <hr></hr>
@@ -199,6 +208,9 @@ const Checkout = () => {
                 })
               }
             />
+            {!orderDetail.delivery.address1 && 
+            <p>Enter an address</p>
+            }
           </label>
           <label>
             Address Line 2 (optional)
@@ -230,6 +242,9 @@ const Checkout = () => {
                 })
               }
             />
+                       {!orderDetail.delivery.city && 
+            <p>Enter a city</p>
+            }
           </label>
           <label>
             Zip/Postal Code
@@ -245,6 +260,9 @@ const Checkout = () => {
                 })
               }
             />
+                       {!orderDetail.delivery.zip && 
+            <p>Enter a zip code</p>
+            }
           </label>
           <label>
             Phone (optional)

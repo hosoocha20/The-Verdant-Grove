@@ -32,7 +32,7 @@ const Payment = () => {
           <p>Date</p>
           <p>{date.toLocaleString('en-NZ', {month: 'long', day: 'numeric', year: 'numeric'})}</p>
           <p>Amount paid</p>
-          <p>NZD ${total}</p>
+          <p>NZD ${total.toFixed(2)}</p>
         </div>
         <Link reloadDocument to={"/"} >
           <button>CLOSE</button>
