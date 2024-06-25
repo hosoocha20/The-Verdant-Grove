@@ -72,6 +72,7 @@
         }
         h2{
             font-size: 1.8rem;
+            text-wrap: wrap;
         }
         p{
             font-size: 13px;
@@ -80,6 +81,19 @@
     }
     .seasonal-img-grid-container{
         padding: 0 var(--nav-tablet-padding)
+    }
+}
+@media screen and (max-width: $media-mobile){
+    .seasonal-header-text{
+        h1{
+            font-size: 1.4rem;
+        }
+        h2{
+            font-size: 1.8rem;
+        }
+        p{
+            font-size: 13px;
+        }
     }
 }
 
