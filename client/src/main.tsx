@@ -70,6 +70,7 @@ const Layout = () => {
     if (data.detail) {
       setLoginErrorMsg({ ...loginErrorMsg, msg: data.detail });
     } else {
+      localStorage.setItem("cart", JSON.stringify([]));
       addPrevCartToUserCart(shoppingCart, data.email);
       setCookie("Email", data.email);
       setCookie("AuthToken", data.token);
@@ -80,7 +81,7 @@ const Layout = () => {
   };
 
   const logOut = () => {
-
+    setShoppingCart([])
     removeCookie("Email");
     removeCookie("AuthToken");
     window.location.reload();
