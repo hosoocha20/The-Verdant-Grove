@@ -39,9 +39,9 @@ const OrderView = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orderDetail.products.map((row, i) => (
+              {orderDetail.products.map((row) => (
                 <TableRow
-                  key={i}
+                  key={row.name}
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
                   }}

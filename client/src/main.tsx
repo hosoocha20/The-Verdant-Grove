@@ -33,6 +33,7 @@ import Payment from "./pages/Payment.tsx";
 import ProtectedRoutes from "./routes/ProtectedRoutes.tsx";
 import OrderView from "./components/OrderView.tsx";
 import RestrictedRoutes from "./routes/RestrictedRoutes.tsx";
+import LoginDrawer from "./components/LoginDrawer.tsx";
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 
@@ -331,6 +332,14 @@ const Layout = () => {
         updateCartItemQuantityByVal(product, val)
   };
 
+
+//on Back button, close drawer
+  window.addEventListener('popstate', () => {
+    if (openLoginDrawer)
+      setOpenLoginDrawer(false);
+    if (openShoppingBagDrawer)
+        setOpenShoppingBagDrawer(false);
+    });
  
 
   //adding cart products to local storage for users who are not signed in - so their cart is maintained
@@ -343,6 +352,7 @@ const Layout = () => {
 
   useEffect(() => {
     if (authToken) getUserCart();
+    
   }, []);
 
   return (

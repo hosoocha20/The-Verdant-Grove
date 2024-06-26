@@ -66,8 +66,8 @@ const Sidebar = (props: SidebarProps) => {
         }`}
         onClick={() => props.openShopMenu_Link("Shop-links")}
       >
-        {shopMenuLinks.map((shopLink: ShopMenuLinks) => {
-          return <Link to={`/shop/${shopLink.link}`}>{shopLink.name}</Link>;
+        {shopMenuLinks.map((shopLink: ShopMenuLinks, i: number) => {
+          return <Link to={`/shop/${shopLink.link}`} key={i}>{shopLink.name}</Link>;
         })}
       </div>
     </div>

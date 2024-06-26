@@ -61,7 +61,7 @@ const SearchResults = () => {
         `${import.meta.env.VITE_SERVERURL}/products/search/${searchQuery}`
       );
       const json = await response.data;
-      console.log(json);
+      //console.log(json);
       setShopItemArray(json);
       setNoOfPages(Math.ceil(json.length / itemsPerPage));
     } catch (err) {
@@ -116,7 +116,7 @@ const SearchResults = () => {
             {shopItemArray
               .slice((page - 1) * itemsPerPage, page * itemsPerPage)
               .map((item: IProduct) => (
-                <Grid item xs={6} sm={4} md={3}>
+                <Grid item xs={6} sm={4} md={3} key={item.name}>
                   <Link
                     to={`/shop/product/detail/${item.name.toLowerCase()}`}
                     state={{ productItem: item }}

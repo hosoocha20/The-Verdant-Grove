@@ -155,9 +155,9 @@ const Shop = () => {
     <div className="shop-container">
       
       <div className={`shop-options-btn-container ${!top && "shop-options-btn-container-shadow"}`}>
-        {shopOptionsLinks.map((link: ShopOption) => {
+        {shopOptionsLinks.map((link: ShopOption, i: number) => {
           return (
-            <Link to={`/shop/${link.link}`}>
+            <Link to={`/shop/${link.link}`} key={i}>
             <div className="shop-options-btn-wrapper">
               <div className={`shop-options-btn-img-container ${shopOption === link.link ? "shop-options-btn-img-active": ''}`}>
                 <div className="shop-options-btn-img-wrapper">
@@ -178,7 +178,7 @@ const Shop = () => {
         <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
           {shopItemArray.slice((page - 1) * itemsPerPage, page * itemsPerPage ).map((item: IProduct) => (
           
-              <Grid item xs={6} sm={4} md={3}>
+              <Grid item xs={6} sm={4} md={3} key={item.name}>
                 <Link to={`/shop/product/detail/${item.name.toLowerCase()}`} state={{productItem:item}} >
                 <div className="shop-product-item-container">
                   <div className="shop-product-item-img-wrapper">

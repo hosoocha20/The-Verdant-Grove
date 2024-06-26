@@ -110,9 +110,9 @@ const Seasonal = () => {
     </div>
     <img id="summerbg" src={summer2024bg} alt="2024 Summer Season"/>
     <Grid container className="seasonal-img-grid-container" spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>        
-        {shopItemArray.map((item: ShopItem) =>
+        {shopItemArray.map((item: ShopItem, i: number) =>
             (
-                <Grid item xs={12} sm={6} md={4}>
+                <Grid item xs={12} sm={6} md={4} key={i}>
                 <img className= "seasonal-gallery-img" loading="lazy" src={`${"src/assets/" + item.imgMainSrc}`}  alt={item.name} width="auto" height="auto"/>
                 </Grid>
             )

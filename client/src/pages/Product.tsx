@@ -48,8 +48,8 @@ const Product = () => {
   return (
     <div className="product-container">
       <div className="product-l-container">
-        {productItem.imgsSrc.map((src: string) => (
-          <img src={`${"/src/assets/" + src}`} alt={src} />
+        {productItem.imgsSrc.map((src: string, i: number) => (
+          <img src={`${"/src/assets/" + src}`} alt={src} key={i}/>
         ))}
       </div>
       <div className="product-r-container">

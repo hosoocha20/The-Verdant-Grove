@@ -125,7 +125,7 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
           <div className="shopping-drawer-items-container">
             {props.shoppingCart.map((item: IShoppingCartItem) => {
               return (
-                <div className="shopping-drawer-item-wrapper">
+                <div className="shopping-drawer-item-wrapper" key={item.name}>
                   <input
                     type="checkbox"
                     id="itemBagCheckbox"

@@ -106,6 +106,12 @@ const Navbar = (props: NavbarProps) => {
     }
   }
 
+  //on Back button, close drawer
+  window.addEventListener('popstate', () => {
+    if (openNavMenu)
+        setOpenNavMenu(false);
+    });
+
   return (
     <nav ref={clickedOutsideSidebarRef} className="nav-container">
       <div className="nav-l-container">
