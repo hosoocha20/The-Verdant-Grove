@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 
 const Schema = mongoose.Schema;
 //const ObjectId = Schema.ObjectId;
-interface IShoppingCartItem {
+export interface IShoppingCartItem {
     name: string;
     quantity: number;
     price: number;

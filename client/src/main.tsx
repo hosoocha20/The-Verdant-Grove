@@ -33,7 +33,6 @@ import Payment from "./pages/Payment.tsx";
 import ProtectedRoutes from "./routes/ProtectedRoutes.tsx";
 import OrderView from "./components/OrderView.tsx";
 import RestrictedRoutes from "./routes/RestrictedRoutes.tsx";
-import LoginDrawer from "./components/LoginDrawer.tsx";
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 
@@ -71,9 +70,11 @@ const Layout = () => {
     if (data.detail) {
       setLoginErrorMsg({ ...loginErrorMsg, msg: data.detail });
     } else {
+      addPrevCartToUserCart(shoppingCart, data.email);
       setCookie("Email", data.email);
       setCookie("AuthToken", data.token);
       setOpenLoginDrawer(false);
+
       window.location.replace('/');
     }
   };
@@ -166,6 +167,23 @@ const Layout = () => {
     else removeUserSelectedCartItem();
   };
 
+  const addPrevCartToUserCart = async (items: IShoppingCartItem[], email: string) =>{
+    let response;
+    try {
+      response = await fetch(
+        `${import.meta.env.VITE_SERVERURL}/cart/existingCart/${email}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items }),
+        }
+      );
+      const data = await response.json();
+      setShoppingCart(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   const addToShoppingCart = (item: IShoppingCartItem) => {
     const isItemInBag = shoppingCart.find((i) => i.name === item.name);
     if (!authToken) {

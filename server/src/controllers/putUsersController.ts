@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 
 import cors from 'cors';
-import User from "../models/User";
+import User, {IShoppingCartItem} from "../models/User";
 
 export async function putUserDetailController(req: Request, res: Response){
     const {email} = req.params;
@@ -18,7 +18,7 @@ export async function putUserDetailController(req: Request, res: Response){
     
 }
 
-export default async function putUserCartController(req: Request, res: Response) {
+export  async function putUserCartController(req: Request, res: Response) {
     const {email} = req.params;
     const {product} = req.body;
     try{
@@ -31,6 +31,7 @@ export default async function putUserCartController(req: Request, res: Response)
         console.log(err)
     }
 }
+
 
 export async function deleteUserCartItem(req: Request, res: Response){
     const {email} = req.params;
@@ -105,6 +106,58 @@ export async function updateCartQuantityByExisting(req: Request, res: Response){
         await User.updateOne(query, {$set : {"cart.$.quantity" : product.quantity + val}, "new": true});
         const updated = await User.find({"email": email});
         res.json(updated[0].cart);
+    }catch(err){
+        console.log(err)
+    }
+}
+
+export async function putExisingUserCart(req: Request, res: Response){
+    const {email} = req.params;
+    const{items} = req.body;
+    //console.log(items)
+    try{
+        items.map(async (item: IShoppingCartItem) => {
+            await User.updateOne(
+                { "email": email },
+                [{
+                  $set: {
+                    cart: {
+                      $cond: [
+                        { $in: [item.name, "$cart.name"] },
+                        {
+                          $map: {
+                            input: "$cart",
+                            in: {
+                              $cond: [
+                                { $eq: ["$$this.name", item.name] },
+                                {
+                                  name: "$$this.name",
+                                  quantity: {$sum: ["$$this.quantity",item.quantity]},
+                                  price: "$$this.price",
+                                  imgSrc: "$$this.imgSrc",
+                                  checked: "$$this.checked"
+                                },
+                                "$$this"
+                              ]
+                            }
+                          }
+                        },
+                        {
+                          $concatArrays: [
+                            "$cart",
+                            [
+                              item
+                            ]
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ])
+            //   const updated = await User.find({"email": email})
+            //   console.log(updated[0].cart)
+        })
     }catch(err){
         console.log(err)
     }
