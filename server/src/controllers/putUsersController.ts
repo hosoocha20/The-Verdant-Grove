@@ -25,7 +25,7 @@ export  async function putUserCartController(req: Request, res: Response) {
         const user = await User.find({email : email});
         user[0].cart.push(product);
         await user[0].save();
-        console.log(user[0].cart);
+        //console.log(user[0].cart);
         res.json(user[0].cart)
     }catch(err){
         console.log(err)
@@ -166,7 +166,7 @@ export async function putExisingUserCart(req: Request, res: Response){
 export async function proceedToPay(req: Request, res: Response){
     const {email} = req.params;
     const {orderDetail} = req.body;
-    console.log(orderDetail);
+    //console.log(orderDetail);
     try{
         const user = await User.find({email : email});
         user[0].orders.push(orderDetail);

@@ -27,7 +27,7 @@ export async function getProductsBySearchController(req: Request, res: Response)
     const { keyword } = req.params;
     try{
         const products = await Product.find({name: {$regex: keyword, $options: 'i'}})
-        console.log(products);
+        //console.log(products);
         res.json(products);
     }catch(err){
         console.error(err);
