@@ -75,23 +75,31 @@ const Checkout = () => {
 
   const removeCheckedOutItemsFromCart = async () => {
     let response;
-    try{
+    try {
       response = await fetch(
         `${import.meta.env.VITE_SERVERURL}/checkout/proceedToPay/${email}`,
         {
           method: "DELETE",
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "application/json" },
         }
       );
-      if (response.status === 200){
-        navigate('/payment', {state: {orderNo: orderDetail.orderNo, email: orderDetail.email, mobile: orderDetail.delivery.mobile, date: orderDetail.date, total: orderDetail.total}})
-      }else{
-        console.log(response.status)
+      if (response.status === 200) {
+        navigate("/payment", {
+          state: {
+            orderNo: orderDetail.orderNo,
+            email: orderDetail.email,
+            mobile: orderDetail.delivery.mobile,
+            date: orderDetail.date,
+            total: orderDetail.total,
+          },
+        });
+      } else {
+        console.log(response.status);
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   const proceedToPay = async () => {
     let response;
@@ -107,16 +115,28 @@ const Checkout = () => {
       if (response.status === 200) {
         //remove checkedout items from cart
         removeCheckedOutItemsFromCart();
-      }else{
-        console.log(response.status)
+      } else {
+        console.log(response.status);
       }
     } catch (err) {
       console.log(err);
     }
   };
-  const payOnSubmit =  () => {
-    if (orderDetail.firstName && orderDetail.lastName && orderDetail.email && orderDetail.delivery.address1 && orderDetail.delivery.city && orderDetail.delivery.zip)
-      setOrderDetail({ ...orderDetail, orderNo: genRanHex(8), date: new Date(), payment: "paid" });
+  const payOnSubmit = () => {
+    if (
+      orderDetail.firstName &&
+      orderDetail.lastName &&
+      orderDetail.email &&
+      orderDetail.delivery.address1 &&
+      orderDetail.delivery.city &&
+      orderDetail.delivery.zip
+    )
+      setOrderDetail({
+        ...orderDetail,
+        orderNo: genRanHex(8),
+        date: new Date(),
+        payment: "paid",
+      });
 
     //proceedToPay(orderDetail);
   };
@@ -133,6 +153,9 @@ const Checkout = () => {
   }, []);
   return (
     <div className="checkout-container">
+      <div className="checkout-logo-wrapper-tablet">
+        <Link to={"/"}>Verdant Grove</Link>
+      </div>
       <div className="checkout-l-container">
         <div className="checkout-logo-wrapper">
           <Link to={"/"}>Verdant Grove</Link>
@@ -145,9 +168,10 @@ const Checkout = () => {
               First Name
               <input
                 type="text"
-                className={`${!orderDetail.firstName? "checkout-invalid" : ""}`}
+                className={`${
+                  !orderDetail.firstName ? "checkout-invalid" : ""
+                }`}
                 value={orderDetail.firstName}
-             
                 onChange={(e) =>
                   setOrderDetail({ ...orderDetail, firstName: e.target.value })
                 }
@@ -157,35 +181,28 @@ const Checkout = () => {
               Last Name
               <input
                 type="text"
-                className={`${!orderDetail.lastName? "checkout-invalid" : ""}`}
+                className={`${!orderDetail.lastName ? "checkout-invalid" : ""}`}
                 value={orderDetail.lastName}
-               
                 onChange={(e) =>
                   setOrderDetail({ ...orderDetail, lastName: e.target.value })
                 }
               />
             </label>
-            {!orderDetail.firstName && 
-            <p>Enter a first name</p>
-            }
-            {!orderDetail.lastName && 
-            <p>Enter a last name</p>
-            }
+            {!orderDetail.firstName && <p>Enter a first name</p>}
+            {!orderDetail.lastName && <p>Enter a last name</p>}
           </div>
           <label>
             Email
             <input
               type="email"
-              className={`${!orderDetail.email? "checkout-invalid" : ""}`}
+              className={`${!orderDetail.email ? "checkout-invalid" : ""}`}
               value={orderDetail.email}
               required
               onChange={(e) =>
                 setOrderDetail({ ...orderDetail, email: e.target.value })
               }
             />
-            {!orderDetail.email && 
-            <p>Enter an email</p>
-            }
+            {!orderDetail.email && <p>Enter an email</p>}
           </label>
         </div>
         <hr></hr>
@@ -195,7 +212,9 @@ const Checkout = () => {
             Address Line 1
             <input
               type="text"
-              className={`${!orderDetail.delivery.address1? "checkout-invalid" : ""}`}
+              className={`${
+                !orderDetail.delivery.address1 ? "checkout-invalid" : ""
+              }`}
               value={orderDetail.delivery.address1}
               required
               onChange={(e) =>
@@ -208,9 +227,7 @@ const Checkout = () => {
                 })
               }
             />
-            {!orderDetail.delivery.address1 && 
-            <p>Enter an address</p>
-            }
+            {!orderDetail.delivery.address1 && <p>Enter an address</p>}
           </label>
           <label>
             Address Line 2 (optional)
@@ -232,7 +249,9 @@ const Checkout = () => {
             City
             <input
               type="text"
-              className={`${!orderDetail.delivery.city? "checkout-invalid" : ""}`}
+              className={`${
+                !orderDetail.delivery.city ? "checkout-invalid" : ""
+              }`}
               value={orderDetail.delivery.city}
               required
               onChange={(e) =>
@@ -242,15 +261,15 @@ const Checkout = () => {
                 })
               }
             />
-                       {!orderDetail.delivery.city && 
-            <p>Enter a city</p>
-            }
+            {!orderDetail.delivery.city && <p>Enter a city</p>}
           </label>
           <label>
             Zip/Postal Code
             <input
               type="text"
-              className={`${!orderDetail.delivery.zip? "checkout-invalid" : ""}`}
+              className={`${
+                !orderDetail.delivery.zip ? "checkout-invalid" : ""
+              }`}
               value={orderDetail.delivery.zip}
               required
               onChange={(e) =>
@@ -260,9 +279,7 @@ const Checkout = () => {
                 })
               }
             />
-                       {!orderDetail.delivery.zip && 
-            <p>Enter a zip code</p>
-            }
+            {!orderDetail.delivery.zip && <p>Enter a zip code</p>}
           </label>
           <label>
             Phone (optional)
@@ -286,7 +303,7 @@ const Checkout = () => {
       </div>
       <div className="checkout-r-container">
         <div className="checkout-r-flex-l-wrapper">
-          <h3>Your Cart</h3>
+          <h3>Your Order Summary</h3>
           <hr className="checkout-r-border"></hr>
           <div className="checkout-products-container">
             {orderDetail.products.map((p: IShoppingCartItem) => {
@@ -319,6 +336,9 @@ const Checkout = () => {
           <button className="checkout-pay-btn" onClick={payOnSubmit}>
             Proceed to Pay
           </button>
+          <Link to={"/"} className="checkout-cancel-display">
+            <button className="checkout-cancel-display-btn">Cancel</button>
+          </Link>
         </div>
       </div>
     </div>
