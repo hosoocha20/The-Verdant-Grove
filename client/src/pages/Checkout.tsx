@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useOutletContext } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useNavigate,
+  useOutletContext,
+} from "react-router-dom";
 import { IShoppingCartItem } from "../interfaces/IShop";
 import { IOrderDetail } from "../interfaces/IOrder";
 import axios from "axios";
@@ -49,6 +54,9 @@ const Checkout = () => {
         `${import.meta.env.VITE_SERVERURL}/checkout/orderForm/${email}`
       );
       const data = response.data;
+      if (!data)
+         return navigate('/');
+
       setOrderDetail({
         orderNo: "",
         firstName: data.firstName,
@@ -308,7 +316,7 @@ const Checkout = () => {
           <div className="checkout-products-container">
             {orderDetail.products.map((p: IShoppingCartItem) => {
               return (
-                <div className="checkout-product-wrapper">
+                <div className="checkout-product-wrapper" key={p.name}>
                   <img src={`${"/src/assets/" + p.imgSrc[0]}`} />
                   <div className="checkout-product-details">
                     <p>{p.name}</p>
