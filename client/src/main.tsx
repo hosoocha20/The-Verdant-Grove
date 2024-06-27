@@ -221,7 +221,7 @@ const Layout = () => {
         }
       );
       const data = await response.json();
-      console.log(data);
+      //console.log(data);
       setShoppingCart(data);
     } catch (err) {
       console.log(err);

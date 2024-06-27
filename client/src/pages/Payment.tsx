@@ -1,10 +1,13 @@
 import React from "react";
 import { TiTick } from "react-icons/ti";
-import { Link, useLocation } from "react-router-dom";
+import { Link,  Navigate,  useLocation } from "react-router-dom";
 
 const Payment = () => {
   const location = useLocation();
-  const { orderNo, email, mobile, date, total } : {orderNo: string, email: string, mobile: string, date: Date, total : number} = location.state;
+  if (!location.state)
+    return <Navigate to='/' />
+  const { orderNo, email, mobile, date, total} : {orderNo: string, email: string, mobile: string, date: Date, total : number} = location.state;
+
   //console.log(location.state.orderNo)
   //console.log(orderDetail.orderNo)
   
