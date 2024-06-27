@@ -5,7 +5,7 @@ import { Link,  Navigate,  useLocation } from "react-router-dom";
 const Payment = () => {
   const location = useLocation();
   if (!location.state)
-    return <Navigate to='/' />
+    return <Navigate to={'/'}/>
   const { orderNo, email, mobile, date, total} : {orderNo: string, email: string, mobile: string, date: Date, total : number} = location.state;
 
   //console.log(location.state.orderNo)
@@ -37,7 +37,7 @@ const Payment = () => {
           <p>Amount paid</p>
           <p>NZD ${total.toFixed(2)}</p>
         </div>
-        <Link reloadDocument to={"/"} >
+        <Link  to={"/"} replace>
           <button>CLOSE</button>
         </Link>
       </div>
