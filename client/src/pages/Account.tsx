@@ -4,7 +4,9 @@ import { SlArrowRight } from "react-icons/sl";
 
 
 const Account = () => {
-  const {logOut, email} : {logOut: ()=> void,  email: string} = useOutletContext();
+  const {logOut, email, authToken , removeCookieInvalidToken} : {logOut: ()=> void,  email: string, authToken: string, removeCookieInvalidToken: () => Promise<void>} = useOutletContext();
+  console.log(authToken)
+  console.log(email)
   return (
     <div className="account-container">
       <h1>My Account</h1>
@@ -25,7 +27,7 @@ const Account = () => {
           </div>
         </div>
         <div className="account-flex-wrap-r">
-          <Outlet context={{email}}/>
+          <Outlet context={{email, authToken, removeCookieInvalidToken}}/>
         </div>
       </div>
     </div>

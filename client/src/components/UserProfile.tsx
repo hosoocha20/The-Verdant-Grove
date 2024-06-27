@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { redirect, useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import { IUserProfile } from "../interfaces/IUser";
 
 const UserProfile = () => {
   const [buttonValue, setButtonValue] = useState<string>("Edit");
   const [inputsDisabled, setInputDisabled] = useState(true);
-  const { email }: { email: string } = useOutletContext();
+  const { email, authToken, removeCookieInvalidToken }: { email: string, authToken: string, removeCookieInvalidToken: () => Promise<void> } = useOutletContext();
   const [updateUser, setUpdateUser] = useState<IUserProfile>({
     firstName: "",
     lastName: "",
     email: "",
     address: { city: "", address1: "", address2: "", zip: "" },
   });
+  const navigate = useNavigate();
   const buttonOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (e.currentTarget.value === "Edit") {
@@ -57,12 +58,18 @@ const UserProfile = () => {
     let response;
     try {
       response = await axios.get(
-        `${import.meta.env.VITE_SERVERURL}/account/profile/${email}`
+        `${import.meta.env.VITE_SERVERURL}/account/profile/${email}`, {
+          headers: {authorization: "Bearer " + authToken}
+        }
+      
       );
       const json = response.data;
       setUpdateUser(json[0]);
-    } catch (err) {
-      console.log(err);
+    } catch (err : any) {
+      if (err.response.status === 403){
+        console.log(err.response.status)
+        removeCookieInvalidToken();
+      }
     }
   };
 

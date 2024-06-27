@@ -6,6 +6,7 @@ import {
   createBrowserRouter,
   ScrollRestoration,
   useSearchParams,
+  useNavigate,
 } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
@@ -41,6 +42,8 @@ const Layout = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const email = cookies.Email || "";
   const authToken = cookies.AuthToken || "";
+
+  const navigate = useNavigate();
 
 
   const [searchResult, setSearchResult] = useState("");
@@ -351,6 +354,13 @@ const Layout = () => {
         updateCartItemQuantityByVal(product, val)
   };
 
+   //invalid token
+   const removeCookieInvalidToken = async () =>{
+    removeCookie("Email");
+    removeCookie("AuthToken");
+    navigate('/', {replace: true});
+   }
+
 
 //on Back button, close drawer
   window.addEventListener('popstate', () => {
@@ -360,6 +370,8 @@ const Layout = () => {
         setOpenShoppingBagDrawer(false);
     });
  
+   
+
 
   //adding cart products to local storage for users who are not signed in - so their cart is maintained
   useEffect(() => {
@@ -401,6 +413,7 @@ const Layout = () => {
         context={{
           authToken,
           email,
+          removeCookieInvalidToken,
           searchResult,
           searchParams,
           setSearchParams,
