@@ -19,6 +19,7 @@ import { authUserController } from "./controllers/authUserController";
 import { getUserCart, getUserDetails, getUserOrderDetails, getUserOrders } from "./controllers/getUsersController";
 import  { putUserCartController, deleteUserCartItem, proceedToPay, putExisingUserCart, putUserDetailController, updateCartCheckAll, updateCartCheckSelect, updateCartQuantityByExisting, updateCartQuantityByVal, updateCartQuantityOne } from "./controllers/putUsersController";
 import { deleteCheckedOutProducts, deleteSelectedProducts } from "./controllers/deleteUsersController";
+import { verifyjwt } from "./middlewares/verifyjwt";
 
 //Express Middleware Function
 app.use(cors(
@@ -68,7 +69,7 @@ app.post("/login", authUserController)
 
 //Account
 app.get("/account/orders/:email", getUserOrders)
-app.get("/account/profile/:email", getUserDetails)
+app.get("/account/profile/:email", verifyjwt,getUserDetails)
 app.put("/account/profile/:email", putUserDetailController)
 
 
