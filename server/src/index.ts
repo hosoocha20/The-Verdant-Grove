@@ -3,23 +3,23 @@ import mongoose from "mongoose";
 import cors from 'cors';
 
 
-import Bag from '../models/Bag'
-import User from '../models/User'
-import Product from "../models/Product";
-import { createProductsController } from "../controllers/createProductsController";
-import { getAllProductsController, getProductsByCatController, getProductsBySearchController } from "../controllers/getProductsController";
-import { createUserController } from "../controllers/createUserController";
+import Bag from './models/Bag'
+import User from './models/User'
+import Product from "./models/Product";
+import { createProductsController } from "./controllers/createProductsController";
+import { getAllProductsController, getProductsByCatController, getProductsBySearchController } from "./controllers/getProductsController";
+import { createUserController } from "./controllers/createUserController";
 
 
 require('dotenv').config()
 
 const app = express();
 import bodyParser from 'body-parser';
-import { authRefreshToken, authUserController, logout } from "../controllers/authUserController";
-import { getUserCart, getUserDetails, getUserOrderDetails, getUserOrders } from "../controllers/getUsersController";
-import  { putUserCartController, deleteUserCartItem, proceedToPay, putExisingUserCart, putUserDetailController, updateCartCheckAll, updateCartCheckSelect, updateCartQuantityByExisting, updateCartQuantityByVal, updateCartQuantityOne } from "../controllers/putUsersController";
-import { deleteCheckedOutProducts, deleteSelectedProducts } from "../controllers/deleteUsersController";
-import { verifyjwt } from "../middlewares/verifyjwt";
+import { authRefreshToken, authUserController, logout } from "./controllers/authUserController";
+import { getUserCart, getUserDetails, getUserOrderDetails, getUserOrders } from "./controllers/getUsersController";
+import  { putUserCartController, deleteUserCartItem, proceedToPay, putExisingUserCart, putUserDetailController, updateCartCheckAll, updateCartCheckSelect, updateCartQuantityByExisting, updateCartQuantityByVal, updateCartQuantityOne } from "./controllers/putUsersController";
+import { deleteCheckedOutProducts, deleteSelectedProducts } from "./controllers/deleteUsersController";
+import { verifyjwt } from "./middlewares/verifyjwt";
 
 //Express Middleware Function
 app.use(cors(
@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 
 
 
-const PORT = 5000;
+const PORT = 3000;
 
 //Shop
 app.get('/', async(req: Request, res: Response) => {
@@ -86,3 +86,5 @@ mongoose.connect(`${process.env.CONNECTION_STRING}`).then(() => {
     });
 });
 
+
+export default app;
