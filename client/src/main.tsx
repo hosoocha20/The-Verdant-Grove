@@ -71,7 +71,7 @@ const Layout = () => {
     if (data.detail) {
       setLoginErrorMsg({ ...loginErrorMsg, msg: data.detail });
     } else {
-      localStorage.setItem("cart", JSON.stringify([]));
+      
 
       addPrevCartToUserCart(shoppingCart, data.email);
       setCookie("Email", data.email);
@@ -257,6 +257,7 @@ const Layout = () => {
       );
       const data = await response.data;
       setShoppingCart(data);
+      localStorage.setItem("cart", JSON.stringify([]));
     } catch (err: any) {
       console.log(err);
     }
