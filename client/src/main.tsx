@@ -519,6 +519,7 @@ const Layout = () => {
           authToken,
           email,
           removeCookieInvalidToken,
+          getUserCart,
           searchResult,
           searchParams,
           setSearchParams,

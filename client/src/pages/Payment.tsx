@@ -1,6 +1,6 @@
 import React from "react";
 import { TiTick } from "react-icons/ti";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useOutletContext } from "react-router-dom";
 
 const Payment = () => {
   const location = useLocation();
@@ -18,6 +18,7 @@ const Payment = () => {
     date: Date;
     total: number;
   } = location.state;
+  const {getUserCart} : {getUserCart: ()=> Promise<void>} = useOutletContext();
 
   //console.log(location.state.orderNo)
   //console.log(orderDetail.orderNo)
@@ -54,7 +55,7 @@ const Payment = () => {
           <p>Amount paid</p>
           <p>NZD ${total.toFixed(2)}</p>
         </div>
-        <Link to={"/"} replace>
+        <Link to={"/"} replace onClick={getUserCart}>
           <button>CLOSE</button>
         </Link>
       </div>

@@ -9,13 +9,15 @@ const ProtectedRoutes = () => {
   const {
     removeCookieInvalidToken,
     logOut,
+    getUserCart
   }: {
     removeCookieInvalidToken: () => Promise<void>;
     logOut: () => Promise<void>;
+    getUserCart: () => Promise<void>;
   } = useOutletContext();
 
   return authToken ? (
-    <Outlet context={{ logOut, email, authToken, removeCookieInvalidToken }} />
+    <Outlet context={{ logOut, email, authToken, removeCookieInvalidToken, getUserCart }} />
   ) : (
     <Navigate to={"/"} />
   );
