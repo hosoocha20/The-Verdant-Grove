@@ -24,9 +24,9 @@ import { verifyjwt } from "./middlewares/verifyjwt";
 //Express Middleware Function
 app.use(cors(
     {
-        origin: ["https://the-verdant-grove.vercel.app/"],
+        origin: ["https://the-verdant-grove.vercel.app"],
         methods:["POST", "GET", "PUT", "DELETE"],
-        allowedHeaders: ['Content-Type', 'Authorization'],
+        allowedHeaders: ['Content-Type', 'authorization'],
         credentials: true
     }
 ));
