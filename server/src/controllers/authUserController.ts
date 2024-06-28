@@ -45,7 +45,7 @@ export async function authRefreshToken(req: Request, res: Response) {
         jwt.verify(refreshToken, "refreshSecret");
         //refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
 
-        const newAccessToken = jwt.sign({ email }, 'secret', { expiresIn: 30});
+        const newAccessToken = jwt.sign({ email }, 'secret', { expiresIn: "30s"});
         //const newRefreshToken = jwt.sign({ email }, 'refreshSecret');
 
         //refreshTokens.push(newRefreshToken);

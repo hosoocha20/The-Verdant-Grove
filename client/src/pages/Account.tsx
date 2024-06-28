@@ -25,7 +25,7 @@ const Account = () => {
           </div>
         </div>
         <div className="account-flex-wrap-r">
-          <Outlet context={{email, authToken, removeCookieInvalidToken}}/>
+          <Outlet context={{email, authToken, removeCookieInvalidToken, logOut}}/>
         </div>
       </div>
     </div>

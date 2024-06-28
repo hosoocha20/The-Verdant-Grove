@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { redirect, useNavigate, useOutletContext } from "react-router-dom";
+import {  useOutletContext } from "react-router-dom";
 import axios from "axios";
 import { IUserProfile } from "../interfaces/IUser";
 import { axiosJWT } from "../middlewares/refreshInterceptor";
@@ -14,7 +14,6 @@ const UserProfile = () => {
     email: "",
     address: { city: "", address1: "", address2: "", zip: "" },
   });
-  const navigate = useNavigate();
   const buttonOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (e.currentTarget.value === "Edit") {
@@ -51,8 +50,11 @@ const UserProfile = () => {
       const data = await response.json();
       console.log(data);
       setUpdateUser(data);
-    } catch (err) {
-      console.log(err);
+    } catch (err : any) {
+      if (err.response.status === 403 || err.response.status === 401){
+        //console.log(err.response.status)
+        removeCookieInvalidToken();
+      }
     }
   };
   const getUserProfile = async () => {
@@ -67,9 +69,9 @@ const UserProfile = () => {
       const json = response.data;
       setUpdateUser(json[0]);
     } catch (err : any) {
-      if (err.response.status === 403){
-        console.log(err.response.status)
-        //removeCookieInvalidToken();
+      if (err.response.status === 403 || err.response.status === 401){
+        //console.log(err.response.status)
+        removeCookieInvalidToken();
       }
     }
   };

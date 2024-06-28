@@ -2,6 +2,7 @@ import React, { useEffect, useState} from "react";
 import { useCookies } from "react-cookie";
 import { IShoppingCartItem } from "../interfaces/IShop";
 import { useOutletContext } from "react-router-dom";
+import { ILoginUser} from "../interfaces/IUser";
 
 interface IUserSignup{
   firstName: string,
@@ -14,7 +15,7 @@ const Signup = () => {
   const [user, setUser] = useState<IUserSignup>({firstName: '', lastName: '', email: '', pw: '', cart: []});
   const [signupErrorMsg, setSignupErrorMsg] = useState({msg: ''});
   const [cookies, setCookie, removeCookie] = useCookies();
-  const {setShoppingCart} : { setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>} = useOutletContext();
+  const {shoppingCart,  logIn} : { shoppingCart: IShoppingCartItem[], logIn: (e: React.FormEvent, user: ILoginUser) =>Promise<void> } = useOutletContext();
   
  // const  addUser : AddUser    = useOutletContext();
  // const  authedUser: IUser = useOutletContext();
@@ -39,10 +40,12 @@ const Signup = () => {
     if (data.detail) {
       setSignupErrorMsg({...signupErrorMsg, msg: data.detail})
     }else{
-    setCookie('Email', data.email);
-    setCookie('AuthToken', data.token);
-    setShoppingCart([]);  //reset shopping cart
-    window.location.replace('/')
+    // setCookie('Email', data.email);
+    // setCookie('AuthToken', data.token);
+    // setCookie('RefreshToken', data.refreshToken);
+    // addPrevCartToUserCart(shoppingCart, user.email.toLowerCase()); //reset shopping cart
+    // window.location.replace('/')
+    logIn(e, {email: user.email.toLowerCase(), pw: user.pw});
     }
   }catch(err){
     console.log(err);

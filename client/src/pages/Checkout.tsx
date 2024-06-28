@@ -8,10 +8,11 @@ import {
 import { IShoppingCartItem } from "../interfaces/IShop";
 import { IOrderDetail } from "../interfaces/IOrder";
 import axios from "axios";
+import { axiosJWT } from "../middlewares/refreshInterceptor";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { email }: { email: string } = useOutletContext();
+  const { email, authToken,removeCookieInvalidToken }: { email: string, authToken: string, removeCookieInvalidToken: () => Promise<void>} = useOutletContext();
 
   const [orderDetail, setOrderDetail] = useState<IOrderDetail>({
     orderNo: "",
@@ -50,8 +51,10 @@ const Checkout = () => {
   const getUserOrderDetails = async () => {
     let response;
     try {
-      response = await axios.get(
-        `${import.meta.env.VITE_SERVERURL}/checkout/orderForm/${email}`
+      response = await axiosJWT.get(
+        `${import.meta.env.VITE_SERVERURL}/checkout/orderForm/${email}`, {
+          headers: {authorization: "Bearer " + authToken}
+        }
       );
       const data = response.data;
       if (!data)
@@ -76,19 +79,22 @@ const Checkout = () => {
         payment: "unpaid",
         date: new Date(),
       });
-    } catch (err) {
-      console.log(err);
+    } catch (err : any) {
+      if (err.response.status === 403 || err.response.status === 401){
+        //console.log(err.response.status)
+        removeCookieInvalidToken();
+      }
     }
   };
 
   const removeCheckedOutItemsFromCart = async () => {
     let response;
     try {
-      response = await fetch(
+      response = await axiosJWT(
         `${import.meta.env.VITE_SERVERURL}/checkout/proceedToPay/${email}`,
         {
           method: "DELETE",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken },
         }
       );
       if (response.status === 200) {
@@ -104,20 +110,23 @@ const Checkout = () => {
       } else {
         console.log(response.status);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (err : any) {
+      if (err.response.status === 403 || err.response.status === 401){
+        //console.log(err.response.status)
+        removeCookieInvalidToken();
+      }
     }
   };
 
   const proceedToPay = async () => {
     let response;
     try {
-      response = await fetch(
+      response = await axiosJWT(
         `${import.meta.env.VITE_SERVERURL}/checkout/proceedToPay/${email}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ orderDetail }),
+          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken},
+          data: JSON.stringify({ orderDetail }),
         }
       );
       if (response.status === 200) {
@@ -126,8 +135,11 @@ const Checkout = () => {
       } else {
         console.log(response.status);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (err : any) {
+      if (err.response.status === 403 || err.response.status === 401){
+        //console.log(err.response.status)
+        removeCookieInvalidToken();
+      }
     }
   };
   const payOnSubmit = () => {

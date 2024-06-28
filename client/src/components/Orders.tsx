@@ -12,7 +12,7 @@ import { IOrderDetail } from "../interfaces/IOrder";
 import { axiosJWT } from "../middlewares/refreshInterceptor";
 
 const Orders = () => {
-  const { email, authToken }: { email: string, authToken: string } = useOutletContext();
+  const { email, authToken, removeCookieInvalidToken }: { email: string, authToken: string, removeCookieInvalidToken: () => Promise<void> } = useOutletContext();
   const [orderHistory, setOrderHistory] = useState<IOrderDetail[]>([]);
 
   const [itemsPerPage, setItemsPerPage] = useState(8);
@@ -38,8 +38,11 @@ const Orders = () => {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       });
       setOrderHistory(json);
-    } catch (err) {
-      console.log(err);
+    } catch (err : any) {
+      if (err.response.status === 403 || err.response.status === 401){
+        //console.log(err.response.status)
+        removeCookieInvalidToken();
+      }
     }
   };
 
