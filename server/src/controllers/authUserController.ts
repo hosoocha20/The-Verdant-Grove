@@ -16,7 +16,7 @@ export async function authUserController(req: Request, res: Response) {
             return res.json({detail: "Account does not exist."})
         
         const success = await bcrypt.compare(pw, user[0].pw)
-        const token = jwt.sign({ email }, 'secret', { expiresIn: 30})
+        const token = jwt.sign({ email }, 'secret', { expiresIn: "1h"})
         const refreshToken = jwt.sign({ email }, 'refreshSecret')
         refreshTokens.push(refreshToken);
         if (success){
