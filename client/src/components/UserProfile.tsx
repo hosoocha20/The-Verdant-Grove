@@ -56,7 +56,7 @@ const UserProfile = () => {
         }
       );
       const data = await response.json();
-      console.log(data);
+      //console.log(data);
       setUpdateUser(data);
     } catch (err: any) {
       if (err.response.status === 403 || err.response.status === 401) {
@@ -98,6 +98,7 @@ const UserProfile = () => {
             First Name*
             <input
               type="text"
+              name="fname"
               value={updateUser.firstName}
               onChange={(e) =>
                 setUpdateUser({ ...updateUser, firstName: e.target.value })
@@ -110,6 +111,7 @@ const UserProfile = () => {
             Last Name*
             <input
               type="text"
+              name="lname"
               value={updateUser.lastName}
               onChange={(e) =>
                 setUpdateUser({ ...updateUser, lastName: e.target.value })
@@ -121,12 +123,13 @@ const UserProfile = () => {
         </div>
         <label>
           Email*
-          <input type="text" value={updateUser.email} disabled={true} />
+          <input type="text" name="email" value={updateUser.email} disabled={true} />
         </label>
         <label>
           Address 1
           <input
             type="text"
+            name="address1"
             value={updateUser.address.address1}
             onChange={(e) =>
               setUpdateUser({
@@ -141,6 +144,7 @@ const UserProfile = () => {
           Address 2
           <input
             type="text"
+            name="address2"
             value={updateUser.address.address2}
             onChange={(e) =>
               setUpdateUser({
@@ -155,6 +159,7 @@ const UserProfile = () => {
           City
           <input
             type="text"
+            name="city"
             value={updateUser.address.city}
             onChange={(e) =>
               setUpdateUser({
@@ -169,6 +174,7 @@ const UserProfile = () => {
           Postal/Zip code
           <input
             type="text"
+            name="zip"
             value={updateUser.address.zip}
             onChange={(e) =>
               setUpdateUser({

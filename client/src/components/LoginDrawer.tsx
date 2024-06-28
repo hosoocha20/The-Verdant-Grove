@@ -61,6 +61,7 @@ const LoginDrawer = (props: LoginDrawerProps) => {
         <div className="login-drawer-email-wrapper">
           <input
             type="email"
+            name="email"
             id="email-login"
             placeholder="EMAIL"
             required
@@ -74,6 +75,7 @@ const LoginDrawer = (props: LoginDrawerProps) => {
         <div className="login-drawer-pw-wrapper">
           <input
             type="password"
+            name="password"
             id="pw-login"
             placeholder="PASSWORD"
             required
