@@ -157,7 +157,7 @@ const Shop = () => {
                   }`}
                 >
                   <div className="shop-options-btn-img-wrapper">
-                    <img src={`${"/src/assets/" + link.imgSrc}`} />
+                    <img src={`${"/assets/" + link.imgSrc}`} />
                   </div>
                 </div>
                 <p>{link.title}</p>
