@@ -51,7 +51,7 @@ const Product = () => {
     <div className="product-container">
       <div className="product-l-container">
         {productItem.imgsSrc.map((src: string, i: number) => (
-          <img src={`${"./assets/" + src}`} alt={src} key={i} />
+          <img src={`${"/assets/" + src}`} alt={src} key={i} />
         ))}
       </div>
       <div className="product-r-container">

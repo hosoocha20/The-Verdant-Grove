@@ -52,7 +52,7 @@ const OrderView = () => {
                     className="orderView-table-name"
                   >
                     <img
-                      src={`${"./assets/" + row.imgSrc[0]}`}
+                      src={`${"/assets/" + row.imgSrc[0]}`}
                       alt={row.name}
                     />
                     <span>{row.name}</span>

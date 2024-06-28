@@ -338,7 +338,7 @@ const Checkout = () => {
             {orderDetail.products.map((p: IShoppingCartItem) => {
               return (
                 <div className="checkout-product-wrapper" key={p.name}>
-                  <img src={`${"./assets/" + p.imgSrc[0]}`} />
+                  <img src={`${"/assets/" + p.imgSrc[0]}`} />
                   <div className="checkout-product-details">
                     <p>{p.name}</p>
                     <p>${Number(p.price).toFixed(2)}</p>
