@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import { IUserProfile } from "../interfaces/IUser";
 import { axiosJWT } from "../middlewares/refreshInterceptor";
@@ -7,7 +7,15 @@ import { axiosJWT } from "../middlewares/refreshInterceptor";
 const UserProfile = () => {
   const [buttonValue, setButtonValue] = useState<string>("Edit");
   const [inputsDisabled, setInputDisabled] = useState(true);
-  const { email, authToken, removeCookieInvalidToken }: { email: string, authToken: string, removeCookieInvalidToken: () => Promise<void> } = useOutletContext();
+  const {
+    email,
+    authToken,
+    removeCookieInvalidToken,
+  }: {
+    email: string;
+    authToken: string;
+    removeCookieInvalidToken: () => Promise<void>;
+  } = useOutletContext();
   const [updateUser, setUpdateUser] = useState<IUserProfile>({
     firstName: "",
     lastName: "",
@@ -50,8 +58,8 @@ const UserProfile = () => {
       const data = await response.json();
       console.log(data);
       setUpdateUser(data);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         //console.log(err.response.status)
         removeCookieInvalidToken();
       }
@@ -61,15 +69,15 @@ const UserProfile = () => {
     let response;
     try {
       response = await axiosJWT.get(
-        `${import.meta.env.VITE_SERVERURL}/account/profile/${email}`, {
-          headers: {authorization: "Bearer " + authToken}
+        `${import.meta.env.VITE_SERVERURL}/account/profile/${email}`,
+        {
+          headers: { authorization: "Bearer " + authToken },
         }
-      
       );
       const json = response.data;
       setUpdateUser(json[0]);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         //console.log(err.response.status)
         removeCookieInvalidToken();
       }
@@ -79,7 +87,6 @@ const UserProfile = () => {
   useEffect(() => {
     getUserProfile();
   }, []);
-
 
   return (
     <div className="userProfile-container">

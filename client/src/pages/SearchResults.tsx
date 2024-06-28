@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Link,
-  SetURLSearchParams,
-  useOutletContext,
-
-} from "react-router-dom";
+import { Link, SetURLSearchParams, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
@@ -27,7 +22,6 @@ const SearchResults = () => {
   );
   const [thisSearchResult, setThisSearchResult] = useState(searchResult || "");
   const [shopItemArray, setShopItemArray] = useState<IProduct[]>([]);
-
 
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [page, setPage] = useState(1);

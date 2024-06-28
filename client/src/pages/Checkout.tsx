@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Link,
-  Navigate,
-  useNavigate,
-  useOutletContext,
-} from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { IShoppingCartItem } from "../interfaces/IShop";
 import { IOrderDetail } from "../interfaces/IOrder";
 import axios from "axios";
@@ -12,7 +7,15 @@ import { axiosJWT } from "../middlewares/refreshInterceptor";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { email, authToken,removeCookieInvalidToken }: { email: string, authToken: string, removeCookieInvalidToken: () => Promise<void>} = useOutletContext();
+  const {
+    email,
+    authToken,
+    removeCookieInvalidToken,
+  }: {
+    email: string;
+    authToken: string;
+    removeCookieInvalidToken: () => Promise<void>;
+  } = useOutletContext();
 
   const [orderDetail, setOrderDetail] = useState<IOrderDetail>({
     orderNo: "",
@@ -52,13 +55,13 @@ const Checkout = () => {
     let response;
     try {
       response = await axiosJWT.get(
-        `${import.meta.env.VITE_SERVERURL}/checkout/orderForm/${email}`, {
-          headers: {authorization: "Bearer " + authToken}
+        `${import.meta.env.VITE_SERVERURL}/checkout/orderForm/${email}`,
+        {
+          headers: { authorization: "Bearer " + authToken },
         }
       );
       const data = response.data;
-      if (!data)
-         return navigate('/');
+      if (!data) return navigate("/");
 
       setOrderDetail({
         orderNo: "",
@@ -79,8 +82,8 @@ const Checkout = () => {
         payment: "unpaid",
         date: new Date(),
       });
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         //console.log(err.response.status)
         removeCookieInvalidToken();
       }
@@ -94,7 +97,10 @@ const Checkout = () => {
         `${import.meta.env.VITE_SERVERURL}/checkout/proceedToPay/${email}`,
         {
           method: "DELETE",
-          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + authToken,
+          },
         }
       );
       if (response.status === 200) {
@@ -110,8 +116,8 @@ const Checkout = () => {
       } else {
         console.log(response.status);
       }
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         //console.log(err.response.status)
         removeCookieInvalidToken();
       }
@@ -125,7 +131,10 @@ const Checkout = () => {
         `${import.meta.env.VITE_SERVERURL}/checkout/proceedToPay/${email}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken},
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + authToken,
+          },
           data: JSON.stringify({ orderDetail }),
         }
       );
@@ -135,8 +144,8 @@ const Checkout = () => {
       } else {
         console.log(response.status);
       }
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         //console.log(err.response.status)
         removeCookieInvalidToken();
       }

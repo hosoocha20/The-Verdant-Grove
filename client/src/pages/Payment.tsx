@@ -1,16 +1,27 @@
 import React from "react";
 import { TiTick } from "react-icons/ti";
-import { Link,  Navigate,  useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 
 const Payment = () => {
   const location = useLocation();
-  if (!location.state)
-    return <Navigate to={'/'}/>
-  const { orderNo, email, mobile, date, total} : {orderNo: string, email: string, mobile: string, date: Date, total : number} = location.state;
+  if (!location.state) return <Navigate to={"/"} />;
+  const {
+    orderNo,
+    email,
+    mobile,
+    date,
+    total,
+  }: {
+    orderNo: string;
+    email: string;
+    mobile: string;
+    date: Date;
+    total: number;
+  } = location.state;
 
   //console.log(location.state.orderNo)
   //console.log(orderDetail.orderNo)
-  
+
   return (
     <div className="payment-container">
       <div className="payment-box">
@@ -33,11 +44,17 @@ const Payment = () => {
             </>
           )}
           <p>Date</p>
-          <p>{date.toLocaleString('en-NZ', {month: 'long', day: 'numeric', year: 'numeric'})}</p>
+          <p>
+            {date.toLocaleString("en-NZ", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </p>
           <p>Amount paid</p>
           <p>NZD ${total.toFixed(2)}</p>
         </div>
-        <Link  to={"/"} replace>
+        <Link to={"/"} replace>
           <button>CLOSE</button>
         </Link>
       </div>

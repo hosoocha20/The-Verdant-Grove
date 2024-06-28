@@ -102,23 +102,42 @@ const Seasonal = () => {
     },
   ];
 
-  return <div className="seasonal-container">
-    <div className="seasonal-header-text">
+  return (
+    <div className="seasonal-container">
+      <div className="seasonal-header-text">
         <h1>2024 SUMMER</h1>
         <h2>&#8216;SUNSHINE IS ON ITS WAY&#8217;</h2>
-        <p>Savor the anticipation of summer's vibrant embrace. The Verdant Grove awaits, brimming with nature's sweetest treasures bathed in the warm glow of the approaching sun. Explore our harvest, crafted by nature's hand, and create memories that linger long after the last rays of summer fade.</p>
+        <p>
+          Savor the anticipation of summer's vibrant embrace. The Verdant Grove
+          awaits, brimming with nature's sweetest treasures bathed in the warm
+          glow of the approaching sun. Explore our harvest, crafted by nature's
+          hand, and create memories that linger long after the last rays of
+          summer fade.
+        </p>
+      </div>
+      <img id="summerbg" src={summer2024bg} alt="2024 Summer Season" />
+      <Grid
+        container
+        className="seasonal-img-grid-container"
+        spacing={3}
+        marginTop={"1rem"}
+        paddingBottom={"7rem"}
+      >
+        {shopItemArray.map((item: ShopItem, i: number) => (
+          <Grid item xs={12} sm={6} md={4} key={i}>
+            <img
+              className="seasonal-gallery-img"
+              loading="lazy"
+              src={`${"src/assets/" + item.imgMainSrc}`}
+              alt={item.name}
+              width="auto"
+              height="auto"
+            />
+          </Grid>
+        ))}
+      </Grid>
     </div>
-    <img id="summerbg" src={summer2024bg} alt="2024 Summer Season"/>
-    <Grid container className="seasonal-img-grid-container" spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>        
-        {shopItemArray.map((item: ShopItem, i: number) =>
-            (
-                <Grid item xs={12} sm={6} md={4} key={i}>
-                <img className= "seasonal-gallery-img" loading="lazy" src={`${"src/assets/" + item.imgMainSrc}`}  alt={item.name} width="auto" height="auto"/>
-                </Grid>
-            )
-        )}
-    </Grid>
-  </div>;
+  );
 };
 
 export default Seasonal;

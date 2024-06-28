@@ -1,55 +1,57 @@
 import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import CounterButton from "../components/CounterButton";
-import { IProduct , IShoppingCartItem} from "../interfaces/IShop";
+import {IShoppingCartItem } from "../interfaces/IShop";
 import { useLocation, useOutletContext } from "react-router-dom";
 import { HiPlus, HiMinus } from "react-icons/hi";
-import { IUser } from "../interfaces/IUser";
 
 const Product = () => {
   const location = useLocation();
   const { productItem } = location.state;
-  const { addToShoppingCart} : {addToShoppingCart: (item: IShoppingCartItem) => void} = useOutletContext();
+  const {
+    addToShoppingCart,
+  }: { addToShoppingCart: (item: IShoppingCartItem) => void } =
+    useOutletContext();
   const min = 1;
   const max = 99;
   const [quantity, setQuantity] = useState(min);
-  const [thisItem, setThisItem] = useState<IShoppingCartItem>({ name: productItem.name, quantity: 1, price: productItem.price, imgSrc: productItem.imgMainSrc, checked: true})
-
+  const [thisItem, setThisItem] = useState<IShoppingCartItem>({
+    name: productItem.name,
+    quantity: 1,
+    price: productItem.price,
+    imgSrc: productItem.imgMainSrc,
+    checked: true,
+  });
 
   //console.log(productItem)
 
   const [openDetails, setOpenDetails] = useState(false);
 
-  const decrement = () =>{
-    if (thisItem.quantity > min){
-      setThisItem(prev => ({...prev, quantity: prev.quantity-1 }))
-      
+  const decrement = () => {
+    if (thisItem.quantity > min) {
+      setThisItem((prev) => ({ ...prev, quantity: prev.quantity - 1 }));
     }
-  }
-  const increment = () =>{
-    if (thisItem.quantity < max){
-      setThisItem(prev => ({...prev, quantity: prev.quantity+1 }))
-      
+  };
+  const increment = () => {
+    if (thisItem.quantity < max) {
+      setThisItem((prev) => ({ ...prev, quantity: prev.quantity + 1 }));
     }
-  }
+  };
 
-  const handleQuantityOnBlur = () =>{
+  const handleQuantityOnBlur = () => {
     if (quantity < min || isNaN(quantity))
-      setThisItem(prev => ({...prev, quantity: min}))
-    if (quantity > max)
-      setThisItem(prev => ({...prev, quantity: max}))
-  }
+      setThisItem((prev) => ({ ...prev, quantity: min }));
+    if (quantity > max) setThisItem((prev) => ({ ...prev, quantity: max }));
+  };
 
-  const addToBag = () =>{
-    addToShoppingCart(thisItem)
-  }
+  const addToBag = () => {
+    addToShoppingCart(thisItem);
+  };
 
-  
   return (
     <div className="product-container">
       <div className="product-l-container">
         {productItem.imgsSrc.map((src: string, i: number) => (
-          <img src={`${"/src/assets/" + src}`} alt={src} key={i}/>
+          <img src={`${"/src/assets/" + src}`} alt={src} key={i} />
         ))}
       </div>
       <div className="product-r-container">
@@ -75,8 +77,7 @@ const Product = () => {
         >
           <p>Size: {productItem.productDetail.size}</p>
           <p>
-            Origin of Country: Product of{" "}
-            {productItem.productDetail.countrySrc}
+            Origin of Country: Product of {productItem.productDetail.countrySrc}
           </p>
         </div>
 
@@ -86,13 +87,26 @@ const Product = () => {
             <button onClick={decrement}>
               <HiMinus />
             </button>
-            <input type="number" value={thisItem.quantity} max={max} onChange={(e)=> setThisItem(prev => ({...prev, quantity: e.target.valueAsNumber }))} onBlur={handleQuantityOnBlur} />
+            <input
+              type="number"
+              value={thisItem.quantity}
+              max={max}
+              onChange={(e) =>
+                setThisItem((prev) => ({
+                  ...prev,
+                  quantity: e.target.valueAsNumber,
+                }))
+              }
+              onBlur={handleQuantityOnBlur}
+            />
             <button onClick={increment}>
               <HiPlus />
             </button>
           </div>
         </div>
-        <button className="product-r-bag-button" onClick={addToBag}>ADD TO BAG</button>
+        <button className="product-r-bag-button" onClick={addToBag}>
+          ADD TO BAG
+        </button>
       </div>
     </div>
   );

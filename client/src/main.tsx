@@ -37,24 +37,17 @@ import OrderView from "./components/OrderView.tsx";
 import RestrictedRoutes from "./routes/RestrictedRoutes.tsx";
 import { axiosJWT } from "./middlewares/refreshInterceptor.ts";
 
-
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 
 const Layout = () => {
-
   const [cookies, setCookie, removeCookie] = useCookies();
   const email = cookies.Email || "";
   let authToken = cookies.AuthToken || "";
   const refreshToken = cookies.RefreshToken || "";
 
-
-  const navigate = useNavigate();
-
-
   const [searchResult, setSearchResult] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   //const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword')?.trim() || '')
-
 
   const [loginErrorMsg, setLoginErrorMsg] = useState({ msg: "" });
 
@@ -86,66 +79,65 @@ const Layout = () => {
       setCookie("RefreshToken", data.refreshToken);
       setOpenLoginDrawer(false);
 
-      window.location.replace('/');
+      window.location.replace("/");
     }
   };
 
-    // const postRefreshToken = async() =>{
-    //   let response;
-      
-    //   try{
-    //     response = await axios(`${import.meta.env.VITE_SERVERURL}/refreshToken/${email}`, {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/json" },
-    //       data: JSON.stringify({ refreshToken: refreshToken}),
-    //     });
-    //     const data = await response.data;
-    //     setCookie("AuthToken", data.token);
-    //     console.log("Refreshed Token")
-    //     return data;
-    //   }catch(err){
-    //     console.log(err)
-    //   }
+  // const postRefreshToken = async() =>{
+  //   let response;
 
-    // }
+  //   try{
+  //     response = await axios(`${import.meta.env.VITE_SERVERURL}/refreshToken/${email}`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       data: JSON.stringify({ refreshToken: refreshToken}),
+  //     });
+  //     const data = await response.data;
+  //     setCookie("AuthToken", data.token);
+  //     console.log("Refreshed Token")
+  //     return data;
+  //   }catch(err){
+  //     console.log(err)
+  //   }
 
-    // axiosJWT.interceptors.request.use(
-    //   async (config) =>{
-    
-    //     let currentDate = new Date();
-    //     const decodedToken = jwtDecode(authToken) ;
-    //     console.log("token exp "+ (decodedToken.exp))
-    //     console.log("time exp "+currentDate.getTime())
-    //     console.log("authToken "+ authToken)
-    //     if (decodedToken.exp && (new Date().getTime()/1000) >= (decodedToken.exp)){
-    //       console.log(new Date(decodedToken.exp * 1000).toLocaleString())
-    //       const data = await postRefreshToken();
-    //       config.headers["authorization"] = "Bearer " + data.token;
-    //     }
-    //     return config;
-    //   }, (err) => {
-    //     return Promise.reject(err)
-    //   }
-    // )
+  // }
+
+  // axiosJWT.interceptors.request.use(
+  //   async (config) =>{
+
+  //     let currentDate = new Date();
+  //     const decodedToken = jwtDecode(authToken) ;
+  //     console.log("token exp "+ (decodedToken.exp))
+  //     console.log("time exp "+currentDate.getTime())
+  //     console.log("authToken "+ authToken)
+  //     if (decodedToken.exp && (new Date().getTime()/1000) >= (decodedToken.exp)){
+  //       console.log(new Date(decodedToken.exp * 1000).toLocaleString())
+  //       const data = await postRefreshToken();
+  //       config.headers["authorization"] = "Bearer " + data.token;
+  //     }
+  //     return config;
+  //   }, (err) => {
+  //     return Promise.reject(err)
+  //   }
+  // )
 
   const logOut = async () => {
     const options: AxiosRequestConfig = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      data: {refreshToken: refreshToken},
+      data: { refreshToken: refreshToken },
     };
-    try{
+    try {
       await axios.delete(`${import.meta.env.VITE_SERVERURL}/logout`, options);
-      setShoppingCart([])
+      setShoppingCart([]);
       removeCookie("Email");
       removeCookie("RefreshToken");
       removeCookie("AuthToken");
-      window.location.replace('/');
-    }catch(err){
-      console.log(err)
+      window.location.replace("/");
+    } catch (err) {
+      console.log(err);
     }
-
   };
 
   //Cart Requests
@@ -153,14 +145,15 @@ const Layout = () => {
     let response;
     try {
       response = await axiosJWT.get(
-        `${import.meta.env.VITE_SERVERURL}/cart/${email}`, {
-          headers: {authorization: "Bearer " + authToken}
+        `${import.meta.env.VITE_SERVERURL}/cart/${email}`,
+        {
+          headers: { authorization: "Bearer " + authToken },
         }
       );
       const data = await response.data;
       setShoppingCart(data);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
       }
     }
@@ -173,14 +166,17 @@ const Layout = () => {
         `${import.meta.env.VITE_SERVERURL}/cart/${email}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + authToken,
+          },
           data: JSON.stringify({ product }),
         }
       );
       const data = await response.data;
       setShoppingCart(data);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
       }
     }
@@ -193,14 +189,17 @@ const Layout = () => {
         `${import.meta.env.VITE_SERVERURL}/cart/removeProduct/${email}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken},
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + authToken,
+          },
           data: JSON.stringify({ product }),
         }
       );
       const data = await response.data;
       setShoppingCart(data);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
       }
     }
@@ -214,14 +213,17 @@ const Layout = () => {
         }/cart/removeSelectedProducts/${email}`,
         {
           method: "DELETE",
-          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + authToken,
+          },
         }
       );
       const data = await response.data;
 
       setShoppingCart(data);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
       }
     }
@@ -239,7 +241,10 @@ const Layout = () => {
     else removeUserSelectedCartItem();
   };
 
-  const addPrevCartToUserCart = async (items: IShoppingCartItem[], email: string) =>{
+  const addPrevCartToUserCart = async (
+    items: IShoppingCartItem[],
+    email: string
+  ) => {
     let response;
     try {
       response = await axiosJWT(
@@ -252,10 +257,10 @@ const Layout = () => {
       );
       const data = await response.data;
       setShoppingCart(data);
-    } catch (err : any) {
-      console.log(err)
+    } catch (err: any) {
+      console.log(err);
     }
-  }
+  };
   const addToShoppingCart = (item: IShoppingCartItem) => {
     const isItemInBag = shoppingCart.find((i) => i.name === item.name);
     if (!authToken) {
@@ -271,12 +276,11 @@ const Layout = () => {
         setShoppingCart((prev: IShoppingCartItem[]) => [...prev, item]);
       }
     } else {
-      if (isItemInBag){
+      if (isItemInBag) {
         updateCartItemQuantityByExisting(isItemInBag, item.quantity);
-      }else{
+      } else {
         updateUserCart(item);
       }
-      
     }
     setOpenShoppingBagDrawer(true);
   };
@@ -287,15 +291,18 @@ const Layout = () => {
         `${import.meta.env.VITE_SERVERURL}/cart/updateCheckAll/${email}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + authToken,
+          },
           data: JSON.stringify({ state: !checkedAll }),
         }
       );
       const data = await response.data;
       //console.log(data);
       setShoppingCart(data);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
       }
     }
@@ -317,15 +324,18 @@ const Layout = () => {
         `${import.meta.env.VITE_SERVERURL}/cart/updateCheckSelect/${email}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + authToken,
+          },
           data: JSON.stringify({ product }),
         }
       );
       const data = await response.data;
 
       setShoppingCart(data);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
       }
     }
@@ -350,14 +360,17 @@ const Layout = () => {
         `${import.meta.env.VITE_SERVERURL}/cart/updateQuantityOne/${email}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + authToken,
+          },
           data: JSON.stringify({ product, val }),
         }
       );
       const data = await response.data;
       setShoppingCart(data);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
       }
     }
@@ -384,17 +397,22 @@ const Layout = () => {
     let response;
     try {
       response = await axiosJWT(
-        `${import.meta.env.VITE_SERVERURL}/cart/updateQuantityByExisting/${email}`,
+        `${
+          import.meta.env.VITE_SERVERURL
+        }/cart/updateQuantityByExisting/${email}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json", authorization: "Bearer " + authToken },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + authToken,
+          },
           data: JSON.stringify({ product, val }),
         }
       );
       const data = await response.data;
       setShoppingCart(data);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
       }
     }
@@ -409,14 +427,17 @@ const Layout = () => {
         `${import.meta.env.VITE_SERVERURL}/cart/updateQuantityByVal/${email}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" , authorization: "Bearer " + authToken},
+          headers: {
+            "Content-Type": "application/json",
+            authorization: "Bearer " + authToken,
+          },
           data: JSON.stringify({ product, val }),
         }
       );
       const data = await response.data;
       setShoppingCart(data);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
       }
     }
@@ -428,42 +449,35 @@ const Layout = () => {
     setShoppingCart((prev) =>
       prev.map((i) => (i.name === product.name ? { ...i, quantity: val } : i))
     );
-    if (authToken)
-        updateCartItemQuantityByVal(product, val)
+    if (authToken) updateCartItemQuantityByVal(product, val);
   };
 
-   //invalid token
-   const removeCookieInvalidToken = async () =>{
+  //invalid token
+  const removeCookieInvalidToken = async () => {
     const options: AxiosRequestConfig = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      data: {refreshToken: refreshToken},
+      data: { refreshToken: refreshToken },
     };
-    try{
+    try {
       await axios.delete(`${import.meta.env.VITE_SERVERURL}/logout`, options);
-      setShoppingCart([])
+      setShoppingCart([]);
       removeCookie("Email");
       removeCookie("RefreshToken");
       removeCookie("AuthToken");
-      window.alert("Session ended, please log in again")
-      window.location.replace('/');
-    }catch(err){
-      console.log(err)
+      window.alert("Session ended, please log in again");
+      window.location.replace("/");
+    } catch (err) {
+      console.log(err);
     }
-   }
+  };
 
-
-//on Back button, close drawer
-  window.addEventListener('popstate', () => {
-    if (openLoginDrawer)
-      setOpenLoginDrawer(false);
-    if (openShoppingBagDrawer)
-        setOpenShoppingBagDrawer(false);
-    });
- 
-   
-
+  //on Back button, close drawer
+  window.addEventListener("popstate", () => {
+    if (openLoginDrawer) setOpenLoginDrawer(false);
+    if (openShoppingBagDrawer) setOpenShoppingBagDrawer(false);
+  });
 
   //adding cart products to local storage for users who are not signed in - so their cart is maintained
   useEffect(() => {
@@ -475,7 +489,6 @@ const Layout = () => {
 
   useEffect(() => {
     if (authToken) getUserCart();
-    
   }, []);
 
   return (
@@ -581,7 +594,7 @@ const router = createBrowserRouter([
                   },
                   {
                     path: "/account/orders/:orderID",
-                    element: <OrderView />
+                    element: <OrderView />,
                   },
                   {
                     path: "/account/profile",
@@ -610,7 +623,7 @@ const router = createBrowserRouter([
                 path: "/login",
                 element: <Login />,
               },
-            ]
+            ],
           },
           {
             path: "*",
@@ -627,6 +640,6 @@ const router = createBrowserRouter([
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
-    <RouterProvider router={router} />
+  <RouterProvider router={router} />
   //</React.StrictMode>
 );

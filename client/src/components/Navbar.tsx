@@ -13,46 +13,38 @@ import ShoppingDrawer from "./ShoppingDrawer";
 import LoginDrawer from "./LoginDrawer";
 
 interface NavbarProps {
-  authToken : string;
-  checkedAll : boolean;
-  handleCheckedAllOnChange : () => void;
-  handleCheckedItemOnChange : (product: IShoppingCartItem) => void;
-  handleQuantityCounterOnChange: (product: IShoppingCartItem, val:number) => void;
-  handleQuantityValOnChange : (product: IShoppingCartItem, val: number) => void;
+  authToken: string;
+  checkedAll: boolean;
+  handleCheckedAllOnChange: () => void;
+  handleCheckedItemOnChange: (product: IShoppingCartItem) => void;
+  handleQuantityCounterOnChange: (
+    product: IShoppingCartItem,
+    val: number
+  ) => void;
+  handleQuantityValOnChange: (product: IShoppingCartItem, val: number) => void;
   openLoginDrawer: boolean;
   setOpenLoginDrawer: React.Dispatch<React.SetStateAction<boolean>>;
-  logIn : (e: React.FormEvent, user: ILoginUser) => void;
-  loginErrorMsg : {msg: string};
-  setLoginErrorMsg : React.Dispatch<React.SetStateAction<{msg: string}>>;
+  logIn: (e: React.FormEvent, user: ILoginUser) => void;
+  loginErrorMsg: { msg: string };
+  setLoginErrorMsg: React.Dispatch<React.SetStateAction<{ msg: string }>>;
   searchResult: string;
   setSearchResult: React.Dispatch<React.SetStateAction<string>>;
   shoppingCart: IShoppingCartItem[];
   setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>;
   openShoppingBagDrawer: boolean;
   setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
-  removeShoppingCartItem : (item: IShoppingCartItem) => void;
+  removeShoppingCartItem: (item: IShoppingCartItem) => void;
   removeSelectedShoppingCartItem: () => void;
 }
 const Navbar = (props: NavbarProps) => {
   const [openNavMenu, setOpenNavMenu] = useState(false);
   const [openShopOptions, setOpenShopOptions] = useState(false);
-  //const [openShoppingBagDrawer, setOpenShoppingBagDrawer] = useState(false);
   const [openSearchBar, setOpenSearchBar] = useState(false);
-  //const [openLoginDrawer, setOpenLoginDrawer] = useState(false);
-
+ 
 
   const navigate = useNavigate();
   useDisableBodyScroll(props.openShoppingBagDrawer);
 
-
-
-  // const shoppingCartArray: IShoppingCartItem[] = [
-  //   { name: "LEMON", quantity: 1, price: 40, imgSrc: "lemon-main.png" },
-  //   { name: "KIWIFRUIT", quantity: 1, price: 45, imgSrc: "kiwifruit-main.png" },
-  //   { name: "HONEYDEW", quantity: 1, price: 50, imgSrc: "honeydew-main.png" },
-  //   { name: "HONEYDEW", quantity: 1, price: 50, imgSrc: "honeydew-main.png" },
-  //   { name: "HONEYDEW", quantity: 1, price: 50, imgSrc: "honeydew-main.png" },
-  // ];
 
   const openShopMenu_Link = (link: string) => {
     if (link === "Shop") {
@@ -62,10 +54,10 @@ const Navbar = (props: NavbarProps) => {
     setOpenNavMenu(false);
   };
 
-  const openSearchBarOnClick = () =>{
+  const openSearchBarOnClick = () => {
     setOpenSearchBar(true);
-    props.setSearchResult('')
-  }
+    props.setSearchResult("");
+  };
 
   const clickedOutsideSearchRef = useOutsideClick(() => {
     if (openSearchBar) {
@@ -91,24 +83,25 @@ const Navbar = (props: NavbarProps) => {
     setOpenNavMenu(false);
     setOpenSearchBar(false);
     e.preventDefault();
-    const params = {keyword: props.searchResult.trim()}
-    navigate({pathname: `/product/search`, search: `?${createSearchParams(params)}`})
+    const params = { keyword: props.searchResult.trim() };
+    navigate({
+      pathname: `/product/search`,
+      search: `?${createSearchParams(params)}`,
+    });
+  };
 
-  }
-
-  const userOnClick = () =>{
-    if (props.authToken){
-      navigate('/account')
-    }else{
-      props.setOpenLoginDrawer(true)
+  const userOnClick = () => {
+    if (props.authToken) {
+      navigate("/account");
+    } else {
+      props.setOpenLoginDrawer(true);
     }
-  }
+  };
 
   //on Back button, close drawer
-  window.addEventListener('popstate', () => {
-    if (openNavMenu)
-        setOpenNavMenu(false);
-    });
+  window.addEventListener("popstate", () => {
+    if (openNavMenu) setOpenNavMenu(false);
+  });
 
   return (
     <nav ref={clickedOutsideSidebarRef} className="nav-container">
@@ -124,13 +117,19 @@ const Navbar = (props: NavbarProps) => {
           <div></div>
         </div>
         <div className="nav-l-links">
-          <Link to="/shop/all" onClick={() => setOpenNavMenu(false)}>SHOP</Link>
-          <Link to="/about" onClick={() => setOpenNavMenu(false)}>ABOUT</Link>
+          <Link to="/shop/all" onClick={() => setOpenNavMenu(false)}>
+            SHOP
+          </Link>
+          <Link to="/about" onClick={() => setOpenNavMenu(false)}>
+            ABOUT
+          </Link>
         </div>
       </div>
 
       <div className="nav-name-container">
-        <Link to="/" onClick={() => setOpenNavMenu(false)}>The Verdant Grove</Link>
+        <Link to="/" onClick={() => setOpenNavMenu(false)}>
+          The Verdant Grove
+        </Link>
       </div>
       <div className="nav-r-icons-container">
         <TfiSearch
@@ -138,18 +137,19 @@ const Navbar = (props: NavbarProps) => {
           onClick={openSearchBarOnClick}
         />
 
-        <PiUserLight
-          className="nav-r-icon"
-          onClick={userOnClick}
-        />
+        <PiUserLight className="nav-r-icon" onClick={userOnClick} />
         <LiaShoppingBagSolid
           className="nav-r-icon"
           onClick={() => props.setOpenShoppingBagDrawer(true)}
         />
       </div>
 
-      <Sidebar openNavMenu={openNavMenu} authToken={props.authToken} openShopOptions={openShopOptions} openShopMenu_Link={openShopMenu_Link} />
-
+      <Sidebar
+        openNavMenu={openNavMenu}
+        authToken={props.authToken}
+        openShopOptions={openShopOptions}
+        openShopMenu_Link={openShopMenu_Link}
+      />
 
       {/*Background overlays for drawers*/}
       <div
@@ -177,15 +177,39 @@ const Navbar = (props: NavbarProps) => {
           className="nav-searchbar-form"
           onSubmit={(e) => searchFormOnSubmit(e)}
         >
-          <input type="text" placeholder="SEARCH FOR SOMETHING..." value={props.searchResult} onChange={(e)=>props.setSearchResult(e.target.value)} />
+          <input
+            type="text"
+            placeholder="SEARCH FOR SOMETHING..."
+            value={props.searchResult}
+            onChange={(e) => props.setSearchResult(e.target.value)}
+          />
           <button>SEARCH</button>
         </form>
       </div>
 
-      <LoginDrawer clickedOutsideUserRef={clickedOutsideUserRef} openLoginDrawer={props.openLoginDrawer} setOpenLoginDrawer={props.setOpenLoginDrawer} logIn={props.logIn} loginErrorMsg={props.loginErrorMsg} setLoginErrorMsg={props.setLoginErrorMsg}/>
+      <LoginDrawer
+        clickedOutsideUserRef={clickedOutsideUserRef}
+        openLoginDrawer={props.openLoginDrawer}
+        setOpenLoginDrawer={props.setOpenLoginDrawer}
+        logIn={props.logIn}
+        loginErrorMsg={props.loginErrorMsg}
+        setLoginErrorMsg={props.setLoginErrorMsg}
+      />
 
-      <ShoppingDrawer authToken={props.authToken} checkedAll={props.checkedAll} handleCheckedAllOnChange={props.handleCheckedAllOnChange} handleCheckedItemOnChange={props.handleCheckedItemOnChange} handleQuantityCounterOnChange={props.handleQuantityCounterOnChange} handleQuantityValOnChange={props.handleQuantityValOnChange} clickedOutsideShoppingRef={clickedOutsideShoppingRef} openShoppingBagDrawer={props.openShoppingBagDrawer} setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer} shoppingCart={props.shoppingCart}  removeShoppingCartItem={props.removeShoppingCartItem} removeSelectedShoppingCartItem={props.removeSelectedShoppingCartItem}/>
-
+      <ShoppingDrawer
+        authToken={props.authToken}
+        checkedAll={props.checkedAll}
+        handleCheckedAllOnChange={props.handleCheckedAllOnChange}
+        handleCheckedItemOnChange={props.handleCheckedItemOnChange}
+        handleQuantityCounterOnChange={props.handleQuantityCounterOnChange}
+        handleQuantityValOnChange={props.handleQuantityValOnChange}
+        clickedOutsideShoppingRef={clickedOutsideShoppingRef}
+        openShoppingBagDrawer={props.openShoppingBagDrawer}
+        setOpenShoppingBagDrawer={props.setOpenShoppingBagDrawer}
+        shoppingCart={props.shoppingCart}
+        removeShoppingCartItem={props.removeShoppingCartItem}
+        removeSelectedShoppingCartItem={props.removeSelectedShoppingCartItem}
+      />
     </nav>
   );
 };

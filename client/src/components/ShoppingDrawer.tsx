@@ -3,15 +3,18 @@ import { IShoppingCartItem } from "../interfaces/IShop";
 import { IoIosArrowBack } from "react-icons/io";
 import { TfiClose } from "react-icons/tfi";
 import { HiPlus, HiMinus } from "react-icons/hi";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface ShoppingDrawerProps {
   authToken: string;
   checkedAll: boolean;
   handleCheckedAllOnChange: () => void;
   handleCheckedItemOnChange: (product: IShoppingCartItem) => void;
-  handleQuantityCounterOnChange: (product: IShoppingCartItem, val : number) => void;
-  handleQuantityValOnChange : (product: IShoppingCartItem, val: number) => void;
+  handleQuantityCounterOnChange: (
+    product: IShoppingCartItem,
+    val: number
+  ) => void;
+  handleQuantityValOnChange: (product: IShoppingCartItem, val: number) => void;
   clickedOutsideShoppingRef: React.RefObject<HTMLDivElement>;
   openShoppingBagDrawer: boolean;
   setOpenShoppingBagDrawer: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,7 +34,9 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
     );
     return checkedArrayTotal.reduce(
       (accumulator, currentValue) =>
-        accumulator + currentValue.price * ((isNaN(currentValue.quantity)) ? 1 : currentValue.quantity ),
+        accumulator +
+        currentValue.price *
+          (isNaN(currentValue.quantity) ? 1 : currentValue.quantity),
       0
     );
   };
@@ -39,22 +44,20 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
 
   const decrement = (item: IShoppingCartItem) => {
     if (item.quantity > min) {
-      props.handleQuantityCounterOnChange(item, -1)
+      props.handleQuantityCounterOnChange(item, -1);
     }
   };
   const increment = (item: IShoppingCartItem) => {
     if (item.quantity < max) {
-      props.handleQuantityCounterOnChange(item, 1)
+      props.handleQuantityCounterOnChange(item, 1);
     }
   };
 
-
   const handleQuantityOnBlur = (item: IShoppingCartItem) => {
-    if (item.quantity < min || isNaN(item.quantity)) 
-      props.handleQuantityValOnChange(item, min)
+    if (item.quantity < min || isNaN(item.quantity))
+      props.handleQuantityValOnChange(item, min);
 
-    if (item.quantity > max) 
-      props.handleQuantityValOnChange(item, max)
+    if (item.quantity > max) props.handleQuantityValOnChange(item, max);
   };
 
   const selectedItemLength = (): number => {
@@ -75,7 +78,9 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
     setSubtotal(
       checkedArrayTotal.reduce(
         (accumulator, currentValue) =>
-          accumulator + currentValue.price * ((Number.isNaN(currentValue.quantity)) ? 1 : currentValue.quantity ),
+          accumulator +
+          currentValue.price *
+            (Number.isNaN(currentValue.quantity) ? 1 : currentValue.quantity),
         0
       )
     );
@@ -147,7 +152,12 @@ const ShoppingDrawer = (props: ShoppingDrawerProps) => {
                         type="number"
                         value={item.quantity}
                         max={max}
-                        onChange={(e) => props.handleQuantityValOnChange(item, e.target.valueAsNumber)}
+                        onChange={(e) =>
+                          props.handleQuantityValOnChange(
+                            item,
+                            e.target.valueAsNumber
+                          )
+                        }
                         onBlur={() => handleQuantityOnBlur(item)}
                       />
                       <button onClick={() => increment(item)}>

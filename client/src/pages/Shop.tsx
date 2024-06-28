@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link,  useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
 
-
-import {IProduct}  from "../interfaces/IShop";
-
+import { IProduct } from "../interfaces/IShop";
 
 const Shop = () => {
   const navigate = useNavigate();
   const [top, setTop] = useState(true);
-  const { shopOption } = useParams() || 'all';
+  const { shopOption } = useParams() || "all";
 
-  
- 
   const [shopItemArray, setShopItemArray] = useState<IProduct[]>([]);
 
   interface ShopOption {
@@ -23,36 +19,37 @@ const Shop = () => {
     link: string;
   }
   const shopOptionsLinks: ShopOption[] = [
-    { title: "ALL", imgSrc: "all2.jpg", link: 'all'},
-    { title: "NEW IN", imgSrc: "new.jpg", link: 'new'},
-    { title: "GMO", imgSrc: "collab1.png", link: 'gmo' },
+    { title: "ALL", imgSrc: "all2.jpg", link: "all" },
+    { title: "NEW IN", imgSrc: "new.jpg", link: "new" },
+    { title: "GMO", imgSrc: "collab1.png", link: "gmo" },
   ];
-
-
 
   const getProductsByCategory = async () => {
     let response;
-    if (shopOption !== 'all') {
-      try{
-        response = await axios.get(`${import.meta.env.VITE_SERVERURL}/products/${shopOption}`)
+    if (shopOption !== "all") {
+      try {
+        response = await axios.get(
+          `${import.meta.env.VITE_SERVERURL}/products/${shopOption}`
+        );
         const json = await response.data;
         setShopItemArray(json);
-      }catch(err){
-        console.log(err)
+      } catch (err) {
+        console.log(err);
       }
-    }else{
-      try{
-        response = await axios.get(`${import.meta.env.VITE_SERVERURL}/products`);
+    } else {
+      try {
+        response = await axios.get(
+          `${import.meta.env.VITE_SERVERURL}/products`
+        );
         const json = await response.data;
         //console.log(json);
-        
+
         setShopItemArray(json);
-      }catch(err){
+      } catch (err) {
         console.log(err);
       }
     }
-
-  }
+  };
 
   // const shopItemArrayAll: IShopItem[] = [
   //   { productId: '1', name: "RED CHERRY", quantity: 1, price: 27, imgMainSrc: ["cherry-main.png", "cherry-hover.png"], imgsSrc:["cherry.jpg", "cherry2.jpg", "cherry3.jpg", "cherry4.jpg", "cherry5.jpg"], description: "Deep red, plump cherries grown and handpicked in Central Otago, New Zealand, bursting with sweet and slightly tart flavor. These Central Otago cherries are renowned for their intense flavor and sunshine-ripened sweetness, thanks to the region's warm days and cool nights.", category: "new", productDetail: [{size: "1 Kg", countrySrc: "New Zealand"}] },
@@ -91,107 +88,124 @@ const Shop = () => {
   //   { productId: '34', name: "SEEDLESS POMEGRANATE", quantity: 1, price: 15, imgMainSrc: ["pomegranate-main.png", "pomegranate-hover.png"], imgsSrc:["pomegranate.jpg", "pomegranate2.jpg", "pomegranate3.jpg", "pomegranate4.jpg", "pomegranate5.jpg"], description: "Turkish pomegranates are renowned for their exceptional quality, cultivated under ideal sunshine and nurtured by generations of expertise.", category: "gmo", productDetail: [{size: "Each", countrySrc: "New Zealand Lab"}] },
   //   { productId: '35', name: "SQUARE WATERMELON", quantity: 1, price: 40, imgMainSrc: ["square-watermelon-main.png", "square-watermelon-hover.png"], imgsSrc:["square-watermelon.jpg", "square-watermelon2.jpg", "square-watermelon3.jpg", "square-watermelon4.jpg", "square-watermelon5.jpg", "square-watermelon6.jpg"], description: "While the inside boasts the same familiar deep red flesh and sweet, refreshing flavor of a traditional watermelon, the exterior is a delightful surprise.", category: "gmo", productDetail: [{size: "Each", countrySrc: "New Zealand Lab"}] },
   //   { productId: '36', name: "STRAWLEMON", quantity: 1, price: 25, imgMainSrc: ["strawlemon-main.png", "strawlemon-hover.png"], imgsSrc:["strawlemon.jpg", "strawlemon2.jpg", "strawlemon3.jpg", "strawlemon4.jpg", "strawlemon5.jpg"], description: "Sunshine and citrus collide in the Strawlemon! This intriguing hybrid fruit combines the sweetness and juicy texture of a strawberry with the zest and tang of a lemon.", category: "gmo", productDetail: [{size: "1 Kg", countrySrc: "New Zealand Lab"}] }
-    
+
   // ];
-  
+
   //const  shopItemArray   = useLoaderData() as IShopItem[];
- 
 
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [page, setPage] = useState(1);
-  const [noOfPages, setNoOfPages] = useState(Math.ceil(shopItemArray.length / itemsPerPage));
-
+  const [noOfPages, setNoOfPages] = useState(
+    Math.ceil(shopItemArray.length / itemsPerPage)
+  );
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
     scrollToTop();
   };
 
-
-
-
-
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
-  });
-  }
-
-
+      behavior: "smooth",
+    });
+  };
 
   useEffect(() => {
     const scrollHandler = () => {
-      window.scrollY > 10 ? setTop(false) : setTop(true)
+      window.scrollY > 10 ? setTop(false) : setTop(true);
     };
-    window.addEventListener('scroll', scrollHandler);
-    return () => window.removeEventListener('scroll', scrollHandler);
+    window.addEventListener("scroll", scrollHandler);
+    return () => window.removeEventListener("scroll", scrollHandler);
   }, [top]);
 
-  useEffect(()=>{
-    if (shopOption !== "all" && shopOption!=="gmo" && shopOption!== "new") {
-        navigate("/shop/all", {replace: true})
+  useEffect(() => {
+    if (shopOption !== "all" && shopOption !== "gmo" && shopOption !== "new") {
+      navigate("/shop/all", { replace: true });
     }
     getProductsByCategory();
-
-  }, [])
-  useEffect(()=>{
-    if (shopOption !== "all" && shopOption!=="gmo" && shopOption!== "new") {
-        navigate("/shop/all", {replace: true})
+  }, []);
+  useEffect(() => {
+    if (shopOption !== "all" && shopOption !== "gmo" && shopOption !== "new") {
+      navigate("/shop/all", { replace: true });
     }
     getProductsByCategory();
     setPage(1);
+  }, [shopOption]);
 
-  }, [shopOption])
-  
-  useEffect(()=>{
+  useEffect(() => {
     setNoOfPages(Math.ceil(shopItemArray.length / itemsPerPage));
-  }, [shopItemArray])
-
-
+  }, [shopItemArray]);
 
   return (
     <div className="shop-container">
-      
-      <div className={`shop-options-btn-container ${!top && "shop-options-btn-container-shadow"}`}>
+      <div
+        className={`shop-options-btn-container ${
+          !top && "shop-options-btn-container-shadow"
+        }`}
+      >
         {shopOptionsLinks.map((link: ShopOption, i: number) => {
           return (
             <Link to={`/shop/${link.link}`} key={i}>
-            <div className="shop-options-btn-wrapper">
-              <div className={`shop-options-btn-img-container ${shopOption === link.link ? "shop-options-btn-img-active": ''}`}>
-                <div className="shop-options-btn-img-wrapper">
-                  <img src={`${"/src/assets/" + link.imgSrc}`}  />
+              <div className="shop-options-btn-wrapper">
+                <div
+                  className={`shop-options-btn-img-container ${
+                    shopOption === link.link
+                      ? "shop-options-btn-img-active"
+                      : ""
+                  }`}
+                >
+                  <div className="shop-options-btn-img-wrapper">
+                    <img src={`${"/src/assets/" + link.imgSrc}`} />
+                  </div>
                 </div>
+                <p>{link.title}</p>
               </div>
-              <p>{link.title}</p>
-            </div>
             </Link>
-
           );
         })}
       </div>
       {/* <Outlet context={{shopItemArray} satisfies ShopType}/> */}
       <div className="shop-product-container">
-        <h1><span>SHOP /</span> {shopOption?.toUpperCase()}</h1>
+        <h1>
+          <span>SHOP /</span> {shopOption?.toUpperCase()}
+        </h1>
 
         <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
-          {shopItemArray.slice((page - 1) * itemsPerPage, page * itemsPerPage ).map((item: IProduct) => (
-          
+          {shopItemArray
+            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+            .map((item: IProduct) => (
               <Grid item xs={6} sm={4} md={3} key={item.name}>
-                <Link to={`/shop/product/detail/${item.name.toLowerCase()}`} state={{productItem:item}} >
-                <div className="shop-product-item-container">
-                  <div className="shop-product-item-img-wrapper">
-                    <img className= "shop-product-img-hover" loading="lazy" src={`${"/src/assets/" + item.imgMainSrc[1]}`}  alt={item.name} width="auto" height="auto"/>
-                    <img className= "shop-product-img-main" loading="lazy" src={`${"/src/assets/" + item.imgMainSrc[0]}`}  alt={item.name + " hover"} width="auto" height="auto"/>
+                <Link
+                  to={`/shop/product/detail/${item.name.toLowerCase()}`}
+                  state={{ productItem: item }}
+                >
+                  <div className="shop-product-item-container">
+                    <div className="shop-product-item-img-wrapper">
+                      <img
+                        className="shop-product-img-hover"
+                        loading="lazy"
+                        src={`${"/src/assets/" + item.imgMainSrc[1]}`}
+                        alt={item.name}
+                        width="auto"
+                        height="auto"
+                      />
+                      <img
+                        className="shop-product-img-main"
+                        loading="lazy"
+                        src={`${"/src/assets/" + item.imgMainSrc[0]}`}
+                        alt={item.name + " hover"}
+                        width="auto"
+                        height="auto"
+                      />
+                    </div>
+                    <p className="shop-product-item-name">{item.name}</p>
+                    <p>${Number(item.price).toFixed(2)}</p>
                   </div>
-                  <p className="shop-product-item-name">{item.name}</p>
-                  <p>${Number(item.price).toFixed(2)}</p>
-                </div>
                 </Link>
               </Grid>
-            
-          ))}
+            ))}
         </Grid>
         <Pagination
           count={noOfPages}
@@ -199,12 +213,9 @@ const Shop = () => {
           onChange={handleChange}
           defaultPage={1}
         ></Pagination>
-
       </div>
-
     </div>
   );
 };
 
 export default Shop;
-

@@ -18,7 +18,7 @@ const OrderView = () => {
       <div className="orderView-details">
         <p>Order #{orderDetail.orderNo.toUpperCase()}</p>
         <p>
-          Placed on {" "}
+          Placed on{" "}
           {new Date(orderDetail.date).toLocaleString("en-NZ", {
             month: "long",
             day: "numeric",
@@ -68,16 +68,16 @@ const OrderView = () => {
         </TableContainer>
       </div>
       <div className="orderView-summary-container">
-          <p>Order Summary</p>
-          <div className="orderView-summary-body">
-            <p>Subtotal</p>
-            <p>${orderDetail.subtotal.toFixed(2)}</p>
-            <p>Shipping</p>
-            <p>${orderDetail.shipping.toFixed(2)}</p>
-            <p>Total</p>
-            <p>${orderDetail.total.toFixed(2)}</p>
-          </div>
+        <p>Order Summary</p>
+        <div className="orderView-summary-body">
+          <p>Subtotal</p>
+          <p>${orderDetail.subtotal.toFixed(2)}</p>
+          <p>Shipping</p>
+          <p>${orderDetail.shipping.toFixed(2)}</p>
+          <p>Total</p>
+          <p>${orderDetail.total.toFixed(2)}</p>
         </div>
+      </div>
     </div>
   );
 };

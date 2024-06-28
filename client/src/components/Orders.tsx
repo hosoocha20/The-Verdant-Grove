@@ -12,7 +12,15 @@ import { IOrderDetail } from "../interfaces/IOrder";
 import { axiosJWT } from "../middlewares/refreshInterceptor";
 
 const Orders = () => {
-  const { email, authToken, removeCookieInvalidToken }: { email: string, authToken: string, removeCookieInvalidToken: () => Promise<void> } = useOutletContext();
+  const {
+    email,
+    authToken,
+    removeCookieInvalidToken,
+  }: {
+    email: string;
+    authToken: string;
+    removeCookieInvalidToken: () => Promise<void>;
+  } = useOutletContext();
   const [orderHistory, setOrderHistory] = useState<IOrderDetail[]>([]);
 
   const [itemsPerPage, setItemsPerPage] = useState(8);
@@ -29,8 +37,9 @@ const Orders = () => {
     let response;
     try {
       response = await axiosJWT.get(
-        `${import.meta.env.VITE_SERVERURL}/account/orders/${email}`, {
-          headers: {authorization: "Bearer " + authToken}
+        `${import.meta.env.VITE_SERVERURL}/account/orders/${email}`,
+        {
+          headers: { authorization: "Bearer " + authToken },
         }
       );
       const json = await response.data;
@@ -38,8 +47,8 @@ const Orders = () => {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
       });
       setOrderHistory(json);
-    } catch (err : any) {
-      if (err.response.status === 403 || err.response.status === 401){
+    } catch (err: any) {
+      if (err.response.status === 403 || err.response.status === 401) {
         //console.log(err.response.status)
         removeCookieInvalidToken();
       }
