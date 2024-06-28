@@ -128,7 +128,7 @@ const Seasonal = () => {
             <img
               className="seasonal-gallery-img"
               loading="lazy"
-              src={`${"src/assets/" + item.imgMainSrc}`}
+              src={`${"/assets/" + item.imgMainSrc}`}
               alt={item.name}
               width="auto"
               height="auto"
