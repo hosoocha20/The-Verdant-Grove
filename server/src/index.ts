@@ -26,7 +26,7 @@ app.use(cors(
     {
         origin: ["https://the-verdant-grove.vercel.app"],
         methods:["POST", "GET", "PUT", "DELETE"],
-        allowedHeaders: ['Content-Type', 'authorization'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
         credentials: true
     }
 ));
