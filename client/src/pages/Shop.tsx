@@ -9,7 +9,7 @@ import { IProduct } from "../interfaces/IShop";
 const Shop = () => {
   const navigate = useNavigate();
   const [top, setTop] = useState(true);
-  const { shopOption } = useParams() || "all";
+  const { shopOption }  = useParams();
 
   const [shopItemArray, setShopItemArray] = useState<IProduct[]>([]);
 
