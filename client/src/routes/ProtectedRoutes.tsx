@@ -6,12 +6,8 @@ const ProtectedRoutes = () => {
     const [cookies, setCookie, removeCookie] = useCookies();
     const authToken = cookies.AuthToken;
     const email = cookies.Email;
-    const {removeCookieInvalidToken} : {removeCookieInvalidToken: ()=> Promise<void>} = useOutletContext();
-    const logOut = () => {
-        removeCookie('Email');
-        removeCookie('AuthToken');
-        window.location.replace('/');
-      }
+    const {removeCookieInvalidToken, logOut} : {removeCookieInvalidToken: ()=> Promise<void>, logOut: () => Promise<void>} = useOutletContext();
+
 
   return (
     authToken ? 

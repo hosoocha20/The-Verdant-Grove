@@ -4,9 +4,7 @@ import { SlArrowRight } from "react-icons/sl";
 
 
 const Account = () => {
-  const {logOut, email, authToken , removeCookieInvalidToken} : {logOut: ()=> void,  email: string, authToken: string, removeCookieInvalidToken: () => Promise<void>} = useOutletContext();
-  console.log(authToken)
-  console.log(email)
+  const {logOut, email, authToken , removeCookieInvalidToken} : {logOut: ()=> Promise<void>,  email: string, authToken: string, removeCookieInvalidToken: () => Promise<void>} = useOutletContext();
   return (
     <div className="account-container">
       <h1>My Account</h1>

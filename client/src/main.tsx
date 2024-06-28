@@ -8,7 +8,8 @@ import {
   useSearchParams,
   useNavigate,
 } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { jwtDecode } from "jwt-decode";
 import { useCookies } from "react-cookie";
 import "./index.css";
 import "./styles/App.scss";
@@ -34,6 +35,8 @@ import Payment from "./pages/Payment.tsx";
 import ProtectedRoutes from "./routes/ProtectedRoutes.tsx";
 import OrderView from "./components/OrderView.tsx";
 import RestrictedRoutes from "./routes/RestrictedRoutes.tsx";
+import { axiosJWT } from "./middlewares/refreshInterceptor.ts";
+
 
 const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 
@@ -42,6 +45,8 @@ const Layout = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const email = cookies.Email || "";
   const authToken = cookies.AuthToken || "";
+  const refreshToken = cookies.RefreshToken || "";
+  console.log(refreshToken)
 
   const navigate = useNavigate();
 
@@ -77,17 +82,65 @@ const Layout = () => {
       addPrevCartToUserCart(shoppingCart, data.email);
       setCookie("Email", data.email);
       setCookie("AuthToken", data.token);
+      setCookie("RefreshToken", data.refreshToken);
       setOpenLoginDrawer(false);
 
       window.location.replace('/');
     }
   };
 
-  const logOut = () => {
-    setShoppingCart([])
-    removeCookie("Email");
-    removeCookie("AuthToken");
-    window.location.reload();
+    const postRefreshToken = async() =>{
+      let response;
+      console.log("hi "+refreshToken);
+      try{
+        response = await fetch(`${import.meta.env.VITE_SERVERURL}/refreshToken/${email}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refreshToken: refreshToken}),
+        });
+        const data = await response.json();
+        setCookie("AuthToken", data.token);
+        console.log("Refreshed Token")
+        return data;
+      }catch(err){
+        console.log(err)
+      }
+
+    }
+
+    axiosJWT.interceptors.request.use(
+      async (config) =>{
+        let currentDate = new Date();
+        const decodedToken = jwtDecode(authToken);
+        if (decodedToken.exp && decodedToken.exp *1000 < currentDate.getTime()){
+          const data = await postRefreshToken();
+          config.headers["authorization"] = "Bearer " + data.token;
+        }
+        return config;
+      }, (err) => {
+        return Promise.reject(err)
+      }
+    )
+
+  const logOut = async () => {
+    const options: AxiosRequestConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {refreshToken: refreshToken},
+    };
+    let response;
+    try{
+      response = await axios.delete(`${import.meta.env.VITE_SERVERURL}/logout`, options);
+      setShoppingCart([])
+      removeCookie("Email");
+      removeCookie("RefreshToken");
+      removeCookie("AuthToken");
+      window.location.replace('/');
+    }catch(err){
+      console.log(err)
+    }
+
   };
 
   //Cart Requests
