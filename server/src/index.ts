@@ -68,7 +68,7 @@ app.post("/register", createUserController)
 app.post("/login", authUserController)
 
 //Account
-app.get("/account/orders/:email", getUserOrders)
+app.get("/account/orders/:email", verifyjwt,getUserOrders)
 app.get("/account/profile/:email", verifyjwt,getUserDetails)
 app.put("/account/profile/:email", putUserDetailController)
 

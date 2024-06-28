@@ -9,9 +9,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import { IOrderDetail } from "../interfaces/IOrder";
+import { axiosJWT } from "../middlewares/refreshInterceptor";
 
 const Orders = () => {
-  const { email }: { email: string } = useOutletContext();
+  const { email, authToken }: { email: string, authToken: string } = useOutletContext();
   const [orderHistory, setOrderHistory] = useState<IOrderDetail[]>([]);
 
   const [itemsPerPage, setItemsPerPage] = useState(8);
@@ -27,8 +28,10 @@ const Orders = () => {
   const getUserOrders = async () => {
     let response;
     try {
-      response = await axios.get(
-        `${import.meta.env.VITE_SERVERURL}/account/orders/${email}`
+      response = await axiosJWT.get(
+        `${import.meta.env.VITE_SERVERURL}/account/orders/${email}`, {
+          headers: {authorization: "Bearer " + authToken}
+        }
       );
       const json = await response.data;
       json.sort((a: IOrderDetail, b: IOrderDetail) => {

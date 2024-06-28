@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { redirect, useNavigate, useOutletContext } from "react-router-dom";
 import axios from "axios";
 import { IUserProfile } from "../interfaces/IUser";
+import { axiosJWT } from "../middlewares/refreshInterceptor";
 
 const UserProfile = () => {
   const [buttonValue, setButtonValue] = useState<string>("Edit");
@@ -57,7 +58,7 @@ const UserProfile = () => {
   const getUserProfile = async () => {
     let response;
     try {
-      response = await axios.get(
+      response = await axiosJWT.get(
         `${import.meta.env.VITE_SERVERURL}/account/profile/${email}`, {
           headers: {authorization: "Bearer " + authToken}
         }
@@ -68,7 +69,7 @@ const UserProfile = () => {
     } catch (err : any) {
       if (err.response.status === 403){
         console.log(err.response.status)
-        removeCookieInvalidToken();
+        //removeCookieInvalidToken();
       }
     }
   };
