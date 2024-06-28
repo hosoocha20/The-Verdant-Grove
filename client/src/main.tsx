@@ -246,6 +246,7 @@ const Layout = () => {
     email: string
   ) => {
     let response;
+    console.log('called')
     try {
       response = await axiosJWT(
         `${import.meta.env.VITE_SERVERURL}/cart/existingCart/${email}`,
