@@ -6,6 +6,7 @@ import {
   createBrowserRouter,
   ScrollRestoration,
   useSearchParams,
+  useNavigate,
 } from "react-router-dom";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -43,7 +44,7 @@ const Layout = () => {
   const email = cookies.Email || "";
   let authToken = cookies.AuthToken || "";
   const refreshToken = cookies.RefreshToken || "";
-  
+  const navigate = useNavigate();
 
   const [searchResult, setSearchResult] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
@@ -79,7 +80,7 @@ const Layout = () => {
       setCookie("RefreshToken", data.refreshToken);
       setOpenLoginDrawer(false);
       addPrevCartToUserCart(shoppingCart, data.email);
-
+      navigate('/', {replace: true});
       //window.location.replace("/");
     }
   };
@@ -260,7 +261,6 @@ const Layout = () => {
       const data = await response.data;
       setShoppingCart(data);
       localStorage.setItem("cart", JSON.stringify([]));
-      window.location.replace("/");
     } catch (err: any) {
       console.log(err);
     }
