@@ -186,7 +186,7 @@ const Shop = () => {
                       <img
                         className="shop-product-img-hover"
                         loading="lazy"
-                        src={`${"/src/assets/" + item.imgMainSrc[1]}`}
+                        src={`${"./assets/" + item.imgMainSrc[1]}`}
                         alt={item.name}
                         width="auto"
                         height="auto"
@@ -194,7 +194,7 @@ const Shop = () => {
                       <img
                         className="shop-product-img-main"
                         loading="lazy"
-                        src={`${"/src/assets/" + item.imgMainSrc[0]}`}
+                        src={`${"./assets/" + item.imgMainSrc[0]}`}
                         alt={item.name + " hover"}
                         width="auto"
                         height="auto"
