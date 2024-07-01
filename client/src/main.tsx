@@ -63,6 +63,7 @@ const Layout = () => {
   //Auth Requests
   const logIn = async (e: React.FormEvent, user: ILoginUser) => {
     e.preventDefault();
+    console.log("log")
     try{
       const response = await fetch(`${import.meta.env.VITE_SERVERURL}/login`, {
         method: "POST",
@@ -73,18 +74,25 @@ const Layout = () => {
       if (data.detail) {
         setLoginErrorMsg({ ...loginErrorMsg, msg: data.detail });
       } else {
-        setCookie("Email", data.email);
-        setCookie("AuthToken", data.token);
-        setCookie("RefreshToken", data.refreshToken);
+        setCookie("Email", data.email, {
+          path: "/"
+        });
+        setCookie("AuthToken", data.token, {
+          path: "/"
+        });
+        setCookie("RefreshToken", data.refreshToken, {
+          path: "/"
+        });
         setOpenLoginDrawer(false);
-        addPrevCartToUserCart(shoppingCart, data.email);
+        if (shoppingCart.length > 0)
+          addPrevCartToUserCart(shoppingCart, data.email);
         //navigate('/', {replace: true});
         //window.location.replace("/");
       }
     }catch(err){
       console.log(err)
     }finally{
-      window.location.replace("/")
+      navigate('/', {replace: true});
     }
 
   };
@@ -137,15 +145,23 @@ const Layout = () => {
     try {
       await axios.delete(`${import.meta.env.VITE_SERVERURL}/logout`, options);
       setShoppingCart([]);
-      removeCookie("Email");
-      removeCookie("RefreshToken");
-      removeCookie("AuthToken");
+      removeCookie("Email", {
+        path: "/"
+      });
+      removeCookie("RefreshToken", {
+        path: "/"
+      });
+      removeCookie("AuthToken", {
+        path: "/"
+      });
       email = "";
       authToken = "";
       refreshToken =  "";
-      window.location.replace("/");
+      
     } catch (err) {
       console.log(err);
+    }finally{
+      window.location.reload();
     }
   };
 
@@ -177,7 +193,7 @@ const Layout = () => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            authorization: "Bearer " + authToken,
+            authorization: "Bearer " + cookies.AuthToken,
           },
           data: JSON.stringify({ product }),
         }
@@ -270,11 +286,12 @@ const Layout = () => {
       localStorage.setItem("cart", JSON.stringify([]));
     } catch (err: any) {
       console.log(err);
-    }
+    } 
   };
   const addToShoppingCart = (item: IShoppingCartItem) => {
     const isItemInBag = shoppingCart.find((i) => i.name === item.name);
     if (!authToken) {
+      console.log(authToken)
       if (isItemInBag) {
         setShoppingCart((prev: IShoppingCartItem[]) =>
           prev.map((i) =>
@@ -499,7 +516,7 @@ const Layout = () => {
   }, [shoppingCart]);
 
   useEffect(() => {
-    if (authToken) getUserCart();
+    if (cookies.AuthToken) getUserCart();
   }, []);
 
   return (
