@@ -93,7 +93,8 @@ const Layout = () => {
         //window.location.replace("/");
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
+      window.alert("Something went wrong. Please try again");
     } finally {
       setLoggingIn(false);
     }

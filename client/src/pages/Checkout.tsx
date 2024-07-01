@@ -5,6 +5,7 @@ import { IOrderDetail } from "../interfaces/IOrder";
 import axios from "axios";
 import { axiosJWT } from "../middlewares/refreshInterceptor";
 import FetchingLoader from "../uiComponents/FetchingLoader";
+import { CiLock } from "react-icons/ci";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Checkout = () => {
   } = useOutletContext();
 
   const [fetching, setFetching] = useState(true);
+  const [processing, setProcessing] = useState(false);
   const [orderDetail, setOrderDetail] = useState<IOrderDetail>({
     orderNo: "",
     firstName: "",
@@ -55,7 +57,7 @@ const Checkout = () => {
 
   const getUserOrderDetails = async () => {
     let response;
-    setFetching(true)
+    setFetching(true);
     try {
       response = await axiosJWT.get(
         `${import.meta.env.VITE_SERVERURL}/checkout/orderForm/${email}`,
@@ -90,13 +92,14 @@ const Checkout = () => {
         //console.log(err.response.status)
         removeCookieInvalidToken();
       }
-    }finally{
+    } finally {
       setFetching(false);
     }
   };
 
   const removeCheckedOutItemsFromCart = async () => {
     let response;
+    setProcessing(true);
     try {
       response = await axiosJWT(
         `${import.meta.env.VITE_SERVERURL}/checkout/proceedToPay/${email}`,
@@ -109,6 +112,7 @@ const Checkout = () => {
         }
       );
       if (response.status === 200) {
+        setProcessing(false);
         navigate("/payment", {
           state: {
             orderNo: orderDetail.orderNo,
@@ -131,6 +135,7 @@ const Checkout = () => {
 
   const proceedToPay = async () => {
     let response;
+    setProcessing(true);
     try {
       response = await axiosJWT(
         `${import.meta.env.VITE_SERVERURL}/checkout/proceedToPay/${email}`,
@@ -188,6 +193,21 @@ const Checkout = () => {
   return (
     <div className="checkout-container">
       {fetching && <FetchingLoader />}
+      {processing && (
+        <div className="processingLoader-container">
+          <div className="processingLoader-box">
+            <div className="processingLoader-loader-wrapper">
+              <div className="processingLoader-loader"></div>
+              <CiLock className="processingLoader-icon" />
+            </div>
+            <p>Payment Processing</p>
+
+            <p>Please wait while we are processing your payment.</p>
+            <p>Please do not refresh the page or press the back button.</p>
+          </div>
+        </div>
+      )}
+
       <div className="checkout-logo-wrapper-tablet">
         <Link to={"/"}>Verdant Grove</Link>
       </div>
