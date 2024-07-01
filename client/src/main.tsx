@@ -63,26 +63,33 @@ const Layout = () => {
   //Auth Requests
   const logIn = async (e: React.FormEvent, user: ILoginUser) => {
     e.preventDefault();
-    const response = await fetch(`${import.meta.env.VITE_SERVERURL}/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: user.email.toLowerCase(), pw: user.pw }),
-    });
-    const data = await response.json();
-    if (data.detail) {
-      setLoginErrorMsg({ ...loginErrorMsg, msg: data.detail });
-    } else {
-      
-
-      
-      setCookie("Email", data.email);
-      setCookie("AuthToken", data.token);
-      setCookie("RefreshToken", data.refreshToken);
-      setOpenLoginDrawer(false);
-      addPrevCartToUserCart(shoppingCart, data.email);
-      navigate('/', {replace: true});
-      //window.location.replace("/");
+    try{
+      const response = await fetch(`${import.meta.env.VITE_SERVERURL}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email.toLowerCase(), pw: user.pw }),
+      });
+      const data = await response.json();
+      if (data.detail) {
+        setLoginErrorMsg({ ...loginErrorMsg, msg: data.detail });
+      } else {
+        
+  
+        
+        setCookie("Email", data.email);
+        setCookie("AuthToken", data.token);
+        setCookie("RefreshToken", data.refreshToken);
+        setOpenLoginDrawer(false);
+        addPrevCartToUserCart(shoppingCart, data.email);
+        //navigate('/', {replace: true});
+        //window.location.replace("/");
+      }
+    }catch(err){
+      console.log(err)
+    }finally{
+      window.location.replace("/")
     }
+
   };
 
   // const postRefreshToken = async() =>{
