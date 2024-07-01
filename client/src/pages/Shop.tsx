@@ -9,7 +9,7 @@ import { IProduct } from "../interfaces/IShop";
 const Shop = () => {
   const navigate = useNavigate();
   const [top, setTop] = useState(true);
-  const { shopOption }  = useParams();
+  const { shopOption } = useParams();
 
   const [shopItemArray, setShopItemArray] = useState<IProduct[]>([]);
 
@@ -130,6 +130,7 @@ const Shop = () => {
     if (shopOption !== "all" && shopOption !== "gmo" && shopOption !== "new") {
       navigate("/shop/all", { replace: true });
     }
+
     getProductsByCategory();
     setPage(1);
   }, [shopOption]);
@@ -137,6 +138,8 @@ const Shop = () => {
   useEffect(() => {
     setNoOfPages(Math.ceil(shopItemArray.length / itemsPerPage));
   }, [shopItemArray]);
+
+
 
   return (
     <div className="shop-container">
@@ -172,47 +175,72 @@ const Shop = () => {
           <span>SHOP /</span> {shopOption?.toUpperCase()}
         </h1>
 
-        <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
-          {shopItemArray
-            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-            .map((item: IProduct) => (
-              <Grid item xs={6} sm={4} md={3} key={item.name}>
-                <Link
-                  to={`/shop/product/detail/${item.name.toLowerCase()}`}
-                  state={{ productItem: item }}
-                >
-                  <div className="shop-product-item-container">
-                    <div className="shop-product-item-img-wrapper">
-                      <img
-                        className="shop-product-img-hover"
-                        loading="lazy"
-                        src={`${"/assets/" + item.imgMainSrc[1]}`}
-                        alt={item.name}
-                        width="auto"
-                        height="auto"
-                      />
-                      <img
-                        className="shop-product-img-main"
-                        loading="lazy"
-                        src={`${"/assets/" + item.imgMainSrc[0]}`}
-                        alt={item.name + " hover"}
-                        width="auto"
-                        height="auto"
-                      />
+        {shopItemArray.length > 0 && (
+          <>
+            <Grid
+              container
+              spacing={3}
+              marginTop={"1rem"}
+              paddingBottom={"7rem"}
+            >
+              {shopItemArray
+                .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+                .map((item: IProduct) => (
+                  <Grid item xs={6} sm={4} md={3} key={item.name}>
+                    <Link
+                      to={`/shop/product/detail/${item.name.toLowerCase()}`}
+                      state={{ productItem: item }}
+                    >
+                      <div className="shop-product-item-container">
+                        <div className="shop-product-item-img-wrapper">
+                          <img
+                            className="shop-product-img-hover"
+                            loading="lazy"
+                            src={`${"/assets/" + item.imgMainSrc[1]}`}
+                            alt={item.name}
+                            width="auto"
+                            height="auto"
+                          />
+                          <img
+                            className="shop-product-img-main"
+                            loading="lazy"
+                            src={`${"/assets/" + item.imgMainSrc[0]}`}
+                            alt={item.name + " hover"}
+                            width="auto"
+                            height="auto"
+                          />
+                        </div>
+                        <p className="shop-product-item-name">{item.name}</p>
+                        <p>${Number(item.price).toFixed(2)}</p>
+                      </div>
+                    </Link>
+                  </Grid>
+                ))}
+            </Grid>
+            <Pagination
+              count={noOfPages}
+              page={page}
+              onChange={handleChange}
+              defaultPage={1}
+            ></Pagination>
+          </>
+        )}
+
+        {!shopItemArray.length && (
+          <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
+            {[...Array(itemsPerPage).keys()].map((key) => (
+              <Grid item xs={6} sm={4} md={3} key={key}>
+                  <div className="shop-product-item-container shop-product-item-placeholder pulsate">
+                    <div className="shop-product-item-img-wrapper ">
                     </div>
-                    <p className="shop-product-item-name">{item.name}</p>
-                    <p>${Number(item.price).toFixed(2)}</p>
+                    <p className="shop-product-item-name"></p>
+                    <p></p>
                   </div>
-                </Link>
+               
               </Grid>
             ))}
-        </Grid>
-        <Pagination
-          count={noOfPages}
-          page={page}
-          onChange={handleChange}
-          defaultPage={1}
-        ></Pagination>
+          </Grid>
+        )}
       </div>
     </div>
   );
