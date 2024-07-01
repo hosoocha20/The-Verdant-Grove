@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import axios from "axios";
 import { IUserProfile } from "../interfaces/IUser";
 import { axiosJWT } from "../middlewares/refreshInterceptor";
+import FetchingLoader from "../uiComponents/FetchingLoader";
 
 const UserProfile = () => {
   const [buttonValue, setButtonValue] = useState<string>("Edit");
@@ -97,28 +98,7 @@ const UserProfile = () => {
 
   return (
     <div className="userProfile-container">
-      {fetching && (
-        <div className="userProfile-loading-overlay">
-          <div className="userProfile-loading-box">
-            <div className="spinner">
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-              <div className="spinner-blade"></div>
-            </div>
-            <p>In the process of recieving your information.</p>
-            <p>Please wait a moment.</p>
-          </div>
-        </div>
-      )}
+      {fetching && <FetchingLoader />}
 
       <h2>My Profile</h2>
       <hr></hr>

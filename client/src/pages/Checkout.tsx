@@ -4,6 +4,7 @@ import { IShoppingCartItem } from "../interfaces/IShop";
 import { IOrderDetail } from "../interfaces/IOrder";
 import axios from "axios";
 import { axiosJWT } from "../middlewares/refreshInterceptor";
+import FetchingLoader from "../uiComponents/FetchingLoader";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Checkout = () => {
     removeCookieInvalidToken: () => Promise<void>;
   } = useOutletContext();
 
+  const [fetching, setFetching] = useState(true);
   const [orderDetail, setOrderDetail] = useState<IOrderDetail>({
     orderNo: "",
     firstName: "",
@@ -53,6 +55,7 @@ const Checkout = () => {
 
   const getUserOrderDetails = async () => {
     let response;
+    setFetching(true)
     try {
       response = await axiosJWT.get(
         `${import.meta.env.VITE_SERVERURL}/checkout/orderForm/${email}`,
@@ -87,6 +90,8 @@ const Checkout = () => {
         //console.log(err.response.status)
         removeCookieInvalidToken();
       }
+    }finally{
+      setFetching(false);
     }
   };
 
@@ -182,6 +187,7 @@ const Checkout = () => {
   }, []);
   return (
     <div className="checkout-container">
+      {fetching && <FetchingLoader />}
       <div className="checkout-logo-wrapper-tablet">
         <Link to={"/"}>Verdant Grove</Link>
       </div>
