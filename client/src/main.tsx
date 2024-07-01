@@ -63,8 +63,8 @@ const Layout = () => {
   //Auth Requests
   const logIn = async (e: React.FormEvent, user: ILoginUser) => {
     e.preventDefault();
-    console.log("log")
-    try{
+    console.log("log");
+    try {
       const response = await fetch(`${import.meta.env.VITE_SERVERURL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -75,13 +75,13 @@ const Layout = () => {
         setLoginErrorMsg({ ...loginErrorMsg, msg: data.detail });
       } else {
         setCookie("Email", data.email, {
-          path: "/"
+          path: "/",
         });
         setCookie("AuthToken", data.token, {
-          path: "/"
+          path: "/",
         });
         setCookie("RefreshToken", data.refreshToken, {
-          path: "/"
+          path: "/",
         });
         setOpenLoginDrawer(false);
         if (shoppingCart.length > 0)
@@ -89,12 +89,11 @@ const Layout = () => {
         //navigate('/', {replace: true});
         //window.location.replace("/");
       }
-    }catch(err){
-      console.log(err)
-    }finally{
+    } catch (err) {
+      console.log(err);
+    } finally {
       window.location.reload();
     }
-
   };
 
   // const postRefreshToken = async() =>{
@@ -146,21 +145,20 @@ const Layout = () => {
       await axios.delete(`${import.meta.env.VITE_SERVERURL}/logout`, options);
       setShoppingCart([]);
       removeCookie("Email", {
-        path: "/"
+        path: "/",
       });
       removeCookie("RefreshToken", {
-        path: "/"
+        path: "/",
       });
       removeCookie("AuthToken", {
-        path: "/"
+        path: "/",
       });
       email = "";
       authToken = "";
-      refreshToken =  "";
-      
+      refreshToken = "";
     } catch (err) {
       console.log(err);
-    }finally{
+    } finally {
       window.location.replace("/");
     }
   };
@@ -221,8 +219,8 @@ const Layout = () => {
           data: JSON.stringify({ product }),
         }
       );
-      const data = await response.data;
-      setShoppingCart(data);
+      //const data = await response.data;
+      //setShoppingCart(data);
     } catch (err: any) {
       if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
@@ -244,9 +242,9 @@ const Layout = () => {
           },
         }
       );
-      const data = await response.data;
+      //const data = await response.data;
 
-      setShoppingCart(data);
+      //setShoppingCart(data);
     } catch (err: any) {
       if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
@@ -254,16 +252,12 @@ const Layout = () => {
     }
   };
   const removeShoppingCartItem = (item: IShoppingCartItem) => {
-    if (!authToken)
-      setShoppingCart((prev) => prev.filter((i) => i.name !== item.name));
-    else {
-      removeUserCartItem(item);
-    }
+    setShoppingCart((prev) => prev.filter((i) => i.name !== item.name));
+    if (cookies.AuthToken) removeUserCartItem(item);
   };
   const removeSelectedShoppingCartItem = () => {
-    if (!authToken)
-      setShoppingCart((prev) => prev.filter((i) => i.checked !== true));
-    else removeUserSelectedCartItem();
+    setShoppingCart((prev) => prev.filter((i) => i.checked !== true));
+    if (cookies.AuthToken) removeUserSelectedCartItem();
   };
 
   const addPrevCartToUserCart = async (
@@ -271,7 +265,7 @@ const Layout = () => {
     email: string
   ) => {
     let response;
-    console.log('called')
+    console.log("called");
     try {
       response = await axiosJWT(
         `${import.meta.env.VITE_SERVERURL}/cart/existingCart/${email}`,
@@ -286,47 +280,25 @@ const Layout = () => {
       localStorage.setItem("cart", JSON.stringify([]));
     } catch (err: any) {
       console.log(err);
-    } 
+    }
   };
   const addToShoppingCart = (item: IShoppingCartItem) => {
     const isItemInBag = shoppingCart.find((i) => i.name === item.name);
-     
-      if (isItemInBag) {
-        setShoppingCart((prev: IShoppingCartItem[]) =>
-          prev.map((i) =>
-            i.name === item.name
-              ? { ...i, quantity: i.quantity + item.quantity }
-              : i
-          )
-        );
-        if (cookies.AuthToken) updateCartItemQuantityByExisting(isItemInBag, item.quantity);
-      } else {
-        setShoppingCart((prev: IShoppingCartItem[]) => [...prev, item]);
-        if (cookies.AuthToken) updateUserCart(item);
-      }
-    
-    
-    
-    // if (!authToken) {
-    //   console.log(authToken)
-    //   if (isItemInBag) {
-    //     setShoppingCart((prev: IShoppingCartItem[]) =>
-    //       prev.map((i) =>
-    //         i.name === item.name
-    //           ? { ...i, quantity: i.quantity + item.quantity }
-    //           : i
-    //       )
-    //     );
-    //   } else {
-    //     setShoppingCart((prev: IShoppingCartItem[]) => [...prev, item]);
-    //   }
-    // } else {
-    //   if (isItemInBag) {
-    //     updateCartItemQuantityByExisting(isItemInBag, item.quantity);
-    //   } else {
-    //     updateUserCart(item);
-    //   }
-    // }
+
+    if (isItemInBag) {
+      setShoppingCart((prev: IShoppingCartItem[]) =>
+        prev.map((i) =>
+          i.name === item.name
+            ? { ...i, quantity: i.quantity + item.quantity }
+            : i
+        )
+      );
+      if (cookies.AuthToken)
+        updateCartItemQuantityByExisting(isItemInBag, item.quantity);
+    } else {
+      setShoppingCart((prev: IShoppingCartItem[]) => [...prev, item]);
+      if (cookies.AuthToken) updateUserCart(item);
+    }
     setOpenShoppingBagDrawer(true);
   };
   const updateCartItemsCheckAll = async () => {
@@ -343,9 +315,9 @@ const Layout = () => {
           data: JSON.stringify({ state: !checkedAll }),
         }
       );
-      const data = await response.data;
+      //const data = await response.data;
       //console.log(data);
-      setShoppingCart(data);
+      //setShoppingCart(data);
     } catch (err: any) {
       if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
@@ -353,13 +325,11 @@ const Layout = () => {
     }
   };
   const handleCheckedAllOnChange = () => {
-    if (!authToken) {
-      setShoppingCart((prev) =>
-        prev.map((i) => ({ ...i, checked: !checkedAll }))
-      );
-    } else {
-      updateCartItemsCheckAll();
-    }
+    setShoppingCart((prev) =>
+      prev.map((i) => ({ ...i, checked: !checkedAll }))
+    );
+    if (authToken) updateCartItemsCheckAll();
+
     setCheckedAll(!checkedAll);
   };
   const updateCartItemsCheckSelect = async (product: IShoppingCartItem) => {
@@ -376,9 +346,9 @@ const Layout = () => {
           data: JSON.stringify({ product }),
         }
       );
-      const data = await response.data;
+      //const data = await response.data;
 
-      setShoppingCart(data);
+      //setShoppingCart(data);
     } catch (err: any) {
       if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
@@ -386,14 +356,12 @@ const Layout = () => {
     }
   };
   const handleCheckedItemOnChange = (product: IShoppingCartItem) => {
-    if (!authToken) {
       const checkedArray = shoppingCart.map((i) =>
         i.name === product.name ? { ...i, checked: !i.checked } : i
       );
       setShoppingCart(checkedArray);
-    } else {
-      updateCartItemsCheckSelect(product);
-    }
+      if (authToken) updateCartItemsCheckSelect(product);
+
   };
   const updateCartItemQuantityByOne = async (
     product: IShoppingCartItem,
@@ -412,8 +380,8 @@ const Layout = () => {
           data: JSON.stringify({ product, val }),
         }
       );
-      const data = await response.data;
-      setShoppingCart(data);
+      //const data = await response.data;
+      //setShoppingCart(data);
     } catch (err: any) {
       if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
@@ -424,16 +392,14 @@ const Layout = () => {
     product: IShoppingCartItem,
     val: number
   ) => {
-    if (!authToken) {
       //decrement (val = -1), increment (val = 1)
       setShoppingCart((prev) =>
         prev.map((i) =>
           i.name === product.name ? { ...i, quantity: i.quantity + val } : i
         )
       );
-    } else {
-      updateCartItemQuantityByOne(product, val);
-    }
+      if (authToken) updateCartItemQuantityByOne(product, val);
+
   };
   const updateCartItemQuantityByExisting = async (
     product: IShoppingCartItem,
@@ -479,8 +445,8 @@ const Layout = () => {
           data: JSON.stringify({ product, val }),
         }
       );
-      const data = await response.data;
-      setShoppingCart(data);
+      //const data = await response.data;
+      //setShoppingCart(data);
     } catch (err: any) {
       if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
@@ -509,13 +475,13 @@ const Layout = () => {
       await axios.delete(`${import.meta.env.VITE_SERVERURL}/logout`, options);
       setShoppingCart([]);
       removeCookie("Email", {
-        path: "/"
+        path: "/",
       });
       removeCookie("RefreshToken", {
-        path: "/"
+        path: "/",
       });
       removeCookie("AuthToken", {
-        path: "/"
+        path: "/",
       });
       window.alert("Session ended, please log in again");
       window.location.replace("/");
