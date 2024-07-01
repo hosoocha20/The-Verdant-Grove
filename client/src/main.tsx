@@ -92,7 +92,7 @@ const Layout = () => {
     }catch(err){
       console.log(err)
     }finally{
-      window.location.replace("/");
+      window.location.reload;
     }
 
   };
@@ -198,8 +198,8 @@ const Layout = () => {
           data: JSON.stringify({ product }),
         }
       );
-      const data = await response.data;
-      setShoppingCart(data);
+      //const data = await response.data;
+      //setShoppingCart(data);
     } catch (err: any) {
       if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
@@ -281,8 +281,8 @@ const Layout = () => {
           data: JSON.stringify({ items }),
         }
       );
-      const data = await response.data;
-      setShoppingCart(data);
+      //const data = await response.data;
+      //setShoppingCart(data);
       localStorage.setItem("cart", JSON.stringify([]));
     } catch (err: any) {
       console.log(err);
@@ -290,8 +290,7 @@ const Layout = () => {
   };
   const addToShoppingCart = (item: IShoppingCartItem) => {
     const isItemInBag = shoppingCart.find((i) => i.name === item.name);
-    if (!authToken) {
-      console.log(authToken)
+     
       if (isItemInBag) {
         setShoppingCart((prev: IShoppingCartItem[]) =>
           prev.map((i) =>
@@ -300,16 +299,34 @@ const Layout = () => {
               : i
           )
         );
+        if (cookies.AuthToken) updateCartItemQuantityByExisting(isItemInBag, item.quantity);
       } else {
         setShoppingCart((prev: IShoppingCartItem[]) => [...prev, item]);
+        if (cookies.AuthToken) updateUserCart(item);
       }
-    } else {
-      if (isItemInBag) {
-        updateCartItemQuantityByExisting(isItemInBag, item.quantity);
-      } else {
-        updateUserCart(item);
-      }
-    }
+    
+    
+    
+    // if (!authToken) {
+    //   console.log(authToken)
+    //   if (isItemInBag) {
+    //     setShoppingCart((prev: IShoppingCartItem[]) =>
+    //       prev.map((i) =>
+    //         i.name === item.name
+    //           ? { ...i, quantity: i.quantity + item.quantity }
+    //           : i
+    //       )
+    //     );
+    //   } else {
+    //     setShoppingCart((prev: IShoppingCartItem[]) => [...prev, item]);
+    //   }
+    // } else {
+    //   if (isItemInBag) {
+    //     updateCartItemQuantityByExisting(isItemInBag, item.quantity);
+    //   } else {
+    //     updateUserCart(item);
+    //   }
+    // }
     setOpenShoppingBagDrawer(true);
   };
   const updateCartItemsCheckAll = async () => {
@@ -437,8 +454,8 @@ const Layout = () => {
           data: JSON.stringify({ product, val }),
         }
       );
-      const data = await response.data;
-      setShoppingCart(data);
+      //const data = await response.data;
+      //setShoppingCart(data);
     } catch (err: any) {
       if (err.response.status === 403 || err.response.status === 401) {
         removeCookieInvalidToken();
