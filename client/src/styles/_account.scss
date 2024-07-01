@@ -113,6 +113,42 @@
   width: 100%;
 }
 
+.account-order-history-head-skeleton{
+  th{
+    div{
+      width: min-content;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background-color: $silver-200;
+      color: transparent;
+      border-radius: 0.5rem;
+      background: linear-gradient(-45deg, #e3e3e3, #f7f7f7, #e3e3e3, #f7f7f7);
+      background-size: 400% 400%;
+      -webkit-animation: Gradient 2.25s ease infinite;
+      -moz-animation: Gradient 2.25s ease infinite;
+      animation: Gradient 2.25s ease infinite;
+
+    }
+  }
+}
+.account-order-history-body-skeleton{
+  th, td{
+    div{
+      width: fit-content;
+      padding: 0 1.7rem;
+      background-color: $silver-200;
+      color: transparent;
+      border-radius: 0.38rem;
+      background: linear-gradient(-45deg, #e3e3e3, #f7f7f7, #e3e3e3, #f7f7f7);
+      background-size: 400% 400%;
+      -webkit-animation: Gradient 2.25s ease infinite;
+      -moz-animation: Gradient 2.25s ease infinite;
+      animation: Gradient 2.25s ease infinite;
+
+    }
+  }
+}
+
 /*OrderView SCSS*/
 .orderView-container {
   @include flex-column();
@@ -308,6 +344,51 @@
   justify-content: center;
 }
 
+
+/*Animations*/
+.pulsate{
+  background: linear-gradient(-45deg, #DDDDDD, #F0F0F0, #DDDDDD, #F0F0F0);
+    background-size: 400% 400%;
+    -webkit-animation: Gradient 2.25s ease infinite;
+    -moz-animation: Gradient 2.25s ease infinite;
+    animation: Gradient 2.25s ease infinite;
+}
+@-webkit-keyframes Gradient {
+0% {
+  background-position: 0% 50%
+}
+50% {
+  background-position: 100% 50%
+}
+100% {
+  background-position: 0% 50%
+}
+}
+
+@-moz-keyframes Gradient {
+0% {
+  background-position: 0% 50%
+}
+50% {
+  background-position: 100% 50%
+}
+100% {
+  background-position: 0% 50%
+}
+}
+
+@keyframes Gradient {
+0% {
+  background-position: 0% 50%
+}
+50% {
+  background-position: 100% 50%
+}
+100% {
+  background-position: 0% 50%
+}
+}
+
 @media screen and (max-width: $media-lg) {
   .account-flex-wrap-l {
     a {
@@ -372,6 +453,14 @@
     font-size: 12px !important;
     a {
       font-size: 13px;
+    }
+  }
+  .account-order-history-body-skeleton{
+    th, td{
+      div{
+        padding: 0;
+  
+      }
     }
   }
 
