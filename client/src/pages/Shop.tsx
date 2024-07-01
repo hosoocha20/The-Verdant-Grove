@@ -26,6 +26,7 @@ const Shop = () => {
 
   const getProductsByCategory = async () => {
     let response;
+    setShopItemArray([]);
     if (shopOption !== "all") {
       try {
         response = await axios.get(
