@@ -278,10 +278,9 @@ const Layout = () => {
       //const data = await response.data;
       //setShoppingCart(data);
       localStorage.setItem("cart", JSON.stringify([]));
-      
     } catch (err: any) {
       console.log(err);
-    }finally{
+    } finally {
       window.location.reload();
     }
   };

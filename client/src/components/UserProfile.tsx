@@ -7,6 +7,7 @@ import { axiosJWT } from "../middlewares/refreshInterceptor";
 const UserProfile = () => {
   const [buttonValue, setButtonValue] = useState<string>("Edit");
   const [inputsDisabled, setInputDisabled] = useState(true);
+  const [fetching, setFetching] = useState(true);
   const {
     email,
     authToken,
@@ -42,6 +43,7 @@ const UserProfile = () => {
   };
   const updateUserProfile = async () => {
     let response;
+    setFetching(true);
     try {
       response = await fetch(
         `${import.meta.env.VITE_SERVERURL}/account/profile/${email}`,
@@ -63,10 +65,13 @@ const UserProfile = () => {
         //console.log(err.response.status)
         removeCookieInvalidToken();
       }
+    } finally {
+      setFetching(false);
     }
   };
   const getUserProfile = async () => {
     let response;
+    setFetching(true);
     try {
       response = await axiosJWT.get(
         `${import.meta.env.VITE_SERVERURL}/account/profile/${email}`,
@@ -81,6 +86,8 @@ const UserProfile = () => {
         //console.log(err.response.status)
         removeCookieInvalidToken();
       }
+    } finally {
+      setFetching(false);
     }
   };
 
@@ -90,6 +97,29 @@ const UserProfile = () => {
 
   return (
     <div className="userProfile-container">
+      {fetching && (
+        <div className="userProfile-loading-overlay">
+          <div className="userProfile-loading-box">
+            <div className="spinner">
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+              <div className="spinner-blade"></div>
+            </div>
+            <p>In the process of recieving your information.</p>
+            <p>Please wait a moment.</p>
+          </div>
+        </div>
+      )}
+
       <h2>My Profile</h2>
       <hr></hr>
       <form className="userProfile-form">
@@ -123,7 +153,12 @@ const UserProfile = () => {
         </div>
         <label>
           Email*
-          <input type="text" name="email" value={updateUser.email} disabled={true} />
+          <input
+            type="text"
+            name="email"
+            value={updateUser.email}
+            disabled={true}
+          />
         </label>
         <label>
           Address 1
