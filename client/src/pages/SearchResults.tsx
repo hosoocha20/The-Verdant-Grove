@@ -56,7 +56,7 @@ const SearchResults = () => {
     
     try {
       response = await axios.get(
-        `${import.meta.env.VITE_SERVERURL}/products/search/${searchQuery}`
+        `${import.meta.env.VITE_SERVERURL}/products/search/${searchParams.get("keyword")?.trim()}`
       );
       const json = await response.data;
       //console.log(json);
@@ -71,11 +71,12 @@ const SearchResults = () => {
 
   useEffect(() => {
 
-    getSearchedProducts();
-    setPage(1);
+    
 
     setSearchQuery(searchParams.get("keyword")?.trim() || "");
     setThisSearchResult(searchParams.get("keyword")?.trim() || "");
+    getSearchedProducts();
+    setPage(1);
   }, [searchParams]);
   useEffect(() => {
 
