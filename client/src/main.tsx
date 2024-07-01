@@ -92,7 +92,7 @@ const Layout = () => {
     }catch(err){
       console.log(err)
     }finally{
-      window.location.reload;
+      window.location.reload();
     }
 
   };
