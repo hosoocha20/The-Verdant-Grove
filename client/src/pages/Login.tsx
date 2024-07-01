@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useOutletContext, Link } from "react-router-dom";
 import { ILoginUser } from "../interfaces/IUser";
-import AuthLoader from "../uiComponents/authLoader";
+import AuthLoader from "../uiComponents/AuthLoader";
 
 const Login = () => {
   const [loginUser, setLoginUser] = useState<ILoginUser>({ email: "", pw: "" });
