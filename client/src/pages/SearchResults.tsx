@@ -29,6 +29,8 @@ const SearchResults = () => {
     Math.ceil(shopItemArray.length / itemsPerPage)
   );
 
+  const [fetching, setFetching] = useState(true);
+
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
     scrollToTop();
@@ -49,7 +51,9 @@ const SearchResults = () => {
 
   const getSearchedProducts = async () => {
     let response;
-
+    setFetching(true);
+    setShopItemArray([]);
+    
     try {
       response = await axios.get(
         `${import.meta.env.VITE_SERVERURL}/products/search/${searchQuery}`
@@ -60,10 +64,13 @@ const SearchResults = () => {
       setNoOfPages(Math.ceil(json.length / itemsPerPage));
     } catch (err) {
       console.log(err);
+    } finally{
+      setFetching(false);
     }
   };
 
   useEffect(() => {
+
     getSearchedProducts();
     setPage(1);
 
@@ -71,6 +78,7 @@ const SearchResults = () => {
     setThisSearchResult(searchParams.get("keyword")?.trim() || "");
   }, [searchParams]);
   useEffect(() => {
+
     getSearchedProducts();
 
     setPage(1);
@@ -98,10 +106,10 @@ const SearchResults = () => {
         </form>
       </div>
       <div className="searchResults-results-container">
-        {shopItemArray.length ? (
-          <p>{shopItemArray.length} Results</p>
+        {!fetching ? (
+          <p>{shopItemArray.length ? `Results: ${shopItemArray.length} items`: "No results were found."}</p>
         ) : (
-          <p>No results were found</p>
+          <p>Loading...</p>
         )}
       </div>
       {shopItemArray.length !== 0 && (
@@ -149,6 +157,22 @@ const SearchResults = () => {
             onChange={handleChange}
             defaultPage={1}
           ></Pagination>
+        </div>
+      )}
+
+      {fetching && (
+        <div className={`searchResults-product-container`}>
+          <Grid container spacing={3} marginTop={"1rem"} paddingBottom={"7rem"}>
+            {[...Array(4).keys()].map((key) => (
+              <Grid item xs={6} sm={4} md={3} key={key}>
+                <div className="searchResults-product-item-container searchResults-product-item-placeholder pulsate">
+                  <div className="searchResults-product-item-img-wrapper "></div>
+                  <p className="searchResults-product-item-name"></p>
+                  <p></p>
+                </div>
+              </Grid>
+            ))}
+          </Grid>
         </div>
       )}
     </div>
