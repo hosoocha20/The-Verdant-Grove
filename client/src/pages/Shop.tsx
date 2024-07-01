@@ -235,8 +235,8 @@ const Shop = () => {
                   <div className="shop-product-item-container shop-product-item-placeholder pulsate">
                     <div className="shop-product-item-img-wrapper ">
                     </div>
-                    <p className="shop-product-item-name"></p>
-                    <p></p>
+                    <p className="shop-product-item-name">Name</p>
+                    <p>Price</p>
                   </div>
                
               </Grid>
