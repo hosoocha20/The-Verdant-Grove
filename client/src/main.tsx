@@ -508,9 +508,15 @@ const Layout = () => {
     try {
       await axios.delete(`${import.meta.env.VITE_SERVERURL}/logout`, options);
       setShoppingCart([]);
-      removeCookie("Email");
-      removeCookie("RefreshToken");
-      removeCookie("AuthToken");
+      removeCookie("Email", {
+        path: "/"
+      });
+      removeCookie("RefreshToken", {
+        path: "/"
+      });
+      removeCookie("AuthToken", {
+        path: "/"
+      });
       window.alert("Session ended, please log in again");
       window.location.replace("/");
     } catch (err) {
