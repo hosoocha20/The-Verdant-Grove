@@ -41,9 +41,9 @@ const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart") || "[]");
 
 const Layout = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
-  const email = cookies.Email || "";
+  let email = cookies.Email || "";
   let authToken = cookies.AuthToken || "";
-  const refreshToken = cookies.RefreshToken || "";
+  let refreshToken = cookies.RefreshToken || "";
   const navigate = useNavigate();
 
   const [searchResult, setSearchResult] = useState("");
@@ -73,9 +73,6 @@ const Layout = () => {
       if (data.detail) {
         setLoginErrorMsg({ ...loginErrorMsg, msg: data.detail });
       } else {
-        
-  
-        
         setCookie("Email", data.email);
         setCookie("AuthToken", data.token);
         setCookie("RefreshToken", data.refreshToken);
@@ -143,6 +140,9 @@ const Layout = () => {
       removeCookie("Email");
       removeCookie("RefreshToken");
       removeCookie("AuthToken");
+      email = "";
+      authToken = "";
+      refreshToken =  "";
       window.location.replace("/");
     } catch (err) {
       console.log(err);
