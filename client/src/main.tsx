@@ -94,7 +94,7 @@ const Layout = () => {
       }
     } catch (err) {
       console.log(err);
-    }finally{
+    } finally {
       setLoggingIn(false);
     }
   };

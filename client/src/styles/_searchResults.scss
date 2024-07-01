@@ -73,7 +73,7 @@
         
     height: 0;
     
-    padding-top: 80%;
+    padding-top: 56%;
 }
 .searchResults-product-item-name{
     cursor: pointer;
@@ -83,26 +83,30 @@
 .searchResults-product-item-img-wrapper{
     width: 70%;
     position: relative;
-
-    img{
+    padding-top: 56%;
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
-    }
+      }
 
     cursor: pointer;
 }
+.searchResults-product-img-main {
+    &:hover {
+      opacity: 0;
+    }
+  }
 .searchResults-product-img-hover {
-    position: absolute;
-    top: 0;
-    left: 0;
     opacity: 0;
-    width: 100%;
     height: 100%;
     background-size: cover;
     background-color: #ffffff;
-    transition: opacity .3s ease-out;
-
-    &:hover{
-        opacity: 1;
+    transition: opacity 0.3s ease-out;
+  
+    &:hover {
+      opacity: 1;
     }
 
 }

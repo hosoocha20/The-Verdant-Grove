@@ -53,10 +53,12 @@ const SearchResults = () => {
     let response;
     setFetching(true);
     setShopItemArray([]);
-    
+
     try {
       response = await axios.get(
-        `${import.meta.env.VITE_SERVERURL}/products/search/${searchParams.get("keyword")?.trim()}`
+        `${import.meta.env.VITE_SERVERURL}/products/search/${searchParams
+          .get("keyword")
+          ?.trim()}`
       );
       const json = await response.data;
       //console.log(json);
@@ -64,22 +66,18 @@ const SearchResults = () => {
       setNoOfPages(Math.ceil(json.length / itemsPerPage));
     } catch (err) {
       console.log(err);
-    } finally{
+    } finally {
       setFetching(false);
     }
   };
 
   useEffect(() => {
-
-    
-
     setSearchQuery(searchParams.get("keyword")?.trim() || "");
     setThisSearchResult(searchParams.get("keyword")?.trim() || "");
     getSearchedProducts();
     setPage(1);
   }, [searchParams]);
   useEffect(() => {
-
     getSearchedProducts();
 
     setPage(1);
@@ -108,7 +106,11 @@ const SearchResults = () => {
       </div>
       <div className="searchResults-results-container">
         {!fetching ? (
-          <p>{shopItemArray.length ? `Results: ${shopItemArray.length} items`: "No results were found."}</p>
+          <p>
+            {shopItemArray.length
+              ? `Results: ${shopItemArray.length} items`
+              : "No results were found."}
+          </p>
         ) : (
           <p>Loading...</p>
         )}
@@ -127,18 +129,18 @@ const SearchResults = () => {
                     <div className="searchResults-product-item-container">
                       <div className="searchResults-product-item-img-wrapper">
                         <img
-                          className="searchResults-product-img-hover"
-                          loading="lazy"
-                          src={`${"/assets/" + item.imgMainSrc[1]}`}
-                          alt={item.name}
-                          width="auto"
-                          height="auto"
-                        />
-                        <img
                           className="searchResults-product-img-main"
                           loading="lazy"
                           src={`${"/assets/" + item.imgMainSrc[0]}`}
                           alt={item.name + " hover"}
+                          width="auto"
+                          height="auto"
+                        />
+                        <img
+                          className="searchResults-product-img-hover"
+                          loading="lazy"
+                          src={`${"/assets/" + item.imgMainSrc[1]}`}
+                          alt={item.name}
                           width="auto"
                           height="auto"
                         />
