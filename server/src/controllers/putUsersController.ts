@@ -158,6 +158,7 @@ export async function putExisingUserCart(req: Request, res: Response){
             //   const updated = await User.find({"email": email})
             //   console.log(updated[0].cart)
         })
+        res.sendStatus(200);
     }catch(err){
         console.log(err)
     }
