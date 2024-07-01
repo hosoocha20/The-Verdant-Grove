@@ -64,6 +64,7 @@ const Layout = () => {
   const logIn = async (e: React.FormEvent, user: ILoginUser) => {
     e.preventDefault();
     console.log("log");
+
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVERURL}/login`, {
         method: "POST",
@@ -84,15 +85,14 @@ const Layout = () => {
           path: "/",
         });
         setOpenLoginDrawer(false);
-        if (shoppingCart.length > 0)
+        if (shoppingCart.length > 0) {
           addPrevCartToUserCart(shoppingCart, data.email);
+        } else window.location.reload();
         //navigate('/', {replace: true});
         //window.location.replace("/");
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      window.location.reload();
     }
   };
 
@@ -278,8 +278,11 @@ const Layout = () => {
       //const data = await response.data;
       //setShoppingCart(data);
       localStorage.setItem("cart", JSON.stringify([]));
+      
     } catch (err: any) {
       console.log(err);
+    }finally{
+      window.location.reload();
     }
   };
   const addToShoppingCart = (item: IShoppingCartItem) => {
@@ -356,12 +359,11 @@ const Layout = () => {
     }
   };
   const handleCheckedItemOnChange = (product: IShoppingCartItem) => {
-      const checkedArray = shoppingCart.map((i) =>
-        i.name === product.name ? { ...i, checked: !i.checked } : i
-      );
-      setShoppingCart(checkedArray);
-      if (authToken) updateCartItemsCheckSelect(product);
-
+    const checkedArray = shoppingCart.map((i) =>
+      i.name === product.name ? { ...i, checked: !i.checked } : i
+    );
+    setShoppingCart(checkedArray);
+    if (authToken) updateCartItemsCheckSelect(product);
   };
   const updateCartItemQuantityByOne = async (
     product: IShoppingCartItem,
@@ -392,14 +394,13 @@ const Layout = () => {
     product: IShoppingCartItem,
     val: number
   ) => {
-      //decrement (val = -1), increment (val = 1)
-      setShoppingCart((prev) =>
-        prev.map((i) =>
-          i.name === product.name ? { ...i, quantity: i.quantity + val } : i
-        )
-      );
-      if (authToken) updateCartItemQuantityByOne(product, val);
-
+    //decrement (val = -1), increment (val = 1)
+    setShoppingCart((prev) =>
+      prev.map((i) =>
+        i.name === product.name ? { ...i, quantity: i.quantity + val } : i
+      )
+    );
+    if (authToken) updateCartItemQuantityByOne(product, val);
   };
   const updateCartItemQuantityByExisting = async (
     product: IShoppingCartItem,
