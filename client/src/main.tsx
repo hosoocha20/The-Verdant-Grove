@@ -51,6 +51,7 @@ const Layout = () => {
   //const [searchQuery, setSearchQuery] = useState(searchParams.get('keyword')?.trim() || '')
 
   const [loginErrorMsg, setLoginErrorMsg] = useState({ msg: "" });
+  const [loggingIn, setLoggingIn] = useState(false);
 
   const [shoppingCart, setShoppingCart] =
     useState<IShoppingCartItem[]>(cartFromLocalStorage);
@@ -63,7 +64,7 @@ const Layout = () => {
   //Auth Requests
   const logIn = async (e: React.FormEvent, user: ILoginUser) => {
     e.preventDefault();
-    console.log("log");
+    setLoggingIn(true);
 
     try {
       const response = await fetch(`${import.meta.env.VITE_SERVERURL}/login`, {
@@ -93,6 +94,8 @@ const Layout = () => {
       }
     } catch (err) {
       console.log(err);
+    }finally{
+      setLoggingIn(false);
     }
   };
 
@@ -264,10 +267,8 @@ const Layout = () => {
     items: IShoppingCartItem[],
     email: string
   ) => {
-    let response;
-    console.log("called");
     try {
-      response = await axiosJWT(
+      await axiosJWT(
         `${import.meta.env.VITE_SERVERURL}/cart/existingCart/${email}`,
         {
           method: "PUT",
@@ -282,6 +283,7 @@ const Layout = () => {
       console.log(err);
     } finally {
       window.location.reload();
+      setLoggingIn(false);
     }
   };
   const addToShoppingCart = (item: IShoppingCartItem) => {
@@ -522,6 +524,7 @@ const Layout = () => {
         handleQuantityValOnChange={handleQuantityValOnChange}
         authToken={authToken}
         logIn={logIn}
+        loggingIn={loggingIn}
         loginErrorMsg={loginErrorMsg}
         setLoginErrorMsg={setLoginErrorMsg}
         searchResult={searchResult}
@@ -542,6 +545,7 @@ const Layout = () => {
           setSearchParams,
           addToShoppingCart,
           logIn,
+          loggingIn,
           logOut,
           loginErrorMsg,
           setLoginErrorMsg,

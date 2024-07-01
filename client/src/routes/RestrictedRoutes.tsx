@@ -11,11 +11,13 @@ const RestrictedRoutes = () => {
   const {
     setShoppingCart,
     logIn,
+    loggingIn,
     loginErrorMsg,
     setLoginErrorMsg,
   }: {
     setShoppingCart: React.Dispatch<React.SetStateAction<IShoppingCartItem[]>>;
     logIn: (e: React.FormEvent, user: ILoginUser) => void;
+    loggingIn: boolean;
     loginErrorMsg: { msg: string };
     setLoginErrorMsg: React.Dispatch<React.SetStateAction<{ msg: string }>>;
   } = useOutletContext();
@@ -23,7 +25,7 @@ const RestrictedRoutes = () => {
     <Navigate to={"/"} />
   ) : (
     <Outlet
-      context={{ setShoppingCart, logIn, loginErrorMsg, setLoginErrorMsg }}
+      context={{ setShoppingCart, logIn, loggingIn, loginErrorMsg, setLoginErrorMsg }}
     />
   );
 };

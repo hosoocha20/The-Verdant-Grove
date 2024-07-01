@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useOutletContext, Link } from "react-router-dom";
 import { ILoginUser } from "../interfaces/IUser";
+import AuthLoader from "../uiComponents/authLoader";
 
 const Login = () => {
   const [loginUser, setLoginUser] = useState<ILoginUser>({ email: "", pw: "" });
   const {
     logIn,
+    loggingIn,
     loginErrorMsg,
     setLoginErrorMsg,
   }: {
     logIn: (e: React.FormEvent, user: ILoginUser) => void;
+    loggingIn: boolean;
     loginErrorMsg: { msg: string };
     setLoginErrorMsg: React.Dispatch<React.SetStateAction<{ msg: string }>>;
   } = useOutletContext();
@@ -31,6 +34,8 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      {loggingIn && <AuthLoader />}
+      
       <div>
         <h1>Log in</h1>
         <form className="login-form" onSubmit={(e) => logIn(e, loginUser)}>

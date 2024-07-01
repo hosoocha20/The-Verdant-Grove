@@ -11,6 +11,7 @@ import Sidebar from "./Sidebar";
 import { IShoppingCartItem } from "../interfaces/IShop";
 import ShoppingDrawer from "./ShoppingDrawer";
 import LoginDrawer from "./LoginDrawer";
+import AuthLoader from "../uiComponents/authLoader";
 
 interface NavbarProps {
   authToken: string;
@@ -25,6 +26,7 @@ interface NavbarProps {
   openLoginDrawer: boolean;
   setOpenLoginDrawer: React.Dispatch<React.SetStateAction<boolean>>;
   logIn: (e: React.FormEvent, user: ILoginUser) => void;
+  loggingIn: boolean;
   loginErrorMsg: { msg: string };
   setLoginErrorMsg: React.Dispatch<React.SetStateAction<{ msg: string }>>;
   searchResult: string;
@@ -187,6 +189,8 @@ const Navbar = (props: NavbarProps) => {
         </form>
       </div>
 
+      {props.loggingIn && <AuthLoader />}
+      
       <LoginDrawer
         clickedOutsideUserRef={clickedOutsideUserRef}
         openLoginDrawer={props.openLoginDrawer}
@@ -195,6 +199,7 @@ const Navbar = (props: NavbarProps) => {
         loginErrorMsg={props.loginErrorMsg}
         setLoginErrorMsg={props.setLoginErrorMsg}
       />
+      
 
       <ShoppingDrawer
         authToken={props.authToken}
